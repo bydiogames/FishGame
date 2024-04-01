@@ -23,7 +23,7 @@ namespace FishGame.Animation.Animations
         public void Load(ContentManager content)
         {
             Texture2D exclamationTexture = content.Load<Texture2D>("exclamation");
-            _animationGroup = new AnimationGroup(new List<SpriteAnimation> { new SpriteAnimation(exclamationTexture, 1, 1, 1, 64, 64, 0) }, 0.2f);
+            _animationGroup = new AnimationGroup(new List<SpriteAnimation> { new SpriteAnimation(exclamationTexture, 1, 1, 1, EntityConstants.EmoteWidthTiles, EntityConstants.EmoteHeightTiles, 0) }, 0.2f);
         }
 
         public void Reset()

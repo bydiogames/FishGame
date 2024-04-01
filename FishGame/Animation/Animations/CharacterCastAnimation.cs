@@ -1,7 +1,7 @@
-﻿using Microsoft.Xna.Framework;
+﻿using FishGame.Entities;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
 using System.Collections.Generic;
 
 namespace FishGame.Animation.Animations
@@ -24,10 +24,13 @@ namespace FishGame.Animation.Animations
             Texture2D hairTexture = content.Load<Texture2D>("ponytail_fish");
             Texture2D clothesTexture = content.Load<Texture2D>("dress_fish");
 
+            int destinationWidth = EntityConstants.CharacterWidthTiles * EntityConstants.TileWidthPx;
+            int destinationHeight = EntityConstants.CharacterHeightTiles * EntityConstants.TileWidthPx;
+
             List<SpriteAnimation> sprites = new List<SpriteAnimation> {
-                new SpriteAnimation(charTexture, 4, 5, 5, 160, 160),
-                new SpriteAnimation(hairTexture, 4, 70, 5, 160, 160),
-                new SpriteAnimation(clothesTexture, 4, 50, 5, 160, 160, 30)
+                new SpriteAnimation(charTexture, 4, 5, 5, EntityConstants.CharacterWidthTiles, EntityConstants.CharacterHeightTiles, yOffsetPx:16),
+                new SpriteAnimation(hairTexture, 4, 70, 5, EntityConstants.CharacterWidthTiles, EntityConstants.CharacterHeightTiles, yOffsetPx:16),
+                new SpriteAnimation(clothesTexture, 4, 50, 5, EntityConstants.CharacterWidthTiles, EntityConstants.CharacterHeightTiles, 30, yOffsetPx:16)
             };
 
             _animationGroup = new AnimationGroup(sprites, 0.2f);
