@@ -19,6 +19,7 @@
         public static int EmoteWidthTiles = 1;
         public static int EmoteHeightTiles = 1;
 
+        // Environment constants
         public static int DockHeightTiles = 20;
         public static int DockWidthTiles = 15;
     }
