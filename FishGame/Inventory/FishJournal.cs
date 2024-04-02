@@ -74,15 +74,23 @@ namespace FishGame.Inventory
             fishRecords = fishList.ToArray();
 
             fishByType = new List<int>[(int)FishType.COUNT];
+            for (int i = 0; i < fishByType.Length; i++)
+            {
+                fishByType[i] = new List<int>();
+            }
             foreach (var fishRecord in fishRecords)
             {
                 fishByType[(int)fishRecord.Type].Add(fishRecord.Idx);
             }
 
             fishByLocation = new List<int>[(int)FishLocation.COUNT];
+            for (int i = 0; i < fishByLocation.Length; i++)
+            {
+                fishByLocation[i] = new List<int>();
+            }
             foreach (var fishRecord in fishRecords)
             {
-                fishByType[(int)fishRecord.Location].Add(fishRecord.Idx);
+                fishByLocation[(int)fishRecord.Location].Add(fishRecord.Idx);
             }
         }
 
