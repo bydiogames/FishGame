@@ -32,6 +32,7 @@ namespace FishGame
             _background = new TestBackgroundManager(Season.Spring, Location.Pond);
 
             _fishDb = new FishDB();
+            this.Components.Add(_fishDb);
             base.Initialize();
         }
 
