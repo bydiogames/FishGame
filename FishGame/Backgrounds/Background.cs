@@ -14,77 +14,53 @@ namespace FishGame.Backgrounds
         private Texture2D _dockTexture;
         private Texture2D _decorations;
         private Season _season;
-        private Location _location;
 
         public Background(Season season) 
         {
             _season = season;
         }
 
-        public void LoadPond(ContentManager content)
+        private void LoadLandAndWater(ContentManager content, string location)
         {
-            _location = Location.Pond;
             _waterTexture = content.Load<Texture2D>("General/water");
-            _landTexture = content.Load<Texture2D>("Pond/land");
-            _dockTexture = content.Load<Texture2D>("General/dock");
 
-            // load decorations
             if (_season == Season.Spring)
             {
-                _decorations = content.Load<Texture2D>("Pond/deco_spring");
+                _decorations = content.Load<Texture2D>($"{location}/deco_spring");
+                _landTexture = content.Load<Texture2D>($"{location}/land");
             }
             else if (_season == Season.Summer)
             {
-                _decorations = content.Load<Texture2D>("Pond/deco_summer");
+                _decorations = content.Load<Texture2D>($"{location}/deco_summer");
+                _landTexture = content.Load<Texture2D>($"{location}/land");
             }
             else if (_season == Season.Fall)
             {
-                _decorations = content.Load<Texture2D>("Pond/deco_fall");
+                // TODO: Fix the fall decoration assets now that we have better ones
+                //_decorations = content.Load<Texture2D>($"{location}/deco_fall");
+                _landTexture = content.Load<Texture2D>($"{location}/land_fall");
             }
+            else if (_season == Season.Winter)
+            {
+                _landTexture = content.Load<Texture2D>($"{location}/land_snow");
+            }
+        }
+
+        public void LoadPond(ContentManager content)
+        {
+            LoadLandAndWater(content, "Pond");
+            _dockTexture = content.Load<Texture2D>("General/dock");
         }
 
         public void LoadRiver(ContentManager content)
         {
-            _location = Location.River;
-            _waterTexture = content.Load<Texture2D>("General/water");
-            _landTexture = content.Load<Texture2D>("River/land");
+            LoadLandAndWater(content, "River");
             _dockTexture = content.Load<Texture2D>("General/dock");
-
-            // load decorations
-            if (_season == Season.Spring)
-            {
-                _decorations = content.Load<Texture2D>("River/deco_spring");
-            }
-            else if (_season == Season.Summer)
-            {
-                _decorations = content.Load<Texture2D>("River/deco_summer");
-            }
-            else if (_season == Season.Fall)
-            {
-                _decorations = content.Load<Texture2D>("River/deco_fall");
-            }
         }
 
         public void LoadOcean(ContentManager content)
         {
-            _location = Location.Ocean;
-            _waterTexture = content.Load<Texture2D>("General/water");
-            _landTexture = content.Load<Texture2D>("Ocean/land");
-            _dockTexture = null;
-
-            // load decorations
-            if (_season == Season.Spring)
-            {
-                _decorations = content.Load<Texture2D>("Ocean/deco_spring");
-            }
-            else if (_season == Season.Summer)
-            {
-                _decorations = content.Load<Texture2D>("Ocean/deco_summer");
-            }
-            else if (_season == Season.Fall)
-            {
-                _decorations = content.Load<Texture2D>("Ocean/deco_fall");
-            }
+            LoadLandAndWater(content, "Ocean");
         }
 
         public void Draw(SpriteBatch spriteBatch)
@@ -97,11 +73,8 @@ namespace FishGame.Backgrounds
             spriteBatch.Draw(_waterTexture, destinationRectangle, null, Color.White);
             spriteBatch.End();
 
-            // Draw land
-            Color seasonColorMask = Utils.GetSeasonalColorMask(_season, _location);
-
             spriteBatch.Begin(SpriteSortMode.Deferred, null, SamplerState.PointClamp, null, null, null, null);
-            spriteBatch.Draw(_landTexture, destinationRectangle, null, seasonColorMask);
+            spriteBatch.Draw(_landTexture, destinationRectangle, null, Color.White);
             spriteBatch.End();
 
             // Draw dock
@@ -115,9 +88,8 @@ namespace FishGame.Backgrounds
             // Draw decorations
             if (_decorations != null)
             {
-                Color decorationMask = _season == Season.Fall ? seasonColorMask : Color.White;
                 spriteBatch.Begin(SpriteSortMode.Deferred, null, SamplerState.PointClamp, null, null, null, null);
-                spriteBatch.Draw(_decorations, destinationRectangle, null, decorationMask);
+                spriteBatch.Draw(_decorations, destinationRectangle, null, Color.White);
                 spriteBatch.End();
             }
         }
