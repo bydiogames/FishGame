@@ -4,6 +4,7 @@ using FishGame.Entities;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using System.Reflection;
 
 namespace FishGame.Backgrounds
 {
@@ -60,6 +61,7 @@ namespace FishGame.Backgrounds
 
         public void LoadOcean(ContentManager content)
         {
+            _dockTexture = null;
             LoadLandAndWater(content, "Ocean");
         }
 
