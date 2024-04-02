@@ -1,4 +1,6 @@
-﻿namespace FishGame.Entities
+﻿using System.IO;
+
+namespace FishGame.Entities
 {
     public static class EntityConstants
     {
@@ -22,5 +24,8 @@
         // Environment constants
         public static int DockHeightTiles = 20;
         public static int DockWidthTiles = 15;
+
+        public static int BackgroundWidthTiles = 10;
+        public static int BackgroundHeightTiles = 13;
     }
 }
