@@ -3,9 +3,11 @@ using FishGame.Animation.Animations;
 using FishGame.Backgrounds;
 using FishGame.Entities;
 using FishGame.Inventory;
+using FishGame.Utils;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using System;
 using System.Collections.Generic;
 
 namespace FishGame
@@ -14,6 +16,8 @@ namespace FishGame
     {
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
+
+        private CoroutineManager coroutineManager;
 
         private FishDB _fishDb;
         private FishJournal fishJournal;
@@ -34,8 +38,11 @@ namespace FishGame
         {
             _background = new TestBackgroundManager(Season.Spring, Location.Pond);
 
+            this.Components.Add(coroutineManager = new CoroutineManager());
+
             _fishDb = new FishDB();
             this.Components.Add(_fishDb);
+
             base.Initialize();
         }
 
@@ -65,6 +72,14 @@ namespace FishGame
             _fishDb.LoadContent(Content);
 
             fishJournal = new FishJournal(_fishDb);
+
+            coroutineManager.Start(Routine());
+        }
+
+        private static IEnumerator<IWaitable> Routine()
+        {
+            yield return new Wait(TimeSpan.FromSeconds(5));
+            Console.Out.WriteLine("Routine finished!");
         }
 
         protected override void Update(GameTime gameTime)
