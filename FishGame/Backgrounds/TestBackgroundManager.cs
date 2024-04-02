@@ -34,6 +34,10 @@ namespace FishGame.Backgrounds
             ReloadBackground();
         }
 
+        public Season GetSeason() { return _season; }
+
+        public Location GetLocation() { return _location; }
+
         private void ReloadBackground()
         {
             if (_location == Location.Pond)

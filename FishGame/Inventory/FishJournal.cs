@@ -6,6 +6,7 @@ using FishGame.Utils;
 using CsvHelper.Configuration;
 using FishGame.Entities;
 using System;
+using System.Numerics;
 
 namespace FishGame.Inventory
 {
@@ -85,7 +86,7 @@ namespace FishGame.Inventory
             }
             foreach (var fishRecord in fishRecords)
             {
-                fishByLocation[(int)fishRecord.Location].Add(fishRecord.Idx);
+                fishByLocation[BitOperations.Log2((uint)fishRecord.Location)].Add(fishRecord.Idx);
             }
         }
 
@@ -103,7 +104,7 @@ namespace FishGame.Inventory
 
         public IReadOnlyList<int> GetFishForLocation(Location location)
         {
-            return fishByLocation[(int)location];
+            return fishByLocation[BitOperations.Log2((uint)location)];
         }
 
         public IReadOnlyList<int> GetFishOfType(FishType type)

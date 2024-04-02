@@ -5,7 +5,7 @@ using Microsoft.Xna.Framework;
 namespace FishGame.Animation
 {
     public delegate void OnAnimationCompletion();
-    internal interface IAnimation
+    public interface IAnimation
     {
         public void Load(ContentManager content);
 

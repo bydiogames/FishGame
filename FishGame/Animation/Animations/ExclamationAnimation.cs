@@ -1,4 +1,5 @@
-﻿using FishGame.Entities;
+﻿using CsvHelper.Configuration.Attributes;
+using FishGame.Entities;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
@@ -8,22 +9,24 @@ namespace FishGame.Animation.Animations
 {
     internal class ExclamationAnimation : IAnimation
     {
-        private Character _character;
+        private Vector2 _characterPosition;
+        private OnAnimationCompletion _completion;
         private AnimationGroup _animationGroup;
-        public ExclamationAnimation(Character character) 
+        public ExclamationAnimation(Vector2 characterPosition, OnAnimationCompletion completion) 
         {
-        
+            _characterPosition = characterPosition;
+            _completion = completion;
         }
         public void Draw(SpriteBatch spriteBatch)
         {
-            Vector2 position = new Vector2(_character.Position.X + 20, _character.Position.Y + 20);
+            Vector2 position = new Vector2(_characterPosition.X, _characterPosition.Y);
             _animationGroup.Draw(spriteBatch, position);
         }
 
         public void Load(ContentManager content)
         {
-            Texture2D exclamationTexture = content.Load<Texture2D>("exclamation");
-            _animationGroup = new AnimationGroup(new List<SpriteAnimation> { new SpriteAnimation(exclamationTexture, 1, 1, 1, EntityConstants.EmoteWidthTiles, EntityConstants.EmoteHeightTiles, 0) }, 0.2f);
+            Texture2D exclamationTexture = content.Load<Texture2D>("emoticons");
+            _animationGroup = new AnimationGroup(new List<SpriteAnimation> { new SpriteAnimation(exclamationTexture, 6, 5, 1, EntityConstants.EmoteWidthTiles, EntityConstants.EmoteHeightTiles, 23, shouldLoop:true) }, 0.2f);
         }
 
         public void Reset()
@@ -34,6 +37,10 @@ namespace FishGame.Animation.Animations
         public void Update(GameTime gameTime)
         {
             _animationGroup.Update(gameTime);
+            if(_animationGroup.IsFinished())
+            {
+                _completion.Invoke();
+            }
         }
     }
 }

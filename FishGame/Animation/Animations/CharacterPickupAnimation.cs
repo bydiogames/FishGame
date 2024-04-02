@@ -27,7 +27,7 @@ namespace FishGame.Animation.Animations
             List<SpriteAnimation> sprites = new List<SpriteAnimation> {
                 new SpriteAnimation(charTexture, 4, 5, 1, EntityConstants.CharacterWidthTiles, EntityConstants.CharacterHeightTiles, startingFrame:4, xOffsetPx : EntityConstants.CharacterXOffsetPx),
                 new SpriteAnimation(hairTexture, 4, 70, 1, EntityConstants.CharacterWidthTiles, EntityConstants.CharacterHeightTiles, startingFrame:4, xOffsetPx : EntityConstants.CharacterXOffsetPx),
-                new SpriteAnimation(clothesTexture, 4, 50, 1, EntityConstants.CharacterWidthTiles, EntityConstants.CharacterHeightTiles, startingFrame:35, xOffsetPx:EntityConstants.CharacterXOffsetPx)
+                new SpriteAnimation(clothesTexture, 4, 50, 1, EntityConstants.CharacterWidthTiles, EntityConstants.CharacterHeightTiles, startingFrame:34, xOffsetPx:EntityConstants.CharacterXOffsetPx)
             };
 
             _animationGroup = new AnimationGroup(sprites, 0.2f);

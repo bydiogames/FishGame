@@ -24,8 +24,8 @@ namespace FishGame.Entities
         public static int FishShadowLocationXTiles = 9;
         public static int FishShadowLocationYTiles = 16;
 
-        public static int EmoteWidthTiles = 1;
-        public static int EmoteHeightTiles = 1;
+        public static int EmoteWidthTiles = 2;
+        public static int EmoteHeightTiles = 2;
 
         // Environment constants
         public static int DockHeightTiles = 20;

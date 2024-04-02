@@ -9,6 +9,8 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Xml.Serialization;
 
 namespace FishGame
 {
@@ -50,10 +52,6 @@ namespace FishGame
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            // Use the character's with and height to center them.  The character is moved up 4 px according to the sprite sheet spec, so subtract an extra 2 tiles from the height to center
-            _character = new Character(new Vector2(EntityConstants.CharacterLocationXTiles, EntityConstants.CharacterLocationYTiles));
-            _character.Load(Content);
-
             _animations = new List<IAnimation>
             {
                 new FishShadowAnimation(new Vector2(EntityConstants.FishShadowLocationXTiles, EntityConstants.FishShadowLocationYTiles))
@@ -73,6 +71,10 @@ namespace FishGame
 
             fishJournal = new FishJournal(_fishDb);
 
+            // Use the character's with and height to center them.  The character is moved up 4 px according to the sprite sheet spec, so subtract an extra 2 tiles from the height to center
+            _character = new Character(new Vector2(EntityConstants.CharacterLocationXTiles, EntityConstants.CharacterLocationYTiles));
+            _character.Load(Content, _fishDb);
+
             coroutineManager.Start(Routine());
         }
 
@@ -81,6 +83,7 @@ namespace FishGame
             yield return new Wait(TimeSpan.FromSeconds(5));
             Console.Out.WriteLine("Routine finished!");
         }
+
 
         protected override void Update(GameTime gameTime)
         {
@@ -93,7 +96,10 @@ namespace FishGame
                 animation.Update(gameTime);
             }
 
-            _character.Update(gameTime);
+            
+
+
+            _character.Update(gameTime, _background);
 
             _background.Update();
 
