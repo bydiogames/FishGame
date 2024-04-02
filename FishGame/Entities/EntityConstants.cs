@@ -12,11 +12,17 @@ namespace FishGame.Entities
         public static int TileHeightPx = 16;
 
         // Character cell size = 160 x 128px
-        public static int CharacterWidthTiles = 9;
-        public static int CharacterHeightTiles = 9;
+        public static int CharacterWidthTiles = 5;
+        public static int CharacterHeightTiles = 5;
+        public static int CharacterFishingYOffsetPx = 8;
+        public static int CharacterXOffsetPx = -8;
+        public static int CharacterLocationXTiles = 8;
+        public static int CharacterLocationYTiles = 10;
 
-        public static int FishShadowWidthTiles = 3;
-        public static int FishShadowHeightTiles = 3;
+        public static int FishShadowWidthTiles = 2;
+        public static int FishShadowHeightTiles = 2;
+        public static int FishShadowLocationXTiles = 9;
+        public static int FishShadowLocationYTiles = 16;
 
         public static int EmoteWidthTiles = 1;
         public static int EmoteHeightTiles = 1;
@@ -25,7 +31,7 @@ namespace FishGame.Entities
         public static int DockHeightTiles = 20;
         public static int DockWidthTiles = 15;
 
-        public static int BackgroundWidthTiles = 10;
-        public static int BackgroundHeightTiles = 13;
+        public static int BackgroundWidthTiles = 20;
+        public static int BackgroundHeightTiles = 26;
     }
 }
