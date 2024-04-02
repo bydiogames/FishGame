@@ -265,6 +265,9 @@
 /processorParam:TextureFormat=Color
 /build:../Assets/CharPickup/ponytail_pickup.png;ponytail_pickup.png
 
+#begin ../Assets/fish_data_table.csv
+/copy:../Assets/fish_data_table.csv;fish_data_table.csv
+
 #begin ../Assets/fish_shadow.png
 /importer:TextureImporter
 /processor:TextureProcessor

@@ -2,6 +2,7 @@
 using FishGame.Animation.Animations;
 using FishGame.Backgrounds;
 using FishGame.Entities;
+using FishGame.Inventory;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -13,6 +14,7 @@ namespace FishGame
     {
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
+        private FishDB _fishDb;
         private List<IAnimation> _animations;
         private Character _character;
         private Texture2D _gridTexture;
@@ -28,7 +30,13 @@ namespace FishGame
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
+<<<<<<< Updated upstream
             _background = new TestBackgroundManager(Season.Spring, Location.Pond);
+=======
+
+            _fishDb = new FishDB();
+
+>>>>>>> Stashed changes
             base.Initialize();
         }
 
@@ -54,6 +62,8 @@ namespace FishGame
             _gridTexture.SetData(new Color[] { Color.White });
 
             _background.Load(Content);
+
+            _fishDb.LoadContent(Content);
         }
 
         protected override void Update(GameTime gameTime)
