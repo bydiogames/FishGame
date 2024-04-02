@@ -60,7 +60,7 @@ namespace FishGame.Inventory
                 if (fishRecord.Idx >= fishList.Count)
                     fishList.Resize(fishRecord.Idx + 1);
 
-                fishRecords[fishRecord.Idx] = fishRecord;
+                fishList[fishRecord.Idx] = fishRecord;
 
                 fishNameLookup.Add(fishRecord.Name, fishRecord.Idx);
             }

@@ -29,14 +29,9 @@ namespace FishGame
 
         protected override void Initialize()
         {
-            // TODO: Add your initialization logic here
-<<<<<<< Updated upstream
             _background = new TestBackgroundManager(Season.Spring, Location.Pond);
-=======
 
             _fishDb = new FishDB();
-
->>>>>>> Stashed changes
             base.Initialize();
         }
 
