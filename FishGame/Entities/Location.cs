@@ -4,13 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FishGame
+namespace FishGame.Entities
 {
-    internal enum Location
+    [Flags]
+    public enum Location
     {
-        Travel,
-        Pond,
-        River,
-        Ocean
+        Pond = 1,
+        River = 2,
+        Ocean = 4,
     }
 }

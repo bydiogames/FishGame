@@ -1,4 +1,5 @@
-﻿using FishGame.Inputs;
+﻿using FishGame.Entities;
+using FishGame.Inputs;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -76,13 +77,21 @@ namespace FishGame.Backgrounds
 
         private void NextSeason()
         {
-            if (_season == Season.Winter)
+            if (_season == Season.Spring)
+            {
+                _season = Season.Summer;
+            }
+            else if (_season == Season.Summer)
+            {
+                _season = Season.Fall;
+            }
+            else if (_season == Season.Fall)
+            {
+                _season = Season.Winter;
+            }
+            else if (_season == Season.Winter)
             {
                 _season = Season.Spring;
-            }
-            else
-            {
-                _season++;
             }
 
             _background = new Background(_season);

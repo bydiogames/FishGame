@@ -4,18 +4,11 @@ using System.Collections.Generic;
 using System.IO;
 using FishGame.Utils;
 using CsvHelper.Configuration;
+using FishGame.Entities;
+using System;
 
 namespace FishGame.Inventory
 {
-    public enum FishLocation
-    {
-        Ocean,
-        River,
-        Pond,
-
-        COUNT,
-    }
-
     public enum FishType
     {
         Fish,
@@ -33,9 +26,11 @@ namespace FishGame.Inventory
 
         public int Y { get; set; }
 
-        public FishLocation Location { get; set; }
+        public Location Location { get; set; }
 
         public FishType Type { get; set; }
+
+        public Season Season { get; set; }
     }
 
     public sealed class FishDB : IGameComponent
@@ -83,7 +78,7 @@ namespace FishGame.Inventory
                 fishByType[(int)fishRecord.Type].Add(fishRecord.Idx);
             }
 
-            fishByLocation = new List<int>[(int)FishLocation.COUNT];
+            fishByLocation = new List<int>[Enum.GetValues<Location>().Length];
             for (int i = 0; i < fishByLocation.Length; i++)
             {
                 fishByLocation[i] = new List<int>();
@@ -106,7 +101,7 @@ namespace FishGame.Inventory
             return fishNameLookup[name];
         }
 
-        public IReadOnlyList<int> GetFishForLocation(FishLocation location)
+        public IReadOnlyList<int> GetFishForLocation(Location location)
         {
             return fishByLocation[(int)location];
         }
