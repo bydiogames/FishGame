@@ -12,12 +12,16 @@ namespace FishGame.Inventory
         Ocean,
         River,
         Pond,
+
+        COUNT,
     }
 
     public enum FishType
     {
         Fish,
         Creature,
+
+        COUNT,
     }
 
     public struct FishRecord
@@ -37,6 +41,8 @@ namespace FishGame.Inventory
     public sealed class FishDB : IGameComponent
     {
         private FishRecord[] fishRecords;
+        private List<int>[] fishByType;
+        private List<int>[] fishByLocation;
         private readonly Dictionary<string, int> fishNameLookup = new Dictionary<string, int>();
 
         public void Initialize()
@@ -66,6 +72,18 @@ namespace FishGame.Inventory
             }
 
             fishRecords = fishList.ToArray();
+
+            fishByType = new List<int>[(int)FishType.COUNT];
+            foreach (var fishRecord in fishRecords)
+            {
+                fishByType[(int)fishRecord.Type].Add(fishRecord.Idx);
+            }
+
+            fishByLocation = new List<int>[(int)FishLocation.COUNT];
+            foreach (var fishRecord in fishRecords)
+            {
+                fishByType[(int)fishRecord.Location].Add(fishRecord.Idx);
+            }
         }
 
         public ref FishRecord GetFishById(int id)
@@ -73,15 +91,41 @@ namespace FishGame.Inventory
             return ref fishRecords[id];
         }
 
+        public int Count => fishRecords.Length;
+
         public int GetFishId(string name)
         {
             return fishNameLookup[name];
         }
+
+        public IReadOnlyList<int> GetFishForLocation(FishLocation location)
+        {
+            return fishByLocation[(int)location];
+        }
+
+        public IReadOnlyList<int> GetFishOfType(FishType type)
+        {
+            return fishByType[(int)type];
+        }
     }
 
+    public struct FishInventoryEntry
+    {
+        public bool HasCollected { get; }
+    }
 
     public sealed class FishJournal
     {
+        private readonly FishInventoryEntry[] fish;
 
+        public FishJournal(FishDB fishDB)
+        {
+            fish = new FishInventoryEntry[fishDB.Count];
+        }
+
+        public ref FishInventoryEntry GetInvSlot(int id)
+        {
+            return ref fish[id];
+        }
     }
 }

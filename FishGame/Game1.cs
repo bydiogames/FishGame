@@ -14,7 +14,10 @@ namespace FishGame
     {
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
+
         private FishDB _fishDb;
+        private FishJournal fishJournal;
+
         private List<IAnimation> _animations;
         private Character _character;
         private Texture2D _gridTexture;
@@ -60,6 +63,8 @@ namespace FishGame
             _background.Load(Content);
 
             _fishDb.LoadContent(Content);
+
+            fishJournal = new FishJournal(_fishDb);
         }
 
         protected override void Update(GameTime gameTime)
