@@ -115,8 +115,9 @@ namespace FishGame.Backgrounds
             // Draw decorations
             if (_decorations != null)
             {
+                Color decorationMask = _season == Season.Fall ? seasonColorMask : Color.White;
                 spriteBatch.Begin(SpriteSortMode.Deferred, null, SamplerState.PointClamp, null, null, null, null);
-                spriteBatch.Draw(_decorations, destinationRectangle, null, seasonColorMask);
+                spriteBatch.Draw(_decorations, destinationRectangle, null, decorationMask);
                 spriteBatch.End();
             }
         }

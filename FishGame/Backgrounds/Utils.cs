@@ -12,8 +12,10 @@ namespace FishGame.Backgrounds
             {
                 switch (season)
                 {
-                    case Season.Winter: return Color.LightGray;
-                    case Season.Fall: return Color.OrangeRed;
+                    case Season.Spring: return Color.MediumSpringGreen;
+                    case Season.Summer: return Color.LawnGreen;
+                    case Season.Fall: return Color.Goldenrod;
+                    case Season.Winter: return Color.FloralWhite;
                     default: return Color.White;
                 }
             }
@@ -21,7 +23,10 @@ namespace FishGame.Backgrounds
             {
                 switch (season)
                 {
-                    case Season.Winter: return Color.LightGray;
+                    case Season.Spring: return Color.SandyBrown;
+                    case Season.Summer: return Color.SandyBrown;
+                    case Season.Fall: return Color.SandyBrown;
+                    case Season.Winter: return Color.GhostWhite;
                     default: return Color.White;
                 }
             }
