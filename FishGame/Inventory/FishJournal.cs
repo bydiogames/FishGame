@@ -6,7 +6,7 @@ using FishGame.Utils;
 using CsvHelper.Configuration;
 using FishGame.Entities;
 using System;
-using System.Numerics;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace FishGame.Inventory
 {
@@ -32,6 +32,22 @@ namespace FishGame.Inventory
         public FishType Type { get; set; }
 
         public Season Season { get; set; }
+    }
+
+    public sealed class FishTexUtils
+    {
+        private static readonly Vector2 FishTileDim = new Vector2(16, 16);
+
+        public static Rectangle GetFishTilePxRect(FishDB db, int id)
+        {
+            ref var record = ref db.GetFishById(id);
+            return new Rectangle(new Point(record.X, record.Y) * FishTileDim.ToPoint(), FishTileDim.ToPoint());
+        }
+
+        public static void DrawFish(SpriteBatch sb, Texture2D fishTex, FishDB db, int id, Vector2 location)
+        {
+            sb.Draw(fishTex, new Rectangle((int)location.X, (int)location.Y, 16, 16), GetFishTilePxRect(db, id), Color.White);
+        }
     }
 
     public sealed class FishDB : IGameComponent
@@ -86,7 +102,7 @@ namespace FishGame.Inventory
             }
             foreach (var fishRecord in fishRecords)
             {
-                fishByLocation[BitOperations.Log2((uint)fishRecord.Location)].Add(fishRecord.Idx);
+                fishByLocation[System.Numerics.BitOperations.Log2((uint)fishRecord.Location)].Add(fishRecord.Idx);
             }
         }
 
@@ -104,7 +120,7 @@ namespace FishGame.Inventory
 
         public IReadOnlyList<int> GetFishForLocation(Location location)
         {
-            return fishByLocation[BitOperations.Log2((uint)location)];
+            return fishByLocation[System.Numerics.BitOperations.Log2((uint)location)];
         }
 
         public IReadOnlyList<int> GetFishOfType(FishType type)

@@ -364,6 +364,18 @@
 /processorParam:TextureFormat=Color
 /build:../Assets/fish_shadow.png;fish_shadow.png
 
+#begin ../Assets/Fish/fish_all.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:../Assets/Fish/fish_all.png;fish_all.png
+
 #begin ../Assets/Fonts/arial.spritefont
 /importer:FontDescriptionImporter
 /processor:FontDescriptionProcessor

@@ -29,6 +29,8 @@ namespace FishGame
         private Texture2D _gridTexture;
         private TestBackgroundManager _background;
 
+        private Texture2D _fishTex;
+
         public Game1()
         {
             _graphics = new GraphicsDeviceManager(this);
@@ -66,6 +68,8 @@ namespace FishGame
             _gridTexture.SetData(new Color[] { Color.White });
 
             _background.Load(Content);
+
+            _fishTex = Content.Load<Texture2D>("fish_all");
 
             _fishDb.LoadContent(Content);
 
@@ -120,6 +124,10 @@ namespace FishGame
             }
 
             _character.Draw(_spriteBatch);
+
+            _spriteBatch.Begin();
+            FishTexUtils.DrawFish(_spriteBatch, _fishTex, _fishDb, 20, Vector2.Zero);
+            _spriteBatch.End();
 
             base.Draw(gameTime);
         }
