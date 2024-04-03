@@ -11,5 +11,6 @@ namespace FishGame.Entities
         Summer = 2,
         Fall = 4,
         Winter = 8,
+        All = Spring | Summer | Fall | Winter,
     }
 }
