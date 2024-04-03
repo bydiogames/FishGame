@@ -19,6 +19,10 @@ namespace FishGame.Entities
         public static int CharacterLocationXTiles = 8;
         public static int CharacterLocationYTiles = 10;
 
+        // Caught fish dimensions
+        public static int CaughtFishWidthTiles = 2;
+        public static int CaughtFishHeightTiles = 2;
+
         public static int FishShadowWidthTiles = 2;
         public static int FishShadowHeightTiles = 2;
         public static int FishShadowLocationXTiles = 9;

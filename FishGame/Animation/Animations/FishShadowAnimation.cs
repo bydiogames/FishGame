@@ -19,14 +19,14 @@ namespace FishGame.Animation.Animations
         public void Load(ContentManager content)
         {
             Texture2D fishShadowTexture = content.Load<Texture2D>("fish_shadow");
-            _animationGroup = new AnimationGroup(new List<SpriteAnimation> { new SpriteAnimation(fishShadowTexture, 1, 15, 15, EntityConstants.FishShadowWidthTiles, EntityConstants.FishShadowHeightTiles, 0, true) }, 0.2f);
+            _animationGroup = new AnimationGroup(new List<IDrawable> { new SpriteAnimation(fishShadowTexture, 1, 15, 15, EntityConstants.FishShadowWidthTiles, EntityConstants.FishShadowHeightTiles, 0, true) }, 0.2f, _position);
         }
 
         public void Draw(SpriteBatch spriteBatch)
         {
             if(_animationGroup != null)
             {
-                _animationGroup.Draw(spriteBatch, _position);
+                _animationGroup.Draw(spriteBatch);
             }
         }
 

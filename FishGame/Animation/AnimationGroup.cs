@@ -9,17 +9,23 @@ namespace FishGame.Animation
     {
         private float _timer;
         private float _frameSpeed;
-        private List<SpriteAnimation> _sprites;
+        private List<IDrawable> _sprites;
+        private PositionManager _positionManager;
+        private int _delayFrames;
+        private int _currentFrame = 1;
 
-        public AnimationGroup(List<SpriteAnimation> sprites, float frameSpeed)
+        public AnimationGroup(List<IDrawable> sprites, float frameSpeed, Vector2 position, PositionManager positionManager = null, int delayFrames = 0)
         {
             _sprites = sprites;
             _frameSpeed = frameSpeed;
+            _positionManager = positionManager != null ? positionManager : new PositionManager(position, 1);
+            _delayFrames = delayFrames;
         }
 
         public void Reset()
         {
             _timer = 0;
+            _currentFrame = 1;
             foreach (var sprite in _sprites)
             {
                 sprite.Reset();
@@ -31,19 +37,27 @@ namespace FishGame.Animation
             _timer += (float)gameTime.ElapsedGameTime.TotalSeconds;
             if (_timer > _frameSpeed)
             {
+                _currentFrame++;
                 _timer = 0;
-                foreach (SpriteAnimation sprite in _sprites)
+                if(_currentFrame > _delayFrames)
                 {
-                    sprite.Update();
+                    foreach (IDrawable sprite in _sprites)
+                    {
+                        sprite.Update();
+                        _positionManager.Update();
+                    }
                 }
             }
         }
 
-        public void Draw(SpriteBatch spriteBatch, Vector2 position)
+        public void Draw(SpriteBatch spriteBatch)
         {
-            foreach (SpriteAnimation sprite in _sprites)
+            if(_currentFrame > _delayFrames)
             {
-                sprite.Draw(spriteBatch, position);
+                foreach (IDrawable sprite in _sprites)
+                {
+                    sprite.Draw(spriteBatch, _positionManager.GetCurrentPosition());
+                }
             }
         }
 

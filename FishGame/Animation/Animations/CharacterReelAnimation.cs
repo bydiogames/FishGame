@@ -28,13 +28,13 @@ namespace FishGame.Animation.Animations
             Texture2D hairTexture = content.Load<Texture2D>("ponytail_fish");
             Texture2D clothesTexture = content.Load<Texture2D>("dress_fish");
 
-            List<SpriteAnimation> sprites = new List<SpriteAnimation> {
+            List<IDrawable> sprites = new List<IDrawable> {
                 new SpriteAnimation(charTexture, 4, 5, 3, EntityConstants.CharacterWidthTiles, EntityConstants.CharacterHeightTiles, xOffsetPx:EntityConstants.CharacterXOffsetPx, yOffsetPx:EntityConstants.CharacterFishingYOffsetPx),
                 new SpriteAnimation(hairTexture, 4, 70, 3, EntityConstants.CharacterWidthTiles, EntityConstants.CharacterHeightTiles, xOffsetPx:EntityConstants.CharacterXOffsetPx, yOffsetPx:EntityConstants.CharacterFishingYOffsetPx),
                 new SpriteAnimation(clothesTexture, 4, 50, 3, EntityConstants.CharacterWidthTiles, EntityConstants.CharacterHeightTiles, 30, xOffsetPx:EntityConstants.CharacterXOffsetPx, yOffsetPx:EntityConstants.CharacterFishingYOffsetPx)
             };
 
-            _animationGroup = new AnimationGroup(sprites, 0.2f);
+            _animationGroup = new AnimationGroup(sprites, 0.2f, _position);
         }
 
         public void Reset()
@@ -63,7 +63,7 @@ namespace FishGame.Animation.Animations
         {
             if (_animationGroup != null)
             {
-                _animationGroup.Draw(spriteBatch, _position);
+                _animationGroup.Draw(spriteBatch);
             }
         }
     }

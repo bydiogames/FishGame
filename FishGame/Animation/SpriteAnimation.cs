@@ -5,7 +5,7 @@ using System.Reflection.Metadata.Ecma335;
 
 namespace FishGame.Animation
 {
-    internal class SpriteAnimation
+    internal class SpriteAnimation : IDrawable
     {
         public Texture2D Texture { get; set; }
         public int Rows { get; set; }
@@ -20,6 +20,7 @@ namespace FishGame.Animation
         private int _yOffsetPx;
         private int _xOffsetPx;
 
+        // Represents an animation that consists of multiple frames from a sprite sheet
         public SpriteAnimation(Texture2D texture, int rows, int columns, int totalFrames, int widthTiles, int heightTiles, int startingFrame = 0, bool shouldLoop = false, int yOffsetPx = 0, int xOffsetPx = 0)
         {
             Texture = texture;
@@ -51,7 +52,6 @@ namespace FishGame.Animation
             }
         }
 
-        // TODO: add padding for sprites where the char is moved (e.g. the pickup and fishing animations have different "anchor points")
         public void Draw(SpriteBatch spriteBatch, Vector2 location)
         {
             int width = Texture.Width / Columns;

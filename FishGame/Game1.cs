@@ -9,8 +9,6 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Xml.Serialization;
 
 namespace FishGame
 {
@@ -22,14 +20,11 @@ namespace FishGame
         private CoroutineManager coroutineManager;
 
         private FishDB _fishDb;
-        private FishJournal fishJournal;
 
         private List<IAnimation> _animations;
         private Character _character;
         private Texture2D _gridTexture;
         private TestBackgroundManager _background;
-
-        private Texture2D _fishTex;
 
         public Game1()
         {
@@ -69,14 +64,10 @@ namespace FishGame
 
             _background.Load(Content);
 
-            _fishTex = Content.Load<Texture2D>("fish_all");
-
             _fishDb.LoadContent(Content);
 
-            fishJournal = new FishJournal(_fishDb);
-
-            // Use the character's with and height to center them.  The character is moved up 4 px according to the sprite sheet spec, so subtract an extra 2 tiles from the height to center
-            _character = new Character(new Vector2(EntityConstants.CharacterLocationXTiles, EntityConstants.CharacterLocationYTiles));
+            // Use the character's width and height to center them.  The character is moved up 4 px according to the sprite sheet spec, so subtract an extra 2 tiles from the height to center
+            _character = new Character(new Vector2(EntityConstants.CharacterLocationXTiles, EntityConstants.CharacterLocationYTiles), _background);
             _character.Load(Content, _fishDb);
 
             coroutineManager.Start(Routine());
@@ -100,10 +91,7 @@ namespace FishGame
                 animation.Update(gameTime);
             }
 
-            
-
-
-            _character.Update(gameTime, _background);
+            _character.Update(gameTime);
 
             _background.Update();
 
@@ -112,8 +100,8 @@ namespace FishGame
 
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.Gray);
-            DrawGrid();
+            GraphicsDevice.Clear(Color.CornflowerBlue);
+            //DrawGrid();
 
             _background.Draw(_spriteBatch);
 
@@ -124,10 +112,6 @@ namespace FishGame
             }
 
             _character.Draw(_spriteBatch);
-
-            _spriteBatch.Begin();
-            FishTexUtils.DrawFish(_spriteBatch, _fishTex, _fishDb, 20, Vector2.Zero);
-            _spriteBatch.End();
 
             base.Draw(gameTime);
         }

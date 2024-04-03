@@ -21,13 +21,15 @@ namespace FishGame.Entities
         private float _timer;
         private Random _random;
         private FishDB _fishDb;
-        public Character(Vector2 position)
+        private TestBackgroundManager _backgroundManager;
+        public Character(Vector2 position, TestBackgroundManager backgroundManager)
         {
             Position = position;
             _currentAnimation = new CharacterIdleAnimation(Position);
             _state = CharacterState.Idle;
             _random = new Random();
             _timer = 0;
+            _backgroundManager = backgroundManager;
         }
 
         public Vector2 Position { get; set; }
@@ -41,11 +43,12 @@ namespace FishGame.Entities
             _fishDb = db;
         }
 
-        public void Update(GameTime gameTime, TestBackgroundManager background)
+        public void Update(GameTime gameTime)
         {
             if (Keyboard.GetState().IsKeyDown(Keys.Space) && (_state == CharacterState.Idle || _state == CharacterState.FishIdle || _state == CharacterState.PickupIdle))
             {
                 _state = CharacterState.Casting;
+                _peripheralAnimation = null;
                 _currentAnimation = new CharacterCastAnimation(Position, OnCastAnimationCompletion);
                 _currentAnimation.Load(_contentManager);
             }
@@ -61,14 +64,14 @@ namespace FishGame.Entities
             _currentAnimation.Update(gameTime);
 
             // Call fish status update here
-            UpdateFishStatus(gameTime, background);
+            UpdateFishStatus(gameTime);
             if(_peripheralAnimation != null)
             {
                 _peripheralAnimation.Update(gameTime);
             }
         }
 
-        private void UpdateFishStatus(GameTime gameTime, TestBackgroundManager background)
+        private void UpdateFishStatus(GameTime gameTime)
         {
             if (State == CharacterState.FishIdle)
             {
@@ -79,12 +82,7 @@ namespace FishGame.Entities
                     if (_random.Next(0, 2) > 0)
                     {
                         FishOnLine();
-                        // Choose between eligible fish
-                        IEnumerable<int> eligibleFishIds = _fishDb.GetFishForLocation(background.GetLocation()).Where(id => _fishDb.GetFishById(id).Season.HasFlag(background.GetSeason()));
-                        int idx = _random.Next(0, eligibleFishIds.Count());
-                        FishRecord caughtFish = _fishDb.GetFishById(eligibleFishIds.ElementAt(idx));
                     }
-                    _random = new Random((int)gameTime.ElapsedGameTime.TotalSeconds);
                     _timer = 0f;
                 }
             }
@@ -123,6 +121,13 @@ namespace FishGame.Entities
             _state = CharacterState.Pickup;
             _currentAnimation = new CharacterPickupAnimation(Position, OnPickupAnimationCompletion);
             _currentAnimation.Load(_contentManager);
+
+            // Choose between eligible fish
+            IEnumerable<int> eligibleFishIds = _fishDb.GetFishForLocation(_backgroundManager.GetLocation()).Where(id => _fishDb.GetFishById(id).Season.HasFlag(_backgroundManager.GetSeason()));
+            int idx = _random.Next(0, eligibleFishIds.Count());
+            FishRecord caughtFish = _fishDb.GetFishById(eligibleFishIds.ElementAt(idx));
+            _peripheralAnimation = new CaughtFishPickupAnimation(_fishDb, caughtFish, new Vector2(Position.X, Position.Y + 2));
+            _peripheralAnimation.Load(_contentManager);
         }
 
         public void OnPickupAnimationCompletion()

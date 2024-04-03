@@ -22,13 +22,13 @@ namespace FishGame.Animation.Animations
             Texture2D hairTexture = content.Load<Texture2D>("ponytail_pickup");
             Texture2D clothesTexture = content.Load<Texture2D>("dress_pickup");
 
-            List<SpriteAnimation> sprites = new List<SpriteAnimation> {
+            List<IDrawable> sprites = new List<IDrawable> {
                 new SpriteAnimation(charTexture, 4, 5, 1, EntityConstants.CharacterWidthTiles, EntityConstants.CharacterHeightTiles, xOffsetPx:EntityConstants.CharacterXOffsetPx),
                 new SpriteAnimation(hairTexture, 4, 70, 1, EntityConstants.CharacterWidthTiles, EntityConstants.CharacterHeightTiles, xOffsetPx:EntityConstants.CharacterXOffsetPx),
                 new SpriteAnimation(clothesTexture, 4, 50, 1, EntityConstants.CharacterWidthTiles, EntityConstants.CharacterHeightTiles, 30, xOffsetPx:EntityConstants.CharacterXOffsetPx)
             };
 
-            _animationGroup = new AnimationGroup(sprites, 0.2f);
+            _animationGroup = new AnimationGroup(sprites, 0.2f, _position);
         }
 
         public void Reset()
@@ -51,7 +51,7 @@ namespace FishGame.Animation.Animations
         {
             if (_animationGroup != null)
             {
-                _animationGroup.Draw(spriteBatch, _position);
+                _animationGroup.Draw(spriteBatch);
             }
         }
     }
