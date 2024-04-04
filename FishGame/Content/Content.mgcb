@@ -419,3 +419,15 @@
 /processorParam:TextureFormat=Color
 /build:../Assets/ui/png/Main_ui__Ui_tiles.png;Main_ui__Ui_tiles.png
 
+#begin ../Assets/ui/png/Season_Cards__Tiles.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:../Assets/ui/png/Season_Cards__Tiles.png;Season_Cards__Tiles.png
+
