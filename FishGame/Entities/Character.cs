@@ -14,8 +14,8 @@ namespace FishGame.Entities
 {
     internal class Character
     {
-        private IAnimation _currentAnimation;
-        private IAnimation _peripheralAnimation;
+        private AnimationBase _currentAnimation;
+        private AnimationBase _peripheralAnimation;
         private ContentManager _contentManager;
         private CharacterState _state;
         private float _timer;

@@ -6,9 +6,8 @@ using System.Collections.Generic;
 
 namespace FishGame.Animation.Animations
 {
-    public class CharacterIdleFishAnimation : IAnimation
+    internal class CharacterIdleFishAnimation : AnimationBase
     {
-        private AnimationGroup _animationGroup;
         private Vector2 _position;
 
         public CharacterIdleFishAnimation(Vector2 position)
@@ -16,7 +15,7 @@ namespace FishGame.Animation.Animations
             _position = position;
         }
 
-        public void Load(ContentManager content)
+        public override void Load(ContentManager content)
         {
             Texture2D charTexture = content.Load<Texture2D>("char1_fish");
             Texture2D hairTexture = content.Load<Texture2D>("ponytail_fish");
@@ -29,30 +28,6 @@ namespace FishGame.Animation.Animations
             };
 
             _animationGroup = new AnimationGroup(sprites, 0.2f, _position);
-        }
-
-        public void Reset()
-        {
-            if (_animationGroup != null)
-            {
-                _animationGroup.Reset();
-            }
-        }
-
-        public void Update(GameTime gameTime)
-        {
-            if (_animationGroup != null)
-            {
-                _animationGroup.Update(gameTime);
-            }
-        }
-
-        public void Draw(SpriteBatch spriteBatch)
-        {
-            if (_animationGroup != null)
-            {
-                _animationGroup.Draw(spriteBatch);
-            }
         }
     }
 }

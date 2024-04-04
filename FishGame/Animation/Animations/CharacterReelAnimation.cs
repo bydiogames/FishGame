@@ -10,10 +10,8 @@ using FishGame.Entities;
 
 namespace FishGame.Animation.Animations
 {
-    internal class CharacterReelAnimation : IAnimation
+    internal class CharacterReelAnimation : AnimationBase
     {
-        private AnimationGroup _animationGroup;
-        private OnAnimationCompletion _completion;
         private Vector2 _position;
 
         public CharacterReelAnimation(Vector2 position, OnAnimationCompletion completion)
@@ -22,7 +20,7 @@ namespace FishGame.Animation.Animations
             _completion = completion;
         }
 
-        public void Load(ContentManager content)
+        public override void Load(ContentManager content)
         {
             Texture2D charTexture = content.Load<Texture2D>("char1_fish");
             Texture2D hairTexture = content.Load<Texture2D>("ponytail_fish");
@@ -35,36 +33,6 @@ namespace FishGame.Animation.Animations
             };
 
             _animationGroup = new AnimationGroup(sprites, 0.2f, _position);
-        }
-
-        public void Reset()
-        {
-            if (_animationGroup != null)
-            {
-                _animationGroup.Reset();
-            }
-        }
-
-        public void Update(GameTime gameTime)
-        {
-            if (_animationGroup != null)
-            {
-                if (_animationGroup.IsFinished())
-                {
-                    _completion.Invoke();
-                    return;
-                }
-
-                _animationGroup.Update(gameTime);
-            }
-        }
-
-        public void Draw(SpriteBatch spriteBatch)
-        {
-            if (_animationGroup != null)
-            {
-                _animationGroup.Draw(spriteBatch);
-            }
         }
     }
 }

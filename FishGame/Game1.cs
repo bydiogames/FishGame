@@ -21,7 +21,7 @@ namespace FishGame
 
         private FishDB _fishDb;
 
-        private List<IAnimation> _animations;
+        private List<AnimationBase> _animations;
         private Character _character;
         private Texture2D _gridTexture;
         private TestBackgroundManager _background;
@@ -49,7 +49,7 @@ namespace FishGame
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            _animations = new List<IAnimation>
+            _animations = new List<AnimationBase>
             {
                 new FishShadowAnimation(new Vector2(EntityConstants.FishShadowLocationXTiles, EntityConstants.FishShadowLocationYTiles))
             };
