@@ -12,7 +12,7 @@ using System.Linq;
 
 namespace FishGame.Entities
 {
-    internal class Character
+    internal class Character : IEntity
     {
         private AnimationBase _currentAnimation;
         private AnimationBase _peripheralAnimation;
@@ -39,6 +39,8 @@ namespace FishGame.Entities
         public Vector2 Position { get; set; }
 
         public CharacterState State { get { return _state; } }
+
+        public int UpdateOrder => 0;
 
         public void Load(ContentManager contentManager, FishDB db)
         {
