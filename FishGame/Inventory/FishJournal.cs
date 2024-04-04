@@ -176,5 +176,26 @@ namespace FishGame.Inventory
                 spriteBatch.Draw(tex, dstRec, srcRec, tint);
             }
         }
+
+        public int? QueryHover(Vector2 upperLeft, Vector2 point)
+        {
+            for (int i = 0; i < fish.Length; i++)
+            {
+                ref FishInventoryEntry entry = ref fish[i];
+                ref FishRecord record = ref fishDB.GetFishById(i);
+
+                // Calculate where we are placing the sprite.
+                Vector2 offset = FishTexUtils.FishTileDim * record.TexMapLocation * InvScaling;
+                Vector2 loc = upperLeft + offset;
+                Rectangle dstRec = new Rectangle(loc.ToPoint(), (FishTexUtils.FishTileDim * InvScaling).ToPoint());
+
+                if (dstRec.Contains(point))
+                {
+                    return i;
+                }
+            }
+
+            return null;
+        }
     }
 }

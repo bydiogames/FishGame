@@ -72,9 +72,9 @@ namespace FishGame
 
             _entityManager.AddEntity(_character);
 
-            _mainUI = new MainUI(_spriteBatch, _background, _fishJournal);
+            _mainUI = new MainUI(_spriteBatch, _background, _fishJournal, _fishDb);
             Components.Add(_mainUI);
-            _mainUI.Load(Content);
+            _mainUI.Load(Content, GraphicsDevice);
 
             coroutineManager.Start(Routine());
         }
