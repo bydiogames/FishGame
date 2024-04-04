@@ -25,7 +25,8 @@ namespace FishGame.Entities
         private TestBackgroundManager _backgroundManager;
         private OnAnimationCompletion _onReelCompletion;
         private OnAnimationCompletion _onCastCompletion;
-        public Character(Vector2 position, TestBackgroundManager backgroundManager, OnAnimationCompletion onReelCompletion, OnAnimationCompletion onCastCompletion)
+        private OnAnimationStart _onFishPickupStart;
+        public Character(Vector2 position, TestBackgroundManager backgroundManager, OnAnimationCompletion onReelCompletion, OnAnimationCompletion onCastCompletion, OnAnimationStart onFishPickupStart)
         {
             Position = position;
             _currentAnimation = new CharacterIdleAnimation(Position);
@@ -35,6 +36,7 @@ namespace FishGame.Entities
             _backgroundManager = backgroundManager;
             _onReelCompletion = onReelCompletion;
             _onCastCompletion = onCastCompletion;
+            _onFishPickupStart = onFishPickupStart;
         }
 
         public Vector2 Position { get; set; }
@@ -138,7 +140,7 @@ namespace FishGame.Entities
             int idx = _random.Next(0, eligibleFishIds.Count());
             ref FishRecord caughtFish = ref _fishDb.GetFishById(eligibleFishIds.ElementAt(idx));
 
-            _peripheralAnimation = new CaughtFishPickupAnimation(_fishDb, caughtFish, new Vector2(Position.X, Position.Y + 2));
+            _peripheralAnimation = new CaughtFishPickupAnimation(_fishDb, caughtFish, new Vector2(Position.X, Position.Y + 2), _onFishPickupStart);
             _peripheralAnimation.Load(_contentManager);
 
             ref var invEntry = ref _fishJournal.GetInvSlot(caughtFish.Idx);

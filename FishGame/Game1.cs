@@ -4,6 +4,7 @@ using FishGame.Backgrounds;
 using FishGame.Entities;
 using FishGame.Interface;
 using FishGame.Inventory;
+using FishGame.Sound;
 using FishGame.Utils;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -28,6 +29,8 @@ namespace FishGame
         private Texture2D _gridTexture;
         private TestBackgroundManager _background;
 
+        private SoundManager _soundManager;
+
         private EntityManager _entityManager;
 
         private MainUI _mainUI;
@@ -50,6 +53,8 @@ namespace FishGame
 
             this.Components.Add(_entityManager = new EntityManager(Content));
 
+            _soundManager = new SoundManager();
+
             base.Initialize();
         }
 
@@ -67,7 +72,7 @@ namespace FishGame
             _fishJournal = new FishJournal(_fishDb);
 
             // Use the character's width and height to center them.  The character is moved up 4 px according to the sprite sheet spec, so subtract an extra 2 tiles from the height to center
-            _character = new Character(new Vector2(EntityConstants.CharacterLocationXTiles, EntityConstants.CharacterLocationYTiles), _background, OnReelCompletion, OnCastCompletion);
+            _character = new Character(new Vector2(EntityConstants.CharacterLocationXTiles, EntityConstants.CharacterLocationYTiles), _background, OnReelCompletion, OnCastCompletion, OnPickupStart);
             _character.Load(Content, _fishDb, _fishJournal);
 
             _entityManager.AddEntity(_character);
@@ -75,6 +80,8 @@ namespace FishGame
             _mainUI = new MainUI(_spriteBatch, _background, _fishJournal);
             Components.Add(_mainUI);
             _mainUI.Load(Content);
+
+            _soundManager.Load(Content);
 
             coroutineManager.Start(Routine());
         }
@@ -126,6 +133,12 @@ namespace FishGame
         internal void OnReelCompletion()
         {
             _fishShadowAnimation = null;
+            
+        }
+
+        internal void OnPickupStart()
+        {
+            _soundManager.PlayFishPickup();
         }
 
         internal void OnCastCompletion()
