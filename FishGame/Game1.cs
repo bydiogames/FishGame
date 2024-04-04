@@ -21,7 +21,7 @@ namespace FishGame
 
         private FishDB _fishDb;
 
-        private List<AnimationBase> _animations;
+        private FishShadowAnimation _fishShadowAnimation;
         private Character _character;
         private Texture2D _gridTexture;
         private TestBackgroundManager _background;
@@ -49,16 +49,6 @@ namespace FishGame
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            _animations = new List<AnimationBase>
-            {
-                new FishShadowAnimation(new Vector2(EntityConstants.FishShadowLocationXTiles, EntityConstants.FishShadowLocationYTiles))
-            };
-
-            foreach (var animation in _animations)
-            {
-                animation.Load(Content);
-            }
-
             _gridTexture = new Texture2D(GraphicsDevice, 1, 1);
             _gridTexture.SetData(new Color[] { Color.White });
 
@@ -67,7 +57,7 @@ namespace FishGame
             _fishDb.LoadContent(Content);
 
             // Use the character's width and height to center them.  The character is moved up 4 px according to the sprite sheet spec, so subtract an extra 2 tiles from the height to center
-            _character = new Character(new Vector2(EntityConstants.CharacterLocationXTiles, EntityConstants.CharacterLocationYTiles), _background);
+            _character = new Character(new Vector2(EntityConstants.CharacterLocationXTiles, EntityConstants.CharacterLocationYTiles), _background, OnReelCompletion, OnCastCompletion);
             _character.Load(Content, _fishDb);
 
             coroutineManager.Start(Routine());
@@ -86,14 +76,13 @@ namespace FishGame
                 Exit();
 
             // TODO: Add your update logic here
-            foreach (var animation in _animations)
-            {
-                animation.Update(gameTime);
-            }
-
             _character.Update(gameTime);
-
             _background.Update();
+
+            if (_fishShadowAnimation != null)
+            {
+                _fishShadowAnimation.Update(gameTime);
+            }
 
             base.Update(gameTime);
         }
@@ -103,18 +92,30 @@ namespace FishGame
             GraphicsDevice.Clear(Color.CornflowerBlue);
             //DrawGrid();
 
-            _background.Draw(_spriteBatch);
-
             // TODO: Add your drawing code here
-            foreach (var animation in _animations)
-            {
-                animation.Draw(_spriteBatch);
-            }
-
+            _background.Draw(_spriteBatch);
             _character.Draw(_spriteBatch);
+
+            if(_fishShadowAnimation != null)
+            {
+                _fishShadowAnimation.Draw(_spriteBatch);
+            }
 
             base.Draw(gameTime);
         }
+
+
+        internal void OnReelCompletion()
+        {
+            _fishShadowAnimation = null;
+        }
+
+        internal void OnCastCompletion()
+        {
+            _fishShadowAnimation = new FishShadowAnimation(new Vector2(EntityConstants.FishShadowLocationXTiles, EntityConstants.FishShadowLocationYTiles));
+            _fishShadowAnimation.Load(Content);
+        }
+
 
         private void DrawGrid()
         {

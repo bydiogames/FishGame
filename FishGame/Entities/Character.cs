@@ -22,7 +22,9 @@ namespace FishGame.Entities
         private Random _random;
         private FishDB _fishDb;
         private TestBackgroundManager _backgroundManager;
-        public Character(Vector2 position, TestBackgroundManager backgroundManager)
+        private OnAnimationCompletion _onReelCompletion;
+        private OnAnimationCompletion _onCastCompletion;
+        public Character(Vector2 position, TestBackgroundManager backgroundManager, OnAnimationCompletion onReelCompletion, OnAnimationCompletion onCastCompletion)
         {
             Position = position;
             _currentAnimation = new CharacterIdleAnimation(Position);
@@ -30,6 +32,8 @@ namespace FishGame.Entities
             _random = new Random();
             _timer = 0;
             _backgroundManager = backgroundManager;
+            _onReelCompletion = onReelCompletion;
+            _onCastCompletion = onCastCompletion;
         }
 
         public Vector2 Position { get; set; }
@@ -114,6 +118,7 @@ namespace FishGame.Entities
             _state = CharacterState.FishIdle;
             _currentAnimation = new CharacterIdleFishAnimation(Position);
             _currentAnimation.Load(_contentManager);
+            _onCastCompletion.Invoke();
         }
 
         public void OnReelAnimationCompletion()
@@ -121,6 +126,8 @@ namespace FishGame.Entities
             _state = CharacterState.Pickup;
             _currentAnimation = new CharacterPickupAnimation(Position, OnPickupAnimationCompletion);
             _currentAnimation.Load(_contentManager);
+
+            _onReelCompletion.Invoke();
 
             // Choose between eligible fish
             IEnumerable<int> eligibleFishIds = _fishDb.GetFishForLocation(_backgroundManager.GetLocation()).Where(id => _fishDb.GetFishById(id).Season.HasFlag(_backgroundManager.GetSeason()));
