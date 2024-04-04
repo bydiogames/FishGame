@@ -41,7 +41,7 @@ namespace FishGame.Entities
 
         void IDrawable.Draw(GameTime gameTime)
         {
-            Sb.Begin();
+            Sb.Begin(SpriteSortMode.Deferred, null, SamplerState.PointClamp, null, null, null, null);
             foreach (var entity in entities.OrderBy((entity) => { return entity.UpdateOrder; }))
             {
                 entity.Draw(Sb);

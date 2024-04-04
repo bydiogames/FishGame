@@ -4,6 +4,7 @@ using FishGame.Backgrounds;
 using FishGame.Entities;
 using FishGame.Interface;
 using FishGame.Inventory;
+using FishGame.Sound;
 using FishGame.Utils;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -28,6 +29,8 @@ namespace FishGame
         private Texture2D _gridTexture;
         private TestBackgroundManager _background;
 
+        private SoundManager _soundManager;
+
         private EntityManager _entityManager;
 
         private MainUI _mainUI;
@@ -50,6 +53,8 @@ namespace FishGame
 
             this.Components.Add(_entityManager = new EntityManager(Content));
 
+            _soundManager = new SoundManager();
+
             base.Initialize();
         }
 
@@ -67,7 +72,7 @@ namespace FishGame
             _fishJournal = new FishJournal(_fishDb);
 
             // Use the character's width and height to center them.  The character is moved up 4 px according to the sprite sheet spec, so subtract an extra 2 tiles from the height to center
-            _character = new Character(new Vector2(EntityConstants.CharacterLocationXTiles, EntityConstants.CharacterLocationYTiles), _background, OnReelCompletion, OnCastCompletion);
+            _character = new Character(new Vector2(EntityConstants.CharacterLocationXTiles, EntityConstants.CharacterLocationYTiles), _background, OnReelCompletion, OnCastCompletion, OnPickupStart);
             _character.Load(Content, _fishDb, _fishJournal);
 
             _entityManager.AddEntity(_character);
@@ -75,6 +80,8 @@ namespace FishGame
             _mainUI = new MainUI(_spriteBatch, _background, _fishJournal, _fishDb);
             Components.Add(_mainUI);
             _mainUI.Load(Content, GraphicsDevice);
+
+            _soundManager.Load(Content);
 
             coroutineManager.Start(Routine());
         }
@@ -106,9 +113,8 @@ namespace FishGame
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
-            //DrawGrid();
 
-            _spriteBatch.Begin();
+            _spriteBatch.Begin(SpriteSortMode.Deferred, null, SamplerState.PointClamp, null, null, null, null);
 
             // TODO: Add your drawing code here
             _background.Draw(_spriteBatch);
@@ -127,26 +133,18 @@ namespace FishGame
         internal void OnReelCompletion()
         {
             _fishShadowAnimation = null;
+            
+        }
+
+        internal void OnPickupStart()
+        {
+            _soundManager.PlayFishPickup();
         }
 
         internal void OnCastCompletion()
         {
             _fishShadowAnimation = new FishShadowAnimation(new Vector2(EntityConstants.FishShadowLocationXTiles, EntityConstants.FishShadowLocationYTiles));
             _fishShadowAnimation.Load(Content);
-        }
-
-
-        private void DrawGrid()
-        {
-            _spriteBatch.Begin();
-            for(int i = 0; i < EntityConstants.ScreenWidthTiles; i++)
-            {
-                for(int j = 0; j < EntityConstants.ScreenHeightTiles; j++)
-                {
-                    _spriteBatch.Draw(_gridTexture, new Rectangle(i * EntityConstants.TileWidthPx + 1, j * EntityConstants.TileHeightPx + 1, EntityConstants.TileWidthPx - 2, EntityConstants.TileHeightPx - 2), Color.CornflowerBlue);
-                }
-            }
-            _spriteBatch.End();
         }
     }
 }
