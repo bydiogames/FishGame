@@ -91,7 +91,6 @@ namespace FishGame
                 Exit();
 
             // TODO: Add your update logic here
-            _character.Update(gameTime);
             _background.Update();
 
             if (_fishShadowAnimation != null)
@@ -109,14 +108,17 @@ namespace FishGame
             GraphicsDevice.Clear(Color.CornflowerBlue);
             //DrawGrid();
 
+            _spriteBatch.Begin();
+
             // TODO: Add your drawing code here
             _background.Draw(_spriteBatch);
-            _character.Draw(_spriteBatch);
 
             if(_fishShadowAnimation != null)
             {
                 _fishShadowAnimation.Draw(_spriteBatch);
             }
+
+            _spriteBatch.End();
 
             base.Draw(gameTime);
         }
