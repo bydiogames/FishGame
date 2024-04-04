@@ -38,9 +38,7 @@ namespace FishGame.Animation
 
             Rectangle destinationRectangle = new Rectangle((int)(location.X * EntityConstants.TileWidthPx) + _xOffsetPx, (int)(location.Y * EntityConstants.TileHeightPx) + _yOffsetPx, Width * EntityConstants.TileWidthPx, Height * EntityConstants.TileHeightPx);
 
-            spriteBatch.Begin(SpriteSortMode.Deferred, null, SamplerState.PointClamp, null, null, null, null);
             spriteBatch.Draw(Texture, destinationRectangle, _sourceRectangle, Color.White);
-            spriteBatch.End();
         }
 
         public bool IsFinished()

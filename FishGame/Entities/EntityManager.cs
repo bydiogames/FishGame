@@ -41,10 +41,12 @@ namespace FishGame.Entities
 
         void IDrawable.Draw(GameTime gameTime)
         {
+            Sb.Begin();
             foreach (var entity in entities.OrderBy((entity) => { return entity.UpdateOrder; }))
             {
                 entity.Draw(Sb);
             }
+            Sb.End();
         }
 
         void IGameComponent.Initialize()

@@ -71,28 +71,19 @@ namespace FishGame.Backgrounds
                 EntityConstants.BackgroundHeightTiles * EntityConstants.TileHeightPx);
 
             // Draw water
-            spriteBatch.Begin(SpriteSortMode.Deferred, null, SamplerState.PointClamp, null, null, null, null);
             spriteBatch.Draw(_waterTexture, destinationRectangle, null, Color.White);
-            spriteBatch.End();
-
-            spriteBatch.Begin(SpriteSortMode.Deferred, null, SamplerState.PointClamp, null, null, null, null);
             spriteBatch.Draw(_landTexture, destinationRectangle, null, Color.White);
-            spriteBatch.End();
 
             // Draw dock
             if(_dockTexture != null)
             {
-                spriteBatch.Begin(SpriteSortMode.Deferred, null, SamplerState.PointClamp, null, null, null, null);
                 spriteBatch.Draw(_dockTexture, destinationRectangle, null, Color.White);
-                spriteBatch.End();
             }
 
             // Draw decorations
             if (_decorations != null)
             {
-                spriteBatch.Begin(SpriteSortMode.Deferred, null, SamplerState.PointClamp, null, null, null, null);
                 spriteBatch.Draw(_decorations, destinationRectangle, null, Color.White);
-                spriteBatch.End();
             }
         }
 
