@@ -20,11 +20,15 @@ namespace FishGame
         private CoroutineManager coroutineManager;
 
         private FishDB _fishDb;
+        private FishJournal _fishJournal;
 
         private FishShadowAnimation _fishShadowAnimation;
         private Character _character;
         private Texture2D _gridTexture;
         private TestBackgroundManager _background;
+
+        private Texture2D _mainUiOverlayTex, _mainUiTilesTex;
+        private Texture2D _fishAllTex, _fishAllMissingTex;
 
         private EntityManager _entityManager;
 
@@ -60,6 +64,18 @@ namespace FishGame
             _background.Load(Content);
 
             _fishDb.LoadContent(Content);
+            _fishJournal = new FishJournal(_fishDb);
+
+            // Load fish texture maps.
+            {
+                _fishAllTex = Content.Load<Texture2D>("fish_all");
+                _fishAllMissingTex = Content.Load<Texture2D>("inv_fish_shadow");
+            }
+
+            {
+                _mainUiOverlayTex = Content.Load<Texture2D>("Main_ui__Ui_tiles");
+                _mainUiTilesTex = Content.Load<Texture2D>("Main_ui__Tiles");
+            }
 
             // Use the character's width and height to center them.  The character is moved up 4 px according to the sprite sheet spec, so subtract an extra 2 tiles from the height to center
             _character = new Character(new Vector2(EntityConstants.CharacterLocationXTiles, EntityConstants.CharacterLocationYTiles), _background, OnReelCompletion, OnCastCompletion);
@@ -108,6 +124,23 @@ namespace FishGame
             if(_fishShadowAnimation != null)
             {
                 _fishShadowAnimation.Draw(_spriteBatch);
+            }
+
+            {
+                _spriteBatch.Begin();
+
+                _spriteBatch.Draw(_mainUiTilesTex, Vector2.Zero, null, Color.White, 0, Vector2.Zero, 2f, SpriteEffects.None, 0);
+                _spriteBatch.Draw(_mainUiOverlayTex, Vector2.Zero, null, Color.White, 0, Vector2.Zero, 2f, SpriteEffects.None, 0);
+
+                _fishJournal.Draw(
+                    _spriteBatch,
+                    _fishAllMissingTex,
+                    _fishAllTex, 
+                    GraphicsDevice.Viewport.Bounds.Size.ToVector2() * new Vector2(0.5f, 0.1f),
+                    _background.GetSeason(),
+                    _background.GetLocation()
+                );
+                _spriteBatch.End();
             }
 
             base.Draw(gameTime);

@@ -27,6 +27,8 @@ namespace FishGame.Inventory
 
         public int Y { get; set; }
 
+        public Vector2 TexMapLocation => new Vector2(X, Y);
+
         public Location Location { get; set; }
 
         public FishType Type { get; set; }
@@ -36,7 +38,7 @@ namespace FishGame.Inventory
 
     public sealed class FishTexUtils
     {
-        private static readonly Vector2 FishTileDim = new Vector2(16, 16);
+        public static readonly Vector2 FishTileDim = new Vector2(16, 16);
 
         public static Rectangle GetFishTilePxRect(FishDB db, int id)
         {
@@ -137,15 +139,42 @@ namespace FishGame.Inventory
     public sealed class FishJournal
     {
         private readonly FishInventoryEntry[] fish;
+        private readonly FishDB fishDB;
 
         public FishJournal(FishDB fishDB)
         {
             fish = new FishInventoryEntry[fishDB.Count];
+            this.fishDB = fishDB;
         }
 
         public ref FishInventoryEntry GetInvSlot(int id)
         {
             return ref fish[id];
+        }
+
+        private static readonly Vector2 InvScaling = new Vector2(2, 2);
+
+        public void Draw(SpriteBatch spriteBatch, Texture2D missingTex, Texture2D collectedTex, Vector2 upperLeft, Season season, Location location)
+        {
+            for (int i = 0; i < fish.Length; i++)
+            {
+                ref FishInventoryEntry entry = ref fish[i];
+                ref FishRecord record = ref fishDB.GetFishById(i);
+                Rectangle srcRec = FishTexUtils.GetFishTilePxRect(fishDB, i);
+                
+                // Calculate where we are placing the sprite.
+                Vector2 offset = FishTexUtils.FishTileDim * record.TexMapLocation * InvScaling;
+                Vector2 loc = upperLeft + offset;
+                Rectangle dstRec = new Rectangle(loc.ToPoint(), (FishTexUtils.FishTileDim * InvScaling).ToPoint());
+
+                Texture2D tex = entry.HasCollected ? collectedTex : missingTex;
+
+                bool isInSeason = (season & record.Season) != Season.None;
+                bool isInLocation = (location & record.Location) != Location.None;
+                Color tint = isInSeason && isInLocation ? Color.White : new Color(255, 255, 255, 128);
+
+                spriteBatch.Draw(tex, dstRec, srcRec, tint);
+            }
         }
     }
 }

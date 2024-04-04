@@ -9,6 +9,7 @@ namespace FishGame.Entities
     [Flags]
     public enum Location
     {
+        None = 0,
         Pond = 1,
         River = 2,
         Ocean = 4,
