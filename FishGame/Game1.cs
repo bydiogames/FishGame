@@ -68,7 +68,7 @@ namespace FishGame
 
             // Use the character's width and height to center them.  The character is moved up 4 px according to the sprite sheet spec, so subtract an extra 2 tiles from the height to center
             _character = new Character(new Vector2(EntityConstants.CharacterLocationXTiles, EntityConstants.CharacterLocationYTiles), _background, OnReelCompletion, OnCastCompletion);
-            _character.Load(Content, _fishDb);
+            _character.Load(Content, _fishDb, _fishJournal);
 
             _entityManager.AddEntity(_character);
 

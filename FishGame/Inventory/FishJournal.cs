@@ -133,7 +133,7 @@ namespace FishGame.Inventory
 
     public struct FishInventoryEntry
     {
-        public bool HasCollected { get; }
+        public bool HasCollected { get; set; }
     }
 
     public sealed class FishJournal

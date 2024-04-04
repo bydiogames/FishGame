@@ -21,6 +21,7 @@ namespace FishGame.Entities
         private float _timer;
         private Random _random;
         private FishDB _fishDb;
+        private FishJournal _fishJournal;
         private TestBackgroundManager _backgroundManager;
         private OnAnimationCompletion _onReelCompletion;
         private OnAnimationCompletion _onCastCompletion;
@@ -42,11 +43,12 @@ namespace FishGame.Entities
 
         public int UpdateOrder => 0;
 
-        public void Load(ContentManager contentManager, FishDB db)
+        public void Load(ContentManager contentManager, FishDB db, FishJournal fishJournal)
         {
             _currentAnimation.Load(contentManager);
             _contentManager = contentManager;
             _fishDb = db;
+            _fishJournal = fishJournal;
         }
 
         public void Update(GameTime gameTime)
@@ -134,9 +136,13 @@ namespace FishGame.Entities
             // Choose between eligible fish
             IEnumerable<int> eligibleFishIds = _fishDb.GetFishForLocation(_backgroundManager.GetLocation()).Where(id => _fishDb.GetFishById(id).Season.HasFlag(_backgroundManager.GetSeason()));
             int idx = _random.Next(0, eligibleFishIds.Count());
-            FishRecord caughtFish = _fishDb.GetFishById(eligibleFishIds.ElementAt(idx));
+            ref FishRecord caughtFish = ref _fishDb.GetFishById(eligibleFishIds.ElementAt(idx));
+
             _peripheralAnimation = new CaughtFishPickupAnimation(_fishDb, caughtFish, new Vector2(Position.X, Position.Y + 2));
             _peripheralAnimation.Load(_contentManager);
+
+            ref var invEntry = ref _fishJournal.GetInvSlot(caughtFish.Idx);
+            invEntry.HasCollected = true;
         }
 
         public void OnPickupAnimationCompletion()
