@@ -67,7 +67,7 @@ namespace FishGame.Backgrounds
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            Rectangle destinationRectangle = new Rectangle(0, 2 * EntityConstants.TileHeightPx, EntityConstants.BackgroundWidthTiles * EntityConstants.TileWidthPx, 
+            Rectangle destinationRectangle = new Rectangle(2 * EntityConstants.TileWidthPx, 2 * EntityConstants.TileHeightPx, EntityConstants.BackgroundWidthTiles * EntityConstants.TileWidthPx, 
                 EntityConstants.BackgroundHeightTiles * EntityConstants.TileHeightPx);
 
             // Draw water

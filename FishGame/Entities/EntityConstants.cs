@@ -16,7 +16,7 @@ namespace FishGame.Entities
         public static int CharacterHeightTiles = 5;
         public static int CharacterFishingYOffsetPx = 8;
         public static int CharacterXOffsetPx = -8;
-        public static int CharacterLocationXTiles = 8;
+        public static int CharacterLocationXTiles = 10;
         public static int CharacterLocationYTiles = 10;
 
         // Caught fish dimensions
@@ -25,7 +25,7 @@ namespace FishGame.Entities
 
         public static int FishShadowWidthTiles = 2;
         public static int FishShadowHeightTiles = 2;
-        public static int FishShadowLocationXTiles = 9;
+        public static int FishShadowLocationXTiles = 11;
         public static int FishShadowLocationYTiles = 16;
 
         public static int EmoteWidthTiles = 2;

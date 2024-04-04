@@ -84,7 +84,7 @@ namespace FishGame.Interface
                 var seasonCardXOffset = seasonCardIdx * 32 * 2;
 
                 var seasonCardSrcRect = new Rectangle(seasonCardXOffset, 0, 32, 16 * 3);
-                var seasonCardDstRect = new Rectangle(144 * 2, 185 * 2, 32 * 2, 16 * 3 * 2 + 1);
+                var seasonCardDstRect = new Rectangle(160 * 2, 185 * 2, 32 * 2, 16 * 3 * 2 + 1);
                 _spriteBatch.Draw(_seasonCardsTex, seasonCardDstRect, seasonCardSrcRect, Color.White);
             }
 

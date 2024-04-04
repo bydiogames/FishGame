@@ -108,9 +108,17 @@ namespace FishGame.Backgrounds
             {
                 _season = Season.Winter;
             }
-            else
+            else if (_season == Season.Summer)
             {
-                _season--;
+                _season = Season.Spring;
+            }
+            else if (_season == Season.Fall)
+            {
+                _season = Season.Summer;
+            }
+            else if (_season == Season.Winter)
+            {
+                _season = Season.Fall;
             }
 
             _background = new Background(_season);
@@ -119,13 +127,17 @@ namespace FishGame.Backgrounds
 
         public void NextLocation()
         {
-            if(_location == Location.Ocean)
+            if(_location == Location.Pond)
+            {
+                _location = Location.River;
+            }
+            else if (_location == Location.River)
+            {
+                _location = Location.Ocean;
+            }
+            else if (_location == Location.Ocean)
             {
                 _location = Location.Pond;
-            }
-            else
-            {
-                _location++;
             }
             ReloadBackground();
         }
@@ -136,9 +148,13 @@ namespace FishGame.Backgrounds
             {
                 _location = Location.Ocean;
             }
-            else
+            else if (_location == Location.River)
             {
-                _location--;
+                _location = Location.Pond;
+            }
+            else if (_location == Location.Ocean)
+            {
+                _location = Location.River;
             }
             ReloadBackground();
         }
