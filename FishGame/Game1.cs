@@ -106,9 +106,8 @@ namespace FishGame
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
-            //DrawGrid();
 
-            _spriteBatch.Begin();
+            _spriteBatch.Begin(SpriteSortMode.Deferred, null, SamplerState.PointClamp, null, null, null, null);
 
             // TODO: Add your drawing code here
             _background.Draw(_spriteBatch);
@@ -133,20 +132,6 @@ namespace FishGame
         {
             _fishShadowAnimation = new FishShadowAnimation(new Vector2(EntityConstants.FishShadowLocationXTiles, EntityConstants.FishShadowLocationYTiles));
             _fishShadowAnimation.Load(Content);
-        }
-
-
-        private void DrawGrid()
-        {
-            _spriteBatch.Begin();
-            for(int i = 0; i < EntityConstants.ScreenWidthTiles; i++)
-            {
-                for(int j = 0; j < EntityConstants.ScreenHeightTiles; j++)
-                {
-                    _spriteBatch.Draw(_gridTexture, new Rectangle(i * EntityConstants.TileWidthPx + 1, j * EntityConstants.TileHeightPx + 1, EntityConstants.TileWidthPx - 2, EntityConstants.TileHeightPx - 2), Color.CornflowerBlue);
-                }
-            }
-            _spriteBatch.End();
         }
     }
 }
