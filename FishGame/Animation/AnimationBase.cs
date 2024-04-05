@@ -1,15 +1,13 @@
 ﻿using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
+using System;
 
 namespace FishGame.Animation
 {
-    public delegate void OnAnimationCompletion();
-    
     internal abstract class AnimationBase
     {
         protected AnimationGroup _animationGroup;
-        protected OnAnimationCompletion _completion;
 
         public abstract void Load(ContentManager content);
 
@@ -34,10 +32,22 @@ namespace FishGame.Animation
             if( _animationGroup != null )
             {
                 _animationGroup.Update(gameTime);
-                if (_animationGroup.IsFinished() && _completion != null)
-                {
-                    _completion.Invoke();
-                }
+            }
+        }
+
+        public void RegisterAnimationStartedHandler(EventHandler handler)
+        {
+            if( _animationGroup != null )
+            {
+                _animationGroup.AnimationStarted += handler;
+            }
+        }
+
+        public void RegisterAnimationFinishedHandler(EventHandler handler)
+        {
+            if (_animationGroup != null)
+            {
+                _animationGroup.AnimationFinished += handler;
             }
         }
     }
