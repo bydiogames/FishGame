@@ -62,7 +62,7 @@ namespace FishGame.Interface
 
             _seasonCardsTex = content.Load<Texture2D>("Season_Cards__Tiles");
 
-            _font = content.Load<SpriteFont>("arial");
+            _font = content.Load<SpriteFont>("gamefont");
 
             _square = new Texture2D(graphics, 1, 1);
             _square.SetData<Color>(new Color[] { Color.White });
@@ -84,7 +84,14 @@ namespace FishGame.Interface
             var mouseState = Mouse.GetState();
 
             Vector2 stringDim = _font.MeasureString(tooltip);
-            _spriteBatch.Draw(_square, new Rectangle(mouseState.Position - new Point(0, (int)stringDim.Y), stringDim.ToPoint()), Color.Brown);
+            _spriteBatch.Draw(
+                _square, 
+                new Rectangle(
+                    mouseState.Position - new Point(0, (int)stringDim.Y) - new Point(2, 2), 
+                    stringDim.ToPoint() + new Point(2, 2)
+                ), 
+                Color.Brown
+            );
             _spriteBatch.DrawString(_font, tooltip, mouseState.Position.ToVector2() - new Vector2(0, stringDim.Y) * 1f, Color.White, 0, Vector2.Zero, 1f, SpriteEffects.None, 0);
         }
 

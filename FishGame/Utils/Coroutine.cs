@@ -27,6 +27,23 @@ namespace FishGame.Utils
         public bool Update(GameTime time);
     }
 
+    public sealed class WaitOnPredicate : IWaitable
+    {
+        public delegate bool Predicate();
+
+        private Predicate predicate;
+
+        public WaitOnPredicate(Predicate predicate)
+        {
+            this.predicate = predicate;
+        }
+
+        public bool Update(GameTime time)
+        {
+            return predicate();
+        }
+    }
+
     public sealed class Wait : IWaitable
     {
         private readonly TimeSpan waitingTime;

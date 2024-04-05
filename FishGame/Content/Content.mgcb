@@ -395,11 +395,12 @@
 /processorParam:TextureFormat=Compressed
 /build:../Assets/Fonts/arial.spritefont;arial.spritefont
 
-#begin ../Assets/SFX/fish_pickup.wav
-/importer:WavImporter
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:../Assets/SFX/fish_pickup.wav;SFX/fish_pickup.wav
+#begin ../Assets/Fonts/gamefont.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:../Assets/Fonts/gamefont.spritefont;gamefont.spritefont
 
 #begin ../Assets/ui/png/Main_ui__Tiles.png
 /importer:TextureImporter

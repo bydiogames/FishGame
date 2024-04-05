@@ -83,13 +83,18 @@ namespace FishGame
 
             _soundManager.Load(Content);
 
-            coroutineManager.Start(Routine());
+            coroutineManager.Start(SeasonRoutine());
         }
 
-        private static IEnumerator<IWaitable> Routine()
+        private IEnumerator<IWaitable> SeasonRoutine()
         {
-            yield return new Wait(TimeSpan.FromSeconds(5));
-            Console.Out.WriteLine("Routine finished!");
+            while (true) 
+            {
+                yield return new Wait(TimeSpan.FromMinutes(1));
+                yield return new WaitOnPredicate(() => _character.State != CharacterState.Idle);
+
+                _background.NextSeason();
+            }
         }
 
         protected override void Update(GameTime gameTime)
