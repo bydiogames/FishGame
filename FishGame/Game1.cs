@@ -72,8 +72,12 @@ namespace FishGame
             _fishJournal = new FishJournal(_fishDb);
 
             // Use the character's width and height to center them.  The character is moved up 4 px according to the sprite sheet spec, so subtract an extra 2 tiles from the height to center
-            _character = new Character(new Vector2(EntityConstants.CharacterLocationXTiles, EntityConstants.CharacterLocationYTiles), _background, OnReelCompletion, OnCastCompletion, OnPickupStart);
+            _character = new Character(new Vector2(EntityConstants.CharacterLocationXTiles, EntityConstants.CharacterLocationYTiles), _background);
             _character.Load(Content, _fishDb, _fishJournal);
+            _character.ReelCompleted += OnReelCompletion;
+            _character.PickupStarted += OnPickupStart;
+            _character.CastCompleted += OnCastCompletion;
+            _character.Exclamation += OnExclamationStart;
 
             _entityManager.AddEntity(_character);
 
@@ -130,18 +134,22 @@ namespace FishGame
         }
 
 
-        internal void OnReelCompletion()
+        internal void OnReelCompletion(object sender, EventArgs e)
         {
             _fishShadowAnimation = null;
-            
         }
 
-        internal void OnPickupStart()
+        internal void OnPickupStart(object sender, EventArgs e)
         {
-            _soundManager.PlayFishPickup();
+            _soundManager.PlayFishPickupSfx();
         }
 
-        internal void OnCastCompletion()
+        internal void OnExclamationStart(object sender, EventArgs e)
+        {
+            _soundManager.PlayExclamationSfx();
+        }
+
+        internal void OnCastCompletion(object sender, EventArgs e)
         {
             _fishShadowAnimation = new FishShadowAnimation(new Vector2(EntityConstants.FishShadowLocationXTiles, EntityConstants.FishShadowLocationYTiles));
             _fishShadowAnimation.Load(Content);

@@ -14,10 +14,9 @@ namespace FishGame.Animation.Animations
     {
         private Vector2 _position;
 
-        public CharacterReelAnimation(Vector2 position, OnAnimationCompletion completion)
+        public CharacterReelAnimation(Vector2 position)
         {
             _position = position;
-            _completion = completion;
         }
 
         public override void Load(ContentManager content)

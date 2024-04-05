@@ -9,14 +9,21 @@ namespace FishGame.Sound
     {
 
         private SoundEffect _fishPickupSfx;
+        private SoundEffect _exclamationSfx;
         public void Load(ContentManager contentManager)
         {
             _fishPickupSfx = contentManager.Load<SoundEffect>("SFX/fish_pickup");
+            _exclamationSfx = contentManager.Load<SoundEffect>("SFX/exclamation");
         }
 
-        public void PlayFishPickup()
+        public void PlayFishPickupSfx()
         {
             _fishPickupSfx.Play();
+        }
+
+        public void PlayExclamationSfx()
+        {
+            _exclamationSfx.Play();
         }
     }
 }

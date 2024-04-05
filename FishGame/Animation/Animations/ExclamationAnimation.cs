@@ -10,16 +10,17 @@ namespace FishGame.Animation.Animations
     internal class ExclamationAnimation : AnimationBase
     {
         private Vector2 _position;
-        public ExclamationAnimation(Vector2 characterPosition, OnAnimationCompletion completion) 
+        public ExclamationAnimation(Vector2 characterPosition) 
         {
             _position = characterPosition;
-            _completion = completion;
         }
 
         public override void Load(ContentManager content)
         {
             Texture2D exclamationTexture = content.Load<Texture2D>("emoticons");
-            _animationGroup = new AnimationGroup(new List<IDrawable> { new SpriteAnimation(exclamationTexture, 6, 5, 1, EntityConstants.EmoteWidthTiles, EntityConstants.EmoteHeightTiles, 23, shouldLoop: true) }, 0.2f, _position);
+            List<IDrawable> animationList = new List<IDrawable> { new SpriteAnimation(exclamationTexture, 6, 5, 1, EntityConstants.EmoteWidthTiles, EntityConstants.EmoteHeightTiles, 23, shouldLoop: true) };
+            _animationGroup = new AnimationGroup(animationList, 0.2f, _position);
+            //_animationGroup.AnimationStarted += _onAnimationStart;
         }
     }
 }

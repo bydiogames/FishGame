@@ -13,20 +13,18 @@ namespace FishGame.Animation.Animations
     {
         private Rectangle _sourceRectangle;
         private Vector2 _position;
-        OnAnimationStart _onStart;
 
-        public CaughtFishPickupAnimation(FishDB db, FishRecord fish, Vector2 position, OnAnimationStart onStart)
+        public CaughtFishPickupAnimation(FishDB db, FishRecord fish, Vector2 position)
         {
             _position = position;
             _sourceRectangle = FishTexUtils.GetFishTilePxRect(db, fish.Idx);
-            _onStart = onStart;
         }
 
         public override void Load(ContentManager content)
         {
             Texture2D fishTexture = content.Load<Texture2D>("fish_all");
             List<IDrawable> sprites = new List<IDrawable> { new Sprite(fishTexture, _sourceRectangle, EntityConstants.CaughtFishWidthTiles, EntityConstants.CaughtFishHeightTiles, xOffsetPx:16) };
-            _animationGroup = new AnimationGroup(sprites, 0.2f, _position, new PositionManager(_position, 4, 0, -0.25f), delayFrames:2, onStart:_onStart);
+            _animationGroup = new AnimationGroup(sprites, 0.2f, _position, new PositionManager(_position, 4, 0, -0.25f), delayFrames:2);
         }
     }
 }

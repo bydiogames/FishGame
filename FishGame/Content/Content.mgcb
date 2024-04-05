@@ -395,6 +395,12 @@
 /processorParam:TextureFormat=Compressed
 /build:../Assets/Fonts/arial.spritefont;arial.spritefont
 
+#begin ../Assets/SFX/exclamation.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:../Assets/SFX/exclamation.wav;SFX/exclamation.wav
+
 #begin ../Assets/SFX/fish_pickup.wav
 /importer:WavImporter
 /processor:SoundEffectProcessor
