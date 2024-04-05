@@ -28,8 +28,9 @@ namespace FishGame.Entities
         public static int FishShadowLocationXTiles = 11;
         public static int FishShadowLocationYTiles = 16;
 
-        public static int FishPopupLocationX = 160;
-        public static int FishPopupLocationY = 376 ;
+        public static int FishPopupLocationX = 96;
+        public static int FishPopupLocationY = 376;
+        public static int FishPopupWidthPx = 192;
 
         public static int EmoteWidthTiles = 2;
         public static int EmoteHeightTiles = 2;

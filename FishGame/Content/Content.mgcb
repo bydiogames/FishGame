@@ -414,6 +414,13 @@
 /processorParam:TextureFormat=Compressed
 /build:../Assets/Fonts/gamefont.spritefont;gamefont.spritefont
 
+#begin ../Assets/Fonts/popup_font.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:../Assets/Fonts/popup_font.spritefont;popup_font.spritefont
+
 #begin ../Assets/SFX/exclamation.wav
 /importer:WavImporter
 /processor:SoundEffectProcessor
