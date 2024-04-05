@@ -253,6 +253,18 @@
 /processorParam:TextureFormat=Color
 /build:../Assets/Backgrounds/River/land.png;River/land.png
 
+#begin ../Assets/Backgrounds/snow.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:../Assets/Backgrounds/snow.png;snow.png
+
 #begin ../Assets/Backgrounds/tiles_all.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -395,6 +407,13 @@
 /processorParam:TextureFormat=Compressed
 /build:../Assets/Fonts/arial.spritefont;arial.spritefont
 
+#begin ../Assets/Fonts/gamefont.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:../Assets/Fonts/gamefont.spritefont;gamefont.spritefont
+
 #begin ../Assets/SFX/exclamation.wav
 /importer:WavImporter
 /processor:SoundEffectProcessor
@@ -406,12 +425,6 @@
 /processor:SoundEffectProcessor
 /processorParam:Quality=Best
 /build:../Assets/SFX/fish_pickup.wav;SFX/fish_pickup.wav
-#begin ../Assets/Fonts/gamefont.spritefont
-/importer:FontDescriptionImporter
-/processor:FontDescriptionProcessor
-/processorParam:PremultiplyAlpha=True
-/processorParam:TextureFormat=Compressed
-/build:../Assets/Fonts/gamefont.spritefont;gamefont.spritefont
 
 #begin ../Assets/ui/png/Main_ui__Fish_caught_popup.png
 /importer:TextureImporter

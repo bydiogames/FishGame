@@ -79,7 +79,7 @@ namespace FishGame.Backgrounds
             }
         }
 
-        private void NextSeason()
+        public void NextSeason()
         {
             if (_season == Season.Spring)
             {

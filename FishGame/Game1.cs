@@ -28,6 +28,7 @@ namespace FishGame
         private Character _character;
         private Texture2D _gridTexture;
         private TestBackgroundManager _background;
+        private Weather _weather;
 
         private SoundManager _soundManager;
 
@@ -63,10 +64,13 @@ namespace FishGame
             _spriteBatch = new SpriteBatch(GraphicsDevice);
             _entityManager.Sb = _spriteBatch;
 
+            this.Components.Add(_weather = new Weather(_background, _spriteBatch));
+
             _gridTexture = new Texture2D(GraphicsDevice, 1, 1);
             _gridTexture.SetData(new Color[] { Color.White });
 
             _background.Load(Content);
+            _weather.Load(Content);
 
             _fishDb.LoadContent(Content);
             _fishJournal = new FishJournal(_fishDb);
