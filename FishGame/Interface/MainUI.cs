@@ -36,8 +36,10 @@ namespace FishGame.Interface
         private Texture2D _seasonCardsTex;
 
         private Texture2D _caughtFishTex;
+        private float _caughtFishTextWidth;
 
         private SpriteFont _font;
+        private SpriteFont _popupFont;
 
         private Texture2D _square;
 
@@ -67,6 +69,7 @@ namespace FishGame.Interface
             _seasonCardsTex = content.Load<Texture2D>("Season_Cards__Tiles");
 
             _font = content.Load<SpriteFont>("gamefont");
+            _popupFont = content.Load<SpriteFont>("popup_font");
 
             _square = new Texture2D(graphics, 1, 1);
             _square.SetData<Color>(new Color[] { Color.White });
@@ -105,6 +108,7 @@ namespace FishGame.Interface
         {
             _showFishPopup = true;
             _caughtFish = fish;
+            _caughtFishTextWidth = _popupFont.MeasureString(fish.Name).X;
         }
 
         public void HideFishPopup()
@@ -115,7 +119,8 @@ namespace FishGame.Interface
         private void DrawFishPopup()
         {
             _spriteBatch.Draw(_caughtFishTex, Vector2.Zero, null, Color.White, 0, Vector2.Zero, 2f, SpriteEffects.None, 0);
-            _spriteBatch.DrawString(_font, _caughtFish.Name, new Vector2(EntityConstants.FishPopupLocationX, EntityConstants.FishPopupLocationY), Color.Brown);
+            float textLocationX = (EntityConstants.FishPopupLocationX + ((EntityConstants.FishPopupWidthPx - _caughtFishTextWidth) / 2));
+            _spriteBatch.DrawString(_popupFont, _caughtFish.Name, new Vector2(textLocationX, EntityConstants.FishPopupLocationY), Color.SaddleBrown, 0, Vector2.Zero, 1f, SpriteEffects.None, 0);
         }
 
         void IDrawable.Draw(GameTime gameTime)
