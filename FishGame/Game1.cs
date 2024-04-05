@@ -76,6 +76,7 @@ namespace FishGame
             _character.Load(Content, _fishDb, _fishJournal);
             _character.ReelCompleted += OnReelCompletion;
             _character.PickupStarted += OnPickupStart;
+            _character.PickupFinished += OnPickupFinish;
             _character.CastCompleted += OnCastCompletion;
             _character.Exclamation += OnExclamationStart;
 
@@ -144,6 +145,11 @@ namespace FishGame
             _soundManager.PlayFishPickupSfx();
         }
 
+        internal void OnPickupFinish(object sender, EventArgs e)
+        {
+            _mainUI.ShowFishPopup(_character.GetFish());
+        }
+
         internal void OnExclamationStart(object sender, EventArgs e)
         {
             _soundManager.PlayExclamationSfx();
@@ -153,6 +159,7 @@ namespace FishGame
         {
             _fishShadowAnimation = new FishShadowAnimation(new Vector2(EntityConstants.FishShadowLocationXTiles, EntityConstants.FishShadowLocationYTiles));
             _fishShadowAnimation.Load(Content);
+            _mainUI.HideFishPopup();
         }
     }
 }

@@ -407,6 +407,18 @@
 /processorParam:Quality=Best
 /build:../Assets/SFX/fish_pickup.wav;SFX/fish_pickup.wav
 
+#begin ../Assets/ui/png/Main_ui__Fish_caught_popup.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:../Assets/ui/png/Main_ui__Fish_caught_popup.png;Main_ui__Fish_caught_popup.png
+
 #begin ../Assets/ui/png/Main_ui__Tiles.png
 /importer:TextureImporter
 /processor:TextureProcessor

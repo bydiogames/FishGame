@@ -23,6 +23,7 @@ namespace FishGame.Entities
         private Random _random;
         private FishDB _fishDb;
         private FishJournal _fishJournal;
+        private FishRecord _caughtFish;
         private TestBackgroundManager _backgroundManager;
         public Character(Vector2 position, TestBackgroundManager backgroundManager)
         {
@@ -135,9 +136,11 @@ namespace FishGame.Entities
             _peripheralAnimation = new CaughtFishPickupAnimation(_fishDb, caughtFish, new Vector2(Position.X, Position.Y + 2));
             _peripheralAnimation.Load(_contentManager);
             _peripheralAnimation.RegisterAnimationStartedHandler(OnPickupAnimationStarted);
+            _peripheralAnimation.RegisterAnimationFinishedHandler(OnPickupAnimationFinished);
 
             ref var invEntry = ref _fishJournal.GetInvSlot(caughtFish.Idx);
             invEntry.HasCollected = true;
+            _caughtFish = caughtFish;
             ReelCompleted?.Invoke(this, EventArgs.Empty);
         }
 
@@ -146,6 +149,7 @@ namespace FishGame.Entities
             _state = CharacterState.PickupIdle;
             _currentAnimation = new CharacterIdlePickupAnimation(Position);
             _currentAnimation.Load(_contentManager);
+            PickupFinished?.Invoke(this, EventArgs.Empty);
         }
 
         public void OnPickupAnimationStarted(object sender, EventArgs e)
@@ -153,7 +157,15 @@ namespace FishGame.Entities
             PickupStarted?.Invoke(this, EventArgs.Empty);
         }
 
+        public void OnPickupAnimationFinished(object sender, EventArgs e)
+        {
+            PickupFinished?.Invoke(this, EventArgs.Empty);
+        }
+
+        public FishRecord GetFish() { return _caughtFish; }
+
         public event EventHandler PickupStarted;
+        public event EventHandler PickupFinished;
         public event EventHandler ReelCompleted;
         public event EventHandler Exclamation;
         public event EventHandler CastCompleted;

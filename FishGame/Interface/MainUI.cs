@@ -35,6 +35,8 @@ namespace FishGame.Interface
 
         private Texture2D _seasonCardsTex;
 
+        private Texture2D _caughtFishTex;
+
         private SpriteFont _font;
 
         private Texture2D _square;
@@ -59,6 +61,8 @@ namespace FishGame.Interface
                 _mainUiOverlayTex = content.Load<Texture2D>("Main_ui__Ui_tiles");
                 _mainUiTilesTex = content.Load<Texture2D>("Main_ui__Tiles");
             }
+
+            _caughtFishTex = content.Load<Texture2D>("Main_ui__Fish_caught_popup");
 
             _seasonCardsTex = content.Load<Texture2D>("Season_Cards__Tiles");
 
@@ -86,6 +90,25 @@ namespace FishGame.Interface
             Vector2 stringDim = _font.MeasureString(tooltip);
             _spriteBatch.Draw(_square, new Rectangle(mouseState.Position - new Point(0, (int)stringDim.Y), stringDim.ToPoint()), Color.Brown);
             _spriteBatch.DrawString(_font, tooltip, mouseState.Position.ToVector2() - new Vector2(0, stringDim.Y) * 1f, Color.White, 0, Vector2.Zero, 1f, SpriteEffects.None, 0);
+        }
+
+        private bool _showFishPopup;
+        private FishRecord _caughtFish;
+        public void ShowFishPopup(FishRecord fish)
+        {
+            _showFishPopup = true;
+            _caughtFish = fish;
+        }
+
+        public void HideFishPopup()
+        {
+            _showFishPopup = false;
+        }
+
+        private void DrawFishPopup()
+        {
+            _spriteBatch.Draw(_caughtFishTex, Vector2.Zero, null, Color.White, 0, Vector2.Zero, 2f, SpriteEffects.None, 0);
+            _spriteBatch.DrawString(_font, _caughtFish.Name, new Vector2(EntityConstants.FishPopupLocationX, EntityConstants.FishPopupLocationY), Color.Brown);
         }
 
         void IDrawable.Draw(GameTime gameTime)
@@ -164,6 +187,11 @@ namespace FishGame.Interface
             if (!anyHover)
             {
                 hoverTime = TimeSpan.Zero;
+            }
+
+            if(_showFishPopup)
+            {
+                DrawFishPopup();
             }
 
             _spriteBatch.End();

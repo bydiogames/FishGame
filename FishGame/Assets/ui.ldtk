@@ -11,7 +11,7 @@
 	"iid": "a98541b0-d7b0-11ee-b6c2-a37c080a8cff",
 	"jsonVersion": "1.5.3",
 	"appBuildId": 473703,
-	"nextUid": 7,
+	"nextUid": 11,
 	"identifierStyle": "Capitalize",
 	"toc": [],
 	"worldLayout": "Free",
@@ -110,6 +110,41 @@
 			"tilePivotX": 0,
 			"tilePivotY": 0,
 			"biomeFieldUid": null
+		},
+		{
+			"__type": "Tiles",
+			"identifier": "Fish_caught_popup",
+			"type": "Tiles",
+			"uid": 8,
+			"doc": null,
+			"uiColor": null,
+			"gridSize": 16,
+			"guideGridWid": 0,
+			"guideGridHei": 0,
+			"displayOpacity": 1,
+			"inactiveOpacity": 1,
+			"hideInList": false,
+			"hideFieldsWhenInactive": false,
+			"canSelectWhenInactive": true,
+			"renderInWorldView": true,
+			"pxOffsetX": 0,
+			"pxOffsetY": 0,
+			"parallaxFactorX": 0,
+			"parallaxFactorY": 0,
+			"parallaxScaling": true,
+			"requiredTags": [],
+			"excludedTags": [],
+			"autoTilesKilledByOtherLayerUid": null,
+			"uiFilterTags": [],
+			"useAsyncRender": false,
+			"intGridValues": [],
+			"intGridValuesGroups": [],
+			"autoRuleGroups": [],
+			"autoSourceLayerDefUid": null,
+			"tilesetDefUid": 10,
+			"tilePivotX": 0,
+			"tilePivotY": 0,
+			"biomeFieldUid": null
 		}
 	], "entities": [], "tilesets": [
 		{
@@ -177,6 +212,25 @@
 				"opaqueTiles": "000000000000000000000000000000000000000000000000011001100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001110000000000000000000011110011111111111000000000000000000000000000000",
 				"averageColors": "0000000000000000000000000000000099869986798600005543454315432543354325432543354325433543354335434875b986b98648754875ba97ba97487599879a9779860000454335434543354345434543354345434543354345434543b875f986f986b875b986fa97fa97b986a986aa97aa9789764543554345435543554345435543554345435543554345439876c876c986a8759986ca97ca97a986a986aa97aa9789865543254345435543554355435543554355436543554335435975ca97ca9779865975ca97ca97798689867986898600003543154345435543254345434543554345435543554345430000000077537864775400000000000069866a97698700004543354355435543454355435543454355435543000000004792d864f764f864f86400000000000000000000000000004543354300000000000000000000000000000000000000007c73f975f975f975f9750000d875f975f975f975f975f975f975f975f975f975f975f975d875000000000000000000004b43b864b864b864b8640000c874e875e975e975e875e875e975e875e875e975e975e875c87400000000000000000000"
 			}
+		},
+		{
+			"__cWid": 3,
+			"__cHei": 3,
+			"identifier": "SinglePanel",
+			"uid": 10,
+			"relPath": "full version/ui/singlePanel.png",
+			"embedAtlas": null,
+			"pxWid": 48,
+			"pxHei": 48,
+			"tileGridSize": 16,
+			"spacing": 0,
+			"padding": 0,
+			"tags": [],
+			"tagsSourceEnumUid": null,
+			"enumTags": [],
+			"customData": [],
+			"savedSelections": [],
+			"cachedPixelData": { "opaqueTiles": "010111010", "averageColors": "f975f985f975fa85fb96fa85f975fa85f975" }
 		}
 	], "enums": [], "externalEnums": [], "levelFields": [] },
 	"levels": [
@@ -519,6 +573,44 @@
 						{ "px": [384,224], "src": [128,128], "f": 0, "t": 336, "d": [374], "a": 1 }
 					],
 					"entityInstances": []
+				},
+				{
+					"__identifier": "Fish_caught_popup",
+					"__type": "Tiles",
+					"__cWid": 25,
+					"__cHei": 15,
+					"__gridSize": 16,
+					"__opacity": 1,
+					"__pxTotalOffsetX": 0,
+					"__pxTotalOffsetY": 0,
+					"__tilesetDefUid": 10,
+					"__tilesetRelPath": "full version/ui/singlePanel.png",
+					"iid": "c312f720-d7b0-11ee-9699-bdc776584ca1",
+					"levelId": 0,
+					"layerDefUid": 8,
+					"pxOffsetX": 0,
+					"pxOffsetY": 0,
+					"visible": true,
+					"optionalRules": [],
+					"intGridCsv": [],
+					"autoLayerTiles": [],
+					"seed": 9455154,
+					"overrideTilesetUid": null,
+					"gridTiles": [
+						{ "px": [48,176], "src": [0,0], "f": 0, "t": 0, "d": [278], "a": 1 },
+						{ "px": [64,176], "src": [16,0], "f": 0, "t": 1, "d": [279], "a": 1 },
+						{ "px": [80,176], "src": [16,0], "f": 0, "t": 1, "d": [280], "a": 1 },
+						{ "px": [96,176], "src": [16,0], "f": 0, "t": 1, "d": [281], "a": 1 },
+						{ "px": [112,176], "src": [16,0], "f": 0, "t": 1, "d": [282], "a": 1 },
+						{ "px": [128,176], "src": [32,0], "f": 0, "t": 2, "d": [283], "a": 1 },
+						{ "px": [48,192], "src": [0,32], "f": 0, "t": 6, "d": [303], "a": 1 },
+						{ "px": [64,192], "src": [16,32], "f": 0, "t": 7, "d": [304], "a": 1 },
+						{ "px": [80,192], "src": [16,32], "f": 0, "t": 7, "d": [305], "a": 1 },
+						{ "px": [96,192], "src": [16,32], "f": 0, "t": 7, "d": [306], "a": 1 },
+						{ "px": [112,192], "src": [16,32], "f": 0, "t": 7, "d": [307], "a": 1 },
+						{ "px": [128,192], "src": [32,32], "f": 0, "t": 8, "d": [308], "a": 1 }
+					],
+					"entityInstances": []
 				}
 			],
 			"__neighbours": []
@@ -641,6 +733,31 @@
 						{ "px": [224,32], "src": [224,240], "f": 0, "t": 629, "d": [46], "a": 1 },
 						{ "px": [240,32], "src": [240,240], "f": 0, "t": 630, "d": [47], "a": 1 }
 					],
+					"entityInstances": []
+				},
+				{
+					"__identifier": "Fish_caught_popup",
+					"__type": "Tiles",
+					"__cWid": 16,
+					"__cHei": 3,
+					"__gridSize": 16,
+					"__opacity": 1,
+					"__pxTotalOffsetX": 0,
+					"__pxTotalOffsetY": 0,
+					"__tilesetDefUid": 10,
+					"__tilesetRelPath": "full version/ui/singlePanel.png",
+					"iid": "c3131e30-d7b0-11ee-9699-eb5b532fd442",
+					"levelId": 6,
+					"layerDefUid": 8,
+					"pxOffsetX": 0,
+					"pxOffsetY": 0,
+					"visible": true,
+					"optionalRules": [],
+					"intGridCsv": [],
+					"autoLayerTiles": [],
+					"seed": 9870950,
+					"overrideTilesetUid": null,
+					"gridTiles": [],
 					"entityInstances": []
 				}
 			],
