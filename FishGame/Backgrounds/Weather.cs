@@ -52,7 +52,7 @@ namespace FishGame.Backgrounds
 
         int Microsoft.Xna.Framework.IDrawable.DrawOrder => 1;
 
-        bool Microsoft.Xna.Framework.IDrawable.Visible => false;
+        bool Microsoft.Xna.Framework.IDrawable.Visible => true;
 
         public event EventHandler<EventArgs> DrawOrderChanged;
 
