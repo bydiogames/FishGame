@@ -21,7 +21,7 @@ namespace FishGame.Backgrounds
 
         private static readonly string[] SeasonWeatherAssetName = new string[]
         {
-            "rain",
+            "petals",
             "fairys",
             "wind",
             "snow"

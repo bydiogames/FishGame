@@ -121,6 +121,18 @@
 /processorParam:TextureFormat=Color
 /build:../Assets/Backgrounds/Ocean/land.png;Ocean/land.png
 
+#begin ../Assets/Backgrounds/petals.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:../Assets/Backgrounds/petals.png;petals.png
+
 #begin ../Assets/Backgrounds/Pond/deco_fall.png
 /importer:TextureImporter
 /processor:TextureProcessor
