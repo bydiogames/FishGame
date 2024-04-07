@@ -15,6 +15,18 @@ namespace FishGame.Backgrounds
     {
         private readonly TestBackgroundManager backgroundManager;
         private readonly SpriteBatch spriteBatch;
+
+        private Texture2D[] _weatherTexs = new Texture2D[SeasonUtils.Count];
+        private SpriteAnimation[] _weatherAnims = new SpriteAnimation[SeasonUtils.Count];
+
+        private static readonly string[] SeasonWeatherAssetName = new string[]
+        {
+            "rain",
+            "fairys",
+            "wind",
+            "snow"
+        };
+
         private Texture2D _snowTex;
         private SpriteAnimation _snowSpriteAnim;
 
@@ -26,15 +38,21 @@ namespace FishGame.Backgrounds
 
         public void Load(ContentManager content)
         {
-            _snowTex = content.Load<Texture2D>("snow");
-            int rows = _snowTex.Height / 208;
-            int cols = _snowTex.Width / 160;
-            _snowSpriteAnim = new SpriteAnimation(_snowTex, rows, cols, 800, 160 / EntityConstants.TileWidthPx * 2, 208 / EntityConstants.TileHeightPx * 2, shouldLoop: true );
+            for(int i = 0; i < SeasonUtils.Count; ++i)
+            {
+                if (SeasonWeatherAssetName[i] == null)
+                    continue;
+
+                Texture2D tex = _weatherTexs[i] = content.Load<Texture2D>(SeasonWeatherAssetName[i]);
+                int rows = tex.Height / 208;
+                int cols = tex.Width / 160;
+                _weatherAnims[i] = new SpriteAnimation(tex, rows, cols, rows * cols, 160 / EntityConstants.TileWidthPx * 2, 208 / EntityConstants.TileHeightPx * 2, shouldLoop: true);
+            }
         }
 
         int Microsoft.Xna.Framework.IDrawable.DrawOrder => 1;
 
-        bool Microsoft.Xna.Framework.IDrawable.Visible => true;
+        bool Microsoft.Xna.Framework.IDrawable.Visible => false;
 
         public event EventHandler<EventArgs> DrawOrderChanged;
 
@@ -46,17 +64,18 @@ namespace FishGame.Backgrounds
         {
             spriteBatch.Begin();
 
-            if (backgroundManager.GetSeason().HasFlag(Entities.Season.Winter))
-            {
-                _frameTimer += gameTime.ElapsedGameTime;
+            _frameTimer += gameTime.ElapsedGameTime;
 
+            int seasonIdx = System.Numerics.BitOperations.Log2((uint)backgroundManager.GetSeason());
+            if (_weatherAnims[seasonIdx] != null)
+            {
                 if (_frameTimer.TotalSeconds > (1f / 30f))
                 {
-                    _snowSpriteAnim.Update();
                     _frameTimer = TimeSpan.Zero;
+                    _weatherAnims[seasonIdx].Update();
                 }
 
-                _snowSpriteAnim.Draw(spriteBatch, new Vector2(2));
+                _weatherAnims[seasonIdx].Draw(spriteBatch, new Vector2(2));
             }
 
             spriteBatch.End();

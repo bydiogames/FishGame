@@ -35,6 +35,7 @@ namespace FishGame
         private EntityManager _entityManager;
 
         private MainUI _mainUI;
+        private LocationUI locationUI;
 
         public Game1()
         {
@@ -75,6 +76,43 @@ namespace FishGame
             _fishDb.LoadContent(Content);
             _fishJournal = new FishJournal(_fishDb);
 
+            SpawnCharacter();
+
+            _mainUI = new MainUI(_spriteBatch, _background, _fishJournal, _fishDb);
+            Components.Add(_mainUI);
+            _mainUI.Load(Content, GraphicsDevice);
+
+            _mainUI.RequestGotoLocationScreen += () =>
+            {
+                _entityManager.DestroyEntity(_character);
+                _fishShadowAnimation = null;
+
+                _mainUI.Visible = false;
+                _mainUI.HideFishPopup();
+                locationUI.Visible = true;
+            };
+
+            locationUI = new LocationUI(_spriteBatch);
+            Components.Add(locationUI);
+            locationUI.Load(Content, GraphicsDevice);
+            locationUI.Visible = false;
+
+            locationUI.LocationChanged += (Location location) =>
+            {
+                _background.ChangeLocation(location);
+                _mainUI.Visible = true;
+                locationUI.Visible = false;
+
+                SpawnCharacter();
+            };
+
+            _soundManager.Load(Content);
+
+            coroutineManager.Start(SeasonRoutine());
+        }
+
+        private void SpawnCharacter()
+        {
             // Use the character's width and height to center them.  The character is moved up 4 px according to the sprite sheet spec, so subtract an extra 2 tiles from the height to center
             _character = new Character(new Vector2(EntityConstants.CharacterLocationXTiles, EntityConstants.CharacterLocationYTiles), _background);
             _character.Load(Content, _fishDb, _fishJournal);
@@ -85,14 +123,6 @@ namespace FishGame
             _character.Exclamation += OnExclamationStart;
 
             _entityManager.AddEntity(_character);
-
-            _mainUI = new MainUI(_spriteBatch, _background, _fishJournal, _fishDb);
-            Components.Add(_mainUI);
-            _mainUI.Load(Content, GraphicsDevice);
-
-            _soundManager.Load(Content);
-
-            coroutineManager.Start(SeasonRoutine());
         }
 
         private IEnumerator<IWaitable> SeasonRoutine()

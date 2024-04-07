@@ -125,6 +125,12 @@ namespace FishGame.Backgrounds
             ReloadBackground();
         }
 
+        public void ChangeLocation(Location location)
+        {
+            _location = location;
+            ReloadBackground();
+        }
+
         public void NextLocation()
         {
             if(_location == Location.Pond)

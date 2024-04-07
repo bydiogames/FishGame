@@ -13,6 +13,18 @@
 
 #---------------------------------- Content ---------------------------------#
 
+#begin ../Assets/Backgrounds/fairys.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:../Assets/Backgrounds/fairys.png;fairys.png
+
 #begin ../Assets/Backgrounds/General/dock.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -181,6 +193,18 @@
 /processorParam:TextureFormat=Color
 /build:../Assets/Backgrounds/Pond/land.png;Pond/land.png
 
+#begin ../Assets/Backgrounds/rain.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:../Assets/Backgrounds/rain.png;rain.png
+
 #begin ../Assets/Backgrounds/River/deco_fall.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -276,6 +300,18 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:../Assets/Backgrounds/tiles_all.png;tiles_all.png
+
+#begin ../Assets/Backgrounds/wind.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:../Assets/Backgrounds/wind.png;wind.png
 
 #begin ../Assets/CharFishing/char1_fish.png
 /importer:TextureImporter
@@ -468,6 +504,18 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:../Assets/ui/png/Main_ui__Ui_tiles.png;Main_ui__Ui_tiles.png
+
+#begin ../Assets/ui/png/Main_ui2.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:../Assets/ui/png/Main_ui2.png;Main_ui2.png
 
 #begin ../Assets/ui/png/Season_Cards__Tiles.png
 /importer:TextureImporter

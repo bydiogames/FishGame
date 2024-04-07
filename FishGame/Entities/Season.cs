@@ -29,5 +29,7 @@ namespace FishGame.Entities
         {
             return Names[BitOperations.Log2((uint)season)];
         }
+
+        public static int Count => BitOperations.Log2((uint)Season.All) + 1;
     }
 }

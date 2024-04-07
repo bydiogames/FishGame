@@ -22,6 +22,8 @@ namespace FishGame.Interface
         private FishDB _fishDb;
         private FishJournal _fishJournal;
 
+        public event Action RequestGotoLocationScreen;
+
         public MainUI(SpriteBatch spriteBatch, TestBackgroundManager background, FishJournal fishJournal, FishDB fishDb)
         {
             _spriteBatch = spriteBatch;
@@ -77,7 +79,17 @@ namespace FishGame.Interface
 
         int IDrawable.DrawOrder => 50;
 
-        bool IDrawable.Visible => true;
+        private bool visible = true;
+
+        public bool Visible
+        {
+            get => visible; set
+            {
+                visible = value;
+                if (VisibleChanged != null)
+                    VisibleChanged(this, EventArgs.Empty);
+            }
+        }
 
         public event EventHandler<EventArgs> DrawOrderChanged;
 
@@ -104,6 +116,7 @@ namespace FishGame.Interface
 
         private bool _showFishPopup;
         private FishRecord _caughtFish;
+
         public void ShowFishPopup(FishRecord fish)
         {
             _showFishPopup = true;
@@ -193,6 +206,26 @@ namespace FishGame.Interface
                 else
                 {
                     lastHoverIdx = null;
+                }
+            }
+
+            if (!anyHover)
+            {
+                var tileDim = new Point(16, 16) * new Point(2);
+                var mapTileLocation = new Point(11, 10) * tileDim;
+                if (new Rectangle(mapTileLocation, tileDim).Contains(mouseState.Position))
+                {
+                    anyHover = true;
+                    hoverTime += gameTime.ElapsedGameTime;
+                    if (hoverTime > TimeSpan.FromSeconds(1))
+                    {
+                        DrawToolTip("Goto Map");
+                    }
+
+                    if (mouseState.LeftButton == ButtonState.Pressed)
+                    {
+                        RequestGotoLocationScreen();
+                    }
                 }
             }
 
