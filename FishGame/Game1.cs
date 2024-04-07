@@ -109,6 +109,7 @@ namespace FishGame
             _soundManager.Load(Content);
 
             coroutineManager.Start(SeasonRoutine());
+            coroutineManager.Start(ButtonPromptRoutine());
         }
 
         private void SpawnCharacter()
@@ -133,6 +134,19 @@ namespace FishGame
                 yield return new WaitOnPredicate(() => _character.State != CharacterState.Idle);
 
                 _background.NextSeason();
+            }
+        }
+
+        private IEnumerator<IWaitable> ButtonPromptRoutine()
+        {
+            while(true)
+            {
+                if (_character != null && _mainUI.Visible)
+                {
+                    _mainUI.ShowButtonPromptForState(_character.State);
+                }
+
+                yield return null;
             }
         }
 

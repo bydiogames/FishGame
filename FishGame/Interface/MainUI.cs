@@ -40,10 +40,41 @@ namespace FishGame.Interface
         private Texture2D _caughtFishTex;
         private float _caughtFishTextWidth;
 
+        private Texture2D _buttonsTex;
+
         private SpriteFont _font;
         private SpriteFont _popupFont;
 
         private Texture2D _square;
+
+        private struct ButtonTile
+        {
+            public Rectangle srcRec;
+            public Rectangle destRec;
+        };
+
+        private static readonly ButtonTile?[] _buttonForState = new ButtonTile?[]
+        {
+            new ButtonTile
+            {
+                srcRec = new Rectangle(498, 226, 44, 12),
+                destRec = new Rectangle(40, 426, 44, 12),
+            },
+            null,
+            null,
+            new ButtonTile
+            {
+                srcRec = new Rectangle(514, 162, 29, 27),
+                destRec = new Rectangle(40, 416, 29, 27),
+            },
+            null,
+            null,
+            new ButtonTile
+            {
+                srcRec = new Rectangle(498, 226, 44, 12),
+                destRec = new Rectangle(40, 426, 44, 12),
+            },
+        };
 
         private static readonly int[] SeasonCardIdxForSeason = new int[] 
         { 
@@ -75,6 +106,8 @@ namespace FishGame.Interface
 
             _square = new Texture2D(graphics, 1, 1);
             _square.SetData<Color>(new Color[] { Color.White });
+
+            _buttonsTex = content.Load<Texture2D>("tilemap_white_packed");
         }
 
         int IDrawable.DrawOrder => 50;
@@ -89,6 +122,13 @@ namespace FishGame.Interface
                 if (VisibleChanged != null)
                     VisibleChanged(this, EventArgs.Empty);
             }
+        }
+
+        private CharacterState _buttonPromptState;
+
+        public void ShowButtonPromptForState(CharacterState state)
+        {
+            _buttonPromptState = state;
         }
 
         public event EventHandler<EventArgs> DrawOrderChanged;
@@ -155,6 +195,12 @@ namespace FishGame.Interface
             );
 
             var mouseState = Mouse.GetState();
+
+            ref var buttonTile = ref _buttonForState[(int)_buttonPromptState];
+            if (buttonTile.HasValue)
+            {
+                _spriteBatch.Draw(_buttonsTex, buttonTile.Value.destRec, buttonTile.Value.srcRec, Color.White);
+            }
 
             bool anyHover = false;
 
