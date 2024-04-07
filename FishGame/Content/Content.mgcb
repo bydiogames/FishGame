@@ -469,6 +469,30 @@
 /processorParam:TextureFormat=Compressed
 /build:../Assets/Fonts/popup_font.spritefont;popup_font.spritefont
 
+#begin ../Assets/Music/fall.wav
+/importer:WavImporter
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:../Assets/Music/fall.wav;Music/fall.wav
+
+#begin ../Assets/Music/spring.wav
+/importer:WavImporter
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:../Assets/Music/spring.wav;Music/spring.wav
+
+#begin ../Assets/Music/summer.wav
+/importer:WavImporter
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:../Assets/Music/summer.wav;Music/summer.wav
+
+#begin ../Assets/Music/winter.wav
+/importer:WavImporter
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:../Assets/Music/winter.wav;Music/winter.wav
+
 #begin ../Assets/SFX/exclamation.wav
 /importer:WavImporter
 /processor:SoundEffectProcessor

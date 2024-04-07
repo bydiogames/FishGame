@@ -1,7 +1,10 @@
 ﻿
+using FishGame.Backgrounds;
+using FishGame.Entities;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Media;
+using System;
 
 namespace FishGame.Sound
 {
@@ -10,10 +13,15 @@ namespace FishGame.Sound
 
         private SoundEffect _fishPickupSfx;
         private SoundEffect _exclamationSfx;
+
+        private ContentManager _contentManager;
         public void Load(ContentManager contentManager)
         {
+            _contentManager = contentManager;
+
             _fishPickupSfx = contentManager.Load<SoundEffect>("SFX/fish_pickup");
             _exclamationSfx = contentManager.Load<SoundEffect>("SFX/exclamation");
+            MediaPlayer.IsRepeating = true;
         }
 
         public void PlayFishPickupSfx()
@@ -24,6 +32,12 @@ namespace FishGame.Sound
         public void PlayExclamationSfx()
         {
             _exclamationSfx.Play();
+        }
+
+        public void UpdateSong(Season season)
+        {
+            Song song = _contentManager.Load<Song>($"Music/{season}");
+            MediaPlayer.Play(song);
         }
     }
 }

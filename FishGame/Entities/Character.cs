@@ -24,8 +24,8 @@ namespace FishGame.Entities
         private FishDB _fishDb;
         private FishJournal _fishJournal;
         private FishRecord _caughtFish;
-        private TestBackgroundManager _backgroundManager;
-        public Character(Vector2 position, TestBackgroundManager backgroundManager)
+        private BackgroundManager _backgroundManager;
+        public Character(Vector2 position, BackgroundManager backgroundManager)
         {
             Position = position;
             _currentAnimation = new CharacterIdleAnimation(Position);

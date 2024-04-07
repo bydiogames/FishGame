@@ -18,13 +18,13 @@ namespace FishGame.Interface
     internal class MainUI : IGameComponent, IDrawable
     {
         private SpriteBatch _spriteBatch;
-        private TestBackgroundManager _background;
+        private BackgroundManager _background;
         private FishDB _fishDb;
         private FishJournal _fishJournal;
 
         public event Action RequestGotoLocationScreen;
 
-        public MainUI(SpriteBatch spriteBatch, TestBackgroundManager background, FishJournal fishJournal, FishDB fishDb)
+        public MainUI(SpriteBatch spriteBatch, BackgroundManager background, FishJournal fishJournal, FishDB fishDb)
         {
             _spriteBatch = spriteBatch;
             _background = background;

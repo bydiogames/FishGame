@@ -27,7 +27,7 @@ namespace FishGame
         private FishShadowAnimation _fishShadowAnimation;
         private Character _character;
         private Texture2D _gridTexture;
-        private TestBackgroundManager _background;
+        private BackgroundManager _background;
         private Weather _weather;
 
         private SoundManager _soundManager;
@@ -46,7 +46,7 @@ namespace FishGame
 
         protected override void Initialize()
         {
-            _background = new TestBackgroundManager(Season.Spring, Location.Pond);
+            _background = new BackgroundManager(Season.Spring, Location.Pond);
 
             this.Components.Add(coroutineManager = new CoroutineManager());
 
@@ -107,6 +107,8 @@ namespace FishGame
             };
 
             _soundManager.Load(Content);
+            _soundManager.UpdateSong(Season.Spring);
+            _background.SeasonChanged += OnSeasonChanged;
 
             coroutineManager.Start(SeasonRoutine());
             coroutineManager.Start(ButtonPromptRoutine());
@@ -131,7 +133,7 @@ namespace FishGame
             while (true) 
             {
                 yield return new Wait(TimeSpan.FromMinutes(1));
-                yield return new WaitOnPredicate(() => _character != null && _character.State != CharacterState.Idle);
+                //yield return new WaitOnPredicate(() => _character != null);
 
                 _background.NextSeason();
             }
@@ -187,7 +189,6 @@ namespace FishGame
             base.Draw(gameTime);
         }
 
-
         internal void OnReelCompletion(object sender, EventArgs e)
         {
             _fishShadowAnimation = null;
@@ -213,6 +214,11 @@ namespace FishGame
             _fishShadowAnimation = new FishShadowAnimation(new Vector2(EntityConstants.FishShadowLocationXTiles, EntityConstants.FishShadowLocationYTiles));
             _fishShadowAnimation.Load(Content);
             _mainUI.HideFishPopup();
+        }
+
+        internal void OnSeasonChanged(object sender, SeasonChangedEventArgs e)
+        {
+            _soundManager.UpdateSong(e.Season);
         }
     }
 }
