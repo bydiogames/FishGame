@@ -131,7 +131,7 @@ namespace FishGame
             while (true) 
             {
                 yield return new Wait(TimeSpan.FromMinutes(1));
-                yield return new WaitOnPredicate(() => _character.State != CharacterState.Idle);
+                yield return new WaitOnPredicate(() => _character != null && _character.State != CharacterState.Idle);
 
                 _background.NextSeason();
             }
