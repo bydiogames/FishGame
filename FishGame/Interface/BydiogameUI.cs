@@ -48,7 +48,7 @@ namespace FishGame.Interface
 
         private IEnumerator<IWaitable> StartupRoutine()
         {
-            yield return new Wait(TimeSpan.FromSeconds(10));
+            yield return new Wait(TimeSpan.FromSeconds(1));
             _drawingText = "By Bydiogame Studios";
 
             yield return new Wait(TimeSpan.FromSeconds(3));
