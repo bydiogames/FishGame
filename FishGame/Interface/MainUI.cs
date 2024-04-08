@@ -105,12 +105,15 @@ namespace FishGame.Interface
 
             _seasonCardsTex = content.Load<Texture2D>("Season_Cards__Tiles");
 
+            _font = content.Load<SpriteFont>("gamefont");
+            _popupFont = content.Load<SpriteFont>("popup_font");
+
             // Load sound menu button textures
             {
                 Texture2D onTexture = content.Load<Texture2D>("Speaker");
                 Texture2D offTexture = content.Load<Texture2D>("Speaker-Crossed");
-                _sfxButton = new TextureToggleButton(onTexture, offTexture, new Rectangle(640, 400, 16, 16));
-                _musicButton = new TextureToggleButton(onTexture, offTexture, new Rectangle(544, 400, 16, 16));
+                _sfxButton = new TextureToggleButton(onTexture, offTexture, new Rectangle(_sfxPosX + (int)(_font.MeasureString("SFX").X / 2) + 4, _soundPosY, 16, 16)) ;
+                _musicButton = new TextureToggleButton(onTexture, offTexture, new Rectangle(_musicPosX + (int)(_font.MeasureString("Music").X / 2) + 4, _soundPosY, 16, 16));
 
                 _sfxButton.ToggleOn += ToggleSfxOn;
                 _sfxButton.ToggleOff += ToggleSfxOff;
@@ -118,9 +121,6 @@ namespace FishGame.Interface
                 _musicButton.ToggleOff += ToggleMusicOff;
 
             }
-
-            _font = content.Load<SpriteFont>("gamefont");
-            _popupFont = content.Load<SpriteFont>("popup_font");
 
             _square = new Texture2D(graphics, 1, 1);
             _square.SetData<Color>(new Color[] { Color.White });
@@ -237,7 +237,7 @@ namespace FishGame.Interface
 
             _spriteBatch.Draw(_mainUiTilesTex, Vector2.Zero, null, Color.White, 0, Vector2.Zero, 2f, SpriteEffects.None, 0);
 
-            var uiUpperLeft = _spriteBatch.GraphicsDevice.Viewport.Bounds.Size.ToVector2() * new Vector2(0.5f, 0.1f);
+            var uiUpperLeft = _spriteBatch.GraphicsDevice.Viewport.Bounds.Size.ToVector2() * new Vector2(0.5f, 0.07f);
 
             _fishJournal.Draw(
                 _spriteBatch,
@@ -247,6 +247,8 @@ namespace FishGame.Interface
                 _background.GetSeason(),
                 _background.GetLocation()
             );
+
+            _spriteBatch.DrawString(_font, $"Completion: {(int)(100 * _fishJournal.GetCompletionPercent())}%", new Vector2(448, 372), Color.White);
 
             var mouseState = Mouse.GetState();
 
@@ -361,15 +363,20 @@ namespace FishGame.Interface
         private void DrawSoundMenu()
         {
             // Music toggle
-            _spriteBatch.DrawString(_font, "Music", new Vector2(500, 400), Color.White,
+            _spriteBatch.DrawString(_font, "Music", new Vector2(_musicPosX, _soundPosY), Color.White,
                 0, Vector2.Zero, 0.5f, SpriteEffects.None, 0);
             _musicButton.Draw(_spriteBatch);
 
             // SFX toggle
-            _spriteBatch.DrawString(_font, "SFX", new Vector2(600, 400), Color.White,
+            _spriteBatch.DrawString(_font, "SFX", new Vector2(_sfxPosX, _soundPosY), Color.White,
                 0, Vector2.Zero, 0.5f, SpriteEffects.None, 0);
             _sfxButton.Draw(_spriteBatch);
         }
+
+
+        private int _musicPosX = 592;
+        private int _sfxPosX = 672;
+        private int _soundPosY = 448;
 
         void IGameComponent.Initialize()
         {
