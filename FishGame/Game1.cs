@@ -74,6 +74,7 @@ namespace FishGame
             _gridTexture.SetData(new Color[] { Color.White });
 
             _background.Load(Content);
+            _background.SeasonChanged += OnSeasonChanged;
             _weather.Load(Content);
 
             _fishDb.LoadContent(Content);
@@ -125,8 +126,6 @@ namespace FishGame
             };
 
             _soundManager.Load(Content);
-            _soundManager.UpdateSong(Season.Spring);
-            _background.SeasonChanged += OnSeasonChanged;
 
             coroutineManager.Start(SeasonRoutine());
             coroutineManager.Start(ButtonPromptRoutine());
@@ -158,6 +157,7 @@ namespace FishGame
                 SpawnCharacter();
                 _mainUI.Visible = true;
                 _weather.Visible = true;
+                _soundManager.UpdateSong(_background.GetSeason());
             }
         }
 

@@ -7,6 +7,7 @@ using CsvHelper.Configuration;
 using FishGame.Entities;
 using System;
 using Microsoft.Xna.Framework.Graphics;
+using System.Linq;
 
 namespace FishGame.Inventory
 {
@@ -150,6 +151,11 @@ namespace FishGame.Inventory
         public ref FishInventoryEntry GetInvSlot(int id)
         {
             return ref fish[id];
+        }
+
+        public float GetCompletionPercent()
+        {
+            return ((float)fish.Count(f => f.HasCollected)) / fish.Count();
         }
 
         private static readonly Vector2 InvScaling = new Vector2(2, 2);

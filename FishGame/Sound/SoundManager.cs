@@ -16,6 +16,8 @@ namespace FishGame.Sound
         private SoundEffect _castSfx;
         private SoundEffect _reelSfx;
 
+        private const float _masterMaxVolume = 0.75f;
+
         private ContentManager _contentManager;
         public void Load(ContentManager contentManager)
         {
@@ -26,6 +28,8 @@ namespace FishGame.Sound
             _castSfx = contentManager.Load<SoundEffect>("SFX/cast");
             _reelSfx = contentManager.Load<SoundEffect>("SFX/reel");
 
+            SoundEffect.MasterVolume = _masterMaxVolume;
+            MediaPlayer.Volume = _masterMaxVolume;
             MediaPlayer.IsRepeating = true;
         }
 
@@ -36,12 +40,12 @@ namespace FishGame.Sound
 
         public void PlaySfx()
         {
-            SoundEffect.MasterVolume = 1;
+            SoundEffect.MasterVolume = _masterMaxVolume;
         }
 
         public void PlayMusic()
         {
-            MediaPlayer.Volume = 1;
+            MediaPlayer.Volume = _masterMaxVolume;
         }
 
         public void MuteMusic()
