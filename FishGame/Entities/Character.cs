@@ -61,6 +61,7 @@ namespace FishGame.Entities
                     _currentAnimation = new CharacterCastAnimation(Position);
                     _currentAnimation.Load(_contentManager);
                     _currentAnimation.RegisterAnimationFinishedHandler(OnCastCompleted);
+                    _currentAnimation.RegisterAnimationStartedHandler(OnCastStarted);
                 }
 
                 // Use space to reel if there's a fish on the line
@@ -71,6 +72,7 @@ namespace FishGame.Entities
                     _currentAnimation = new CharacterReelAnimation(Position);
                     _currentAnimation.Load(_contentManager);
                     _currentAnimation.RegisterAnimationFinishedHandler(OnReelAnimationCompleted);
+                    _currentAnimation.RegisterAnimationStartedHandler(OnReelAnimationStarted);
                 }
             }
 
@@ -123,12 +125,17 @@ namespace FishGame.Entities
             Exclamation?.Invoke(this, EventArgs.Empty);
         }
 
+        private void OnCastStarted(object sender, EventArgs e)
+        {
+            CastStarted?.Invoke(this, EventArgs.Empty);
+        }
+
         public void OnCastCompleted(object sender, EventArgs e)
         {
             _state = CharacterState.FishIdle;
             _currentAnimation = new CharacterIdleFishAnimation(Position);
             _currentAnimation.Load(_contentManager);
-            CastCompleted?.Invoke(this, EventArgs.Empty);
+            CastFinished?.Invoke(this, EventArgs.Empty);
         }
 
         public void OnReelAnimationCompleted(object sender, EventArgs e)
@@ -151,7 +158,12 @@ namespace FishGame.Entities
             ref var invEntry = ref _fishJournal.GetInvSlot(caughtFish.Idx);
             invEntry.HasCollected = true;
             _caughtFish = caughtFish;
-            ReelCompleted?.Invoke(this, EventArgs.Empty);
+            ReelFinished?.Invoke(this, EventArgs.Empty);
+        }
+
+        private void OnReelAnimationStarted(object sender, EventArgs e)
+        {
+            ReelStarted?.Invoke(this, EventArgs.Empty);
         }
 
         public void OnPickupAnimationCompleted(object sender, EventArgs e)
@@ -176,8 +188,10 @@ namespace FishGame.Entities
 
         public event EventHandler PickupStarted;
         public event EventHandler PickupFinished;
-        public event EventHandler ReelCompleted;
+        public event EventHandler ReelStarted;
+        public event EventHandler ReelFinished;
         public event EventHandler Exclamation;
-        public event EventHandler CastCompleted;
+        public event EventHandler CastStarted;
+        public event EventHandler CastFinished;
     }
 }

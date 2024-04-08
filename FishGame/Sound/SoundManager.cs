@@ -13,6 +13,8 @@ namespace FishGame.Sound
 
         private SoundEffect _fishPickupSfx;
         private SoundEffect _exclamationSfx;
+        private SoundEffect _castSfx;
+        private SoundEffect _reelSfx;
 
         private ContentManager _contentManager;
         public void Load(ContentManager contentManager)
@@ -21,6 +23,9 @@ namespace FishGame.Sound
 
             _fishPickupSfx = contentManager.Load<SoundEffect>("SFX/fish_pickup");
             _exclamationSfx = contentManager.Load<SoundEffect>("SFX/exclamation");
+            _castSfx = contentManager.Load<SoundEffect>("SFX/cast");
+            _reelSfx = contentManager.Load<SoundEffect>("SFX/reel");
+
             MediaPlayer.IsRepeating = true;
         }
 
@@ -32,6 +37,16 @@ namespace FishGame.Sound
         public void PlayExclamationSfx()
         {
             _exclamationSfx.Play();
+        }
+
+        public void PlayCastSfx()
+        {
+            _castSfx.Play();
+        }
+
+        public void PlayReelSfx()
+        {
+            _reelSfx.Play();
         }
 
         public void UpdateSong(Season season)
