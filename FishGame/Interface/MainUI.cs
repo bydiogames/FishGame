@@ -319,7 +319,7 @@ namespace FishGame.Interface
                     hoverTime += gameTime.ElapsedGameTime;
                     if (hoverTime > TimeSpan.FromSeconds(1))
                     {
-                        DrawToolTip("Goto Map");
+                        DrawToolTip("Go to Map");
                     }
 
                     if (mouseState.LeftButton == ButtonState.Pressed)
