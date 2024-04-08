@@ -63,6 +63,7 @@ namespace FishGame.Backgrounds
 
         public void Update()
         {
+#if DEBUG
             if(_rightKeyPress.Triggered())
             {
                 NextLocation();
@@ -79,6 +80,7 @@ namespace FishGame.Backgrounds
             {
                 PreviousSeason();
             }
+#endif
         }
 
         public void NextSeason()
