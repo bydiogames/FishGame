@@ -1,20 +1,10 @@
-﻿using FishGame.Backgrounds;
-using FishGame.Entities;
-using FishGame.Inventory;
-using FishGame.Utils;
+﻿using FishGame.Utils;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.IO.Pipes;
-using System.Linq;
-using System.Reflection.Metadata;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml.Linq;
 
 namespace FishGame.Interface
 {
@@ -52,8 +42,20 @@ namespace FishGame.Interface
 
             for(string credit = textReader.ReadLine(); credit != null; credit = textReader.ReadLine())
             {
-                _credits.Insert(0, credit);
-                _creditsHeight += _font.MeasureString(credit).Y;
+                int result;
+                if(Int32.TryParse(credit, System.Globalization.NumberStyles.Number, null, out result))
+                {
+                    for (int i = 0; i < result; i++)
+                    {
+                        _credits.Insert(0, " ");
+                        _creditsHeight += _font.MeasureString(credit).Y;
+                    }
+                }
+                else
+                {
+                    _credits.Insert(0, credit);
+                    _creditsHeight += _font.MeasureString(credit).Y;
+                }
             }
 
         }
