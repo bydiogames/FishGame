@@ -65,21 +65,21 @@ namespace FishGame.Interface
             new ButtonTile
             {
                 srcRec = new Rectangle(498, 226, 44, 12),
-                destRec = new Rectangle(40, 426, 44, 12),
+                destRec = new Rectangle(40, 426, 52, 16),
             },
             null,
             null,
             new ButtonTile
             {
                 srcRec = new Rectangle(498, 226, 44, 12),
-                destRec = new Rectangle(40, 426, 44, 12),
+                destRec = new Rectangle(40, 426, 52, 16),
             },
             null,
             null,
             new ButtonTile
             {
                 srcRec = new Rectangle(498, 226, 44, 12),
-                destRec = new Rectangle(40, 426, 44, 12),
+                destRec = new Rectangle(40, 426, 52, 16),
             },
         };
 
@@ -274,6 +274,7 @@ namespace FishGame.Interface
             if (buttonTile.HasValue)
             {
                 _spriteBatch.Draw(_buttonsTex, buttonTile.Value.destRec, buttonTile.Value.srcRec, Color.White);
+                _spriteBatch.DrawString(_font, "SPACE", new Vector2(buttonTile.Value.destRec.X + 4, buttonTile.Value.destRec.Y), Color.Gray, 0, Vector2.Zero, 0.5f, SpriteEffects.None, 0);
             }
 
             bool anyHover = false;
