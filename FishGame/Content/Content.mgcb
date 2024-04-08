@@ -469,6 +469,9 @@
 /processorParam:TextureFormat=Color
 /build:../Assets/CharPickup/ponytail_pickup.png;ponytail_pickup.png
 
+#begin ../Assets/credits.txt
+/copy:../Assets/credits.txt;credits.txt
+
 #begin ../Assets/emoticons.png
 /importer:TextureImporter
 /processor:TextureProcessor

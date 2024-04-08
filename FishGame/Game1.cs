@@ -37,6 +37,7 @@ namespace FishGame
         private MainUI _mainUI;
         private LocationUI locationUI;
         private BydiogameUI bydiogameUI;
+        private Credits credits;
 
         public Game1()
         {
@@ -83,6 +84,12 @@ namespace FishGame
             bydiogameUI.Load(Content);
             bydiogameUI.VisibleChanged += BydiogameUI_VisibleChanged;
 
+            credits = new Credits(_spriteBatch, coroutineManager);
+            Components.Add(credits);
+            credits.Load(Content);
+            credits.Visible = false;
+            credits.VisibleChanged += Credits_VisibleChanged;
+
             _mainUI = new MainUI(_spriteBatch, _background, _fishJournal, _fishDb);
             Components.Add(_mainUI);
             _mainUI.Load(Content, GraphicsDevice);
@@ -123,6 +130,25 @@ namespace FishGame
 
             coroutineManager.Start(SeasonRoutine());
             coroutineManager.Start(ButtonPromptRoutine());
+        }
+
+        private void Credits_VisibleChanged(object sender, EventArgs e)
+        {
+            if (credits.Visible)
+            {
+                _mainUI.Visible = false;
+                _weather.Visible = false;
+                _fishShadowAnimation = null;
+
+                _entityManager.DestroyEntity(_character);
+            }
+            else
+            {
+                _mainUI.Visible = true;
+                _weather.Visible = true;
+
+                SpawnCharacter();
+            }
         }
 
         private void BydiogameUI_VisibleChanged(object sender, EventArgs e)
@@ -185,6 +211,9 @@ namespace FishGame
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
+            if (Keyboard.GetState().IsKeyDown(Keys.Tab) && !credits.Visible)
+                credits.Visible = true;
+
             // TODO: Add your update logic here
             _background.Update();
 
@@ -205,7 +234,7 @@ namespace FishGame
             _spriteBatch.Begin(SpriteSortMode.Deferred, null, SamplerState.PointClamp, null, null, null, null);
 
             // TODO: Add your drawing code here
-            if (!bydiogameUI.Visible)
+            if (!bydiogameUI.Visible && !credits.Visible)
                 _background.Draw(_spriteBatch);
 
             if(_fishShadowAnimation != null)
