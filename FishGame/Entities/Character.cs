@@ -51,22 +51,32 @@ namespace FishGame.Entities
 
         public void Update(GameTime gameTime)
         {
-            if (Keyboard.GetState().IsKeyDown(Keys.Space) && (_state == CharacterState.Idle || _state == CharacterState.FishIdle || _state == CharacterState.PickupIdle))
+            if (Keyboard.GetState().IsKeyDown(Keys.Space))
             {
-                _state = CharacterState.Casting;
-                _peripheralAnimation = null;
-                _currentAnimation = new CharacterCastAnimation(Position);
-                _currentAnimation.Load(_contentManager);
-                _currentAnimation.RegisterAnimationFinishedHandler(OnCastCompleted);
+                // Use space to cast if we're in any of the idle states
+                if(_state == CharacterState.Idle || _state == CharacterState.PickupIdle)
+                {
+                    _state = CharacterState.Casting;
+                    _peripheralAnimation = null;
+                    _currentAnimation = new CharacterCastAnimation(Position);
+                    _currentAnimation.Load(_contentManager);
+                    _currentAnimation.RegisterAnimationFinishedHandler(OnCastCompleted);
+                }
+
+                // Use space to reel if there's a fish on the line
+                else if (_state == CharacterState.FishOnLine)
+                {
+                    _state = CharacterState.Reeling;
+                    _peripheralAnimation = null;
+                    _currentAnimation = new CharacterReelAnimation(Position);
+                    _currentAnimation.Load(_contentManager);
+                    _currentAnimation.RegisterAnimationFinishedHandler(OnReelAnimationCompleted);
+                }
             }
 
             if (Keyboard.GetState().IsKeyDown(Keys.Enter) &&  _state == CharacterState.FishOnLine)
             {
-                _state = CharacterState.Reeling;
-                _peripheralAnimation = null;
-                _currentAnimation = new CharacterReelAnimation(Position);
-                _currentAnimation.Load(_contentManager);
-                _currentAnimation.RegisterAnimationFinishedHandler(OnReelAnimationCompleted);
+
             }
 
             _currentAnimation.Update(gameTime);

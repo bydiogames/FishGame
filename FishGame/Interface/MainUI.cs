@@ -64,8 +64,8 @@ namespace FishGame.Interface
             null,
             new ButtonTile
             {
-                srcRec = new Rectangle(514, 162, 29, 27),
-                destRec = new Rectangle(40, 416, 29, 27),
+                srcRec = new Rectangle(498, 226, 44, 12),
+                destRec = new Rectangle(40, 426, 44, 12),
             },
             null,
             null,
