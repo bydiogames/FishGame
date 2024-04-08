@@ -47,6 +47,8 @@ namespace FishGame.Interface
         private TextureToggleButton _sfxButton;
         private TextureToggleButton _musicButton;
 
+        private TextButton _creditsButton;
+
         private SpriteFont _font;
         private SpriteFont _popupFont;
 
@@ -112,20 +114,31 @@ namespace FishGame.Interface
             {
                 Texture2D onTexture = content.Load<Texture2D>("Speaker");
                 Texture2D offTexture = content.Load<Texture2D>("Speaker-Crossed");
-                _sfxButton = new TextureToggleButton(onTexture, offTexture, new Rectangle(_sfxPosX + (int)(_font.MeasureString("SFX").X / 2) + 4, _soundPosY, 16, 16)) ;
-                _musicButton = new TextureToggleButton(onTexture, offTexture, new Rectangle(_musicPosX + (int)(_font.MeasureString("Music").X / 2) + 4, _soundPosY, 16, 16));
+                _sfxButton = new TextureToggleButton(onTexture, offTexture, new Rectangle(_sfxPosX + (int)(_font.MeasureString("SFX").X / 2) + 4, _menuPosY, 16, 16)) ;
+                _musicButton = new TextureToggleButton(onTexture, offTexture, new Rectangle(_musicPosX + (int)(_font.MeasureString("Music").X / 2) + 4, _menuPosY, 16, 16));
 
                 _sfxButton.ToggleOn += ToggleSfxOn;
                 _sfxButton.ToggleOff += ToggleSfxOff;
                 _musicButton.ToggleOn += ToggleMusicOn;
                 _musicButton.ToggleOff += ToggleMusicOff;
+            }
 
+            // Load credits button
+            {
+                _creditsButton = new TextButton(_font, new Vector2(_creditsPosX, _menuPosY), "Credits", 0.5f);
+                _creditsButton.Clicked += CreditsButtonClicked;
             }
 
             _square = new Texture2D(graphics, 1, 1);
             _square.SetData<Color>(new Color[] { Color.White });
 
             _buttonsTex = content.Load<Texture2D>("tilemap_white_packed");
+        }
+
+        public event EventHandler ShowCredits;
+        private void CreditsButtonClicked(object sender, EventArgs e)
+        {
+            ShowCredits?.Invoke(this, EventArgs.Empty);
         }
 
         private void ToggleMusicOn(object sender, EventArgs e)
@@ -343,7 +356,7 @@ namespace FishGame.Interface
 
             DrawDate(gameTime);
 
-            DrawSoundMenu();
+            DrawMenu();
 
             _spriteBatch.End();
         }
@@ -360,23 +373,34 @@ namespace FishGame.Interface
             _playSFX = !_playMusic;
         }
 
-        private void DrawSoundMenu()
+        private void DrawMenu()
         {
             // Music toggle
-            _spriteBatch.DrawString(_font, "Music", new Vector2(_musicPosX, _soundPosY), Color.White,
-                0, Vector2.Zero, 0.5f, SpriteEffects.None, 0);
-            _musicButton.Draw(_spriteBatch);
+            {
+                _spriteBatch.DrawString(_font, "Music", new Vector2(_musicPosX, _menuPosY), Color.White,
+                    0, Vector2.Zero, 0.5f, SpriteEffects.None, 0);
+                _musicButton.Draw(_spriteBatch);
+            }
 
             // SFX toggle
-            _spriteBatch.DrawString(_font, "SFX", new Vector2(_sfxPosX, _soundPosY), Color.White,
-                0, Vector2.Zero, 0.5f, SpriteEffects.None, 0);
-            _sfxButton.Draw(_spriteBatch);
+            {
+                _spriteBatch.DrawString(_font, "SFX", new Vector2(_sfxPosX, _menuPosY), Color.White,
+                    0, Vector2.Zero, 0.5f, SpriteEffects.None, 0);
+                _sfxButton.Draw(_spriteBatch);
+            }
+
+            // Credits button
+            {
+                _creditsButton.Draw(_spriteBatch);
+            }
         }
 
 
         private int _musicPosX = 592;
         private int _sfxPosX = 672;
-        private int _soundPosY = 448;
+        private int _menuPosY = 448;
+
+        private int _creditsPosX = 520;
 
         void IGameComponent.Initialize()
         {

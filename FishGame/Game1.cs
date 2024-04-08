@@ -94,6 +94,7 @@ namespace FishGame
             _mainUI = new MainUI(_spriteBatch, _background, _fishJournal, _fishDb);
             Components.Add(_mainUI);
             _mainUI.Load(Content, GraphicsDevice);
+            _mainUI.ShowCredits += ShowCredits;
             _mainUI.Visible = false;
 
             _mainUI.RequestGotoLocationScreen += () =>
@@ -211,9 +212,6 @@ namespace FishGame
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
-            if (Keyboard.GetState().IsKeyDown(Keys.Tab) && !credits.Visible)
-                credits.Visible = true;
-
             // TODO: Add your update logic here
             _background.Update();
 
@@ -225,6 +223,11 @@ namespace FishGame
             _background.Update();
 
             base.Update(gameTime);
+        }
+
+        public void ShowCredits(object sender,  EventArgs e)
+        {
+            credits.Visible = true;
         }
 
         protected override void Draw(GameTime gameTime)
