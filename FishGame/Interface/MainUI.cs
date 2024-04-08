@@ -30,9 +30,11 @@ namespace FishGame.Interface
             _background = background;
             _fishJournal = fishJournal;
             _fishDb = fishDb;
+
+            _background.SeasonChanged += OnSeasonChanged;
         }
 
-        private Texture2D _mainUiOverlayTex, _mainUiTilesTex;
+        private Texture2D _mainUiTilesTex;
         private Texture2D _fishAllTex, _fishAllMissingTex;
 
         private Texture2D _seasonCardsTex;
@@ -93,7 +95,6 @@ namespace FishGame.Interface
             }
 
             {
-                _mainUiOverlayTex = content.Load<Texture2D>("Main_ui__Ui_tiles");
                 _mainUiTilesTex = content.Load<Texture2D>("Main_ui__Tiles");
             }
 
@@ -176,12 +177,24 @@ namespace FishGame.Interface
             _spriteBatch.DrawString(_popupFont, _caughtFish.Name, new Vector2(textLocationX, EntityConstants.FishPopupLocationY), Color.SaddleBrown, 0, Vector2.Zero, 1f, SpriteEffects.None, 0);
         }
 
+        private void OnSeasonChanged(object sender, SeasonChangedEventArgs e)
+        {
+            _seasonElapsedTime = 0;
+        }
+
+        private float _seasonElapsedTime = 0;
+        private void DrawDate(GameTime gameTime)
+        {
+            _seasonElapsedTime += (float)gameTime.ElapsedGameTime.TotalSeconds;
+            _spriteBatch.DrawString(_font, $"{_background.GetSeason()} {(int)(1 + (_seasonElapsedTime/(60f/28)))}", 
+                new Vector2(48, 48), Color.White, 0, Vector2.Zero, 0.75f, SpriteEffects.None, 0);
+        }
+
         void IDrawable.Draw(GameTime gameTime)
         {
             _spriteBatch.Begin(SpriteSortMode.Deferred, null, SamplerState.PointClamp, null, null, null, null);
 
             _spriteBatch.Draw(_mainUiTilesTex, Vector2.Zero, null, Color.White, 0, Vector2.Zero, 2f, SpriteEffects.None, 0);
-            _spriteBatch.Draw(_mainUiOverlayTex, Vector2.Zero, null, Color.White, 0, Vector2.Zero, 2f, SpriteEffects.None, 0);
 
             var uiUpperLeft = _spriteBatch.GraphicsDevice.Viewport.Bounds.Size.ToVector2() * new Vector2(0.5f, 0.1f);
 
@@ -284,6 +297,8 @@ namespace FishGame.Interface
             {
                 DrawFishPopup();
             }
+
+            DrawDate(gameTime);
 
             _spriteBatch.End();
         }
