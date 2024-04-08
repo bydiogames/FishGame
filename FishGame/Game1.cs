@@ -27,7 +27,7 @@ namespace FishGame
         private FishShadowAnimation _fishShadowAnimation;
         private Character _character;
         private Texture2D _gridTexture;
-        private TestBackgroundManager _background;
+        private BackgroundManager _background;
         private Weather _weather;
 
         private SoundManager _soundManager;
@@ -47,7 +47,7 @@ namespace FishGame
 
         protected override void Initialize()
         {
-            _background = new TestBackgroundManager(Season.Spring, Location.Pond);
+            _background = new BackgroundManager(Season.Spring, Location.Pond);
 
             this.Components.Add(coroutineManager = new CoroutineManager());
 
@@ -98,6 +98,11 @@ namespace FishGame
                 locationUI.Visible = true;
             };
 
+            _mainUI.PlayMusic += OnPlayMusic;
+            _mainUI.MuteMusic += OnMuteMusic;
+            _mainUI.PlaySfx += OnPlaySfx;
+            _mainUI.MuteSfx += OnMuteSfx;
+
             locationUI = new LocationUI(_spriteBatch);
             Components.Add(locationUI);
             locationUI.Load(Content, GraphicsDevice);
@@ -113,6 +118,8 @@ namespace FishGame
             };
 
             _soundManager.Load(Content);
+            _soundManager.UpdateSong(Season.Spring);
+            _background.SeasonChanged += OnSeasonChanged;
 
             coroutineManager.Start(SeasonRoutine());
             coroutineManager.Start(ButtonPromptRoutine());
@@ -128,16 +135,23 @@ namespace FishGame
             }
         }
 
+        private void _mainUI_MuteSfx(object sender, EventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
         private void SpawnCharacter()
         {
             // Use the character's width and height to center them.  The character is moved up 4 px according to the sprite sheet spec, so subtract an extra 2 tiles from the height to center
             _character = new Character(new Vector2(EntityConstants.CharacterLocationXTiles, EntityConstants.CharacterLocationYTiles), _background);
             _character.Load(Content, _fishDb, _fishJournal);
-            _character.ReelCompleted += OnReelCompletion;
-            _character.PickupStarted += OnPickupStart;
-            _character.PickupFinished += OnPickupFinish;
-            _character.CastCompleted += OnCastCompletion;
-            _character.Exclamation += OnExclamationStart;
+            _character.ReelStarted += OnReelStarted;
+            _character.ReelFinished += OnReelFinished;
+            _character.PickupStarted += OnPickupStarted;
+            _character.PickupFinished += OnPickupFinished;
+            _character.CastStarted += OnCastStarted;
+            _character.CastFinished += OnCastFinished;
+            _character.Exclamation += OnExclamation;
 
             _entityManager.AddEntity(_character);
         }
@@ -147,7 +161,7 @@ namespace FishGame
             while (true) 
             {
                 yield return new Wait(TimeSpan.FromMinutes(1));
-                yield return new WaitOnPredicate(() => _character != null && _character.State != CharacterState.Idle);
+                //yield return new WaitOnPredicate(() => _character != null);
 
                 _background.NextSeason();
             }
@@ -204,32 +218,66 @@ namespace FishGame
             base.Draw(gameTime);
         }
 
+        internal void OnReelStarted(object sender, EventArgs e)
+        {
+            _soundManager.PlayReelSfx();
+        }
 
-        internal void OnReelCompletion(object sender, EventArgs e)
+        internal void OnReelFinished(object sender, EventArgs e)
         {
             _fishShadowAnimation = null;
         }
 
-        internal void OnPickupStart(object sender, EventArgs e)
+        internal void OnPickupStarted(object sender, EventArgs e)
         {
             _soundManager.PlayFishPickupSfx();
         }
 
-        internal void OnPickupFinish(object sender, EventArgs e)
+        internal void OnPickupFinished(object sender, EventArgs e)
         {
             _mainUI.ShowFishPopup(_character.GetFish());
         }
 
-        internal void OnExclamationStart(object sender, EventArgs e)
+        internal void OnExclamation(object sender, EventArgs e)
         {
             _soundManager.PlayExclamationSfx();
         }
 
-        internal void OnCastCompletion(object sender, EventArgs e)
+        internal void OnCastStarted(object sender, EventArgs e)
+        { 
+            _soundManager.PlayCastSfx();
+        }
+
+        internal void OnCastFinished(object sender, EventArgs e)
         {
             _fishShadowAnimation = new FishShadowAnimation(new Vector2(EntityConstants.FishShadowLocationXTiles, EntityConstants.FishShadowLocationYTiles));
             _fishShadowAnimation.Load(Content);
             _mainUI.HideFishPopup();
+        }
+
+        internal void OnSeasonChanged(object sender, SeasonChangedEventArgs e)
+        {
+            _soundManager.UpdateSong(e.Season);
+        }
+
+        internal void OnPlayMusic(object sender, EventArgs e)
+        {
+            _soundManager.PlayMusic();
+        }
+
+        internal void OnMuteMusic(object sender, EventArgs e)
+        {
+            _soundManager.MuteMusic();
+        }
+
+        internal void OnPlaySfx(object sender, EventArgs e)
+        {
+            _soundManager.PlaySfx();
+        }
+
+        internal void OnMuteSfx(object sender, EventArgs e)
+        {
+            _soundManager.MuteSfx();
         }
     }
 }

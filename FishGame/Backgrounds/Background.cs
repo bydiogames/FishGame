@@ -14,6 +14,7 @@ namespace FishGame.Backgrounds
         private Texture2D _landTexture;
         private Texture2D _dockTexture;
         private Texture2D _decorations;
+        private Texture2D _trees;
         private Season _season;
 
         public Background(Season season) 
@@ -21,48 +22,75 @@ namespace FishGame.Backgrounds
             _season = season;
         }
 
-        private void LoadLandAndWater(ContentManager content, string location)
-        {
-            _waterTexture = content.Load<Texture2D>("General/water");
-
-            if (_season == Season.Spring)
-            {
-                _decorations = content.Load<Texture2D>($"{location}/deco_spring");
-                _landTexture = content.Load<Texture2D>($"{location}/land");
-            }
-            else if (_season == Season.Summer)
-            {
-                _decorations = content.Load<Texture2D>($"{location}/deco_summer");
-                _landTexture = content.Load<Texture2D>($"{location}/land");
-            }
-            else if (_season == Season.Fall)
-            {
-                // TODO: Fix the fall decoration assets now that we have better ones
-                //_decorations = content.Load<Texture2D>($"{location}/deco_fall");
-                _landTexture = content.Load<Texture2D>($"{location}/land_fall");
-            }
-            else if (_season == Season.Winter)
-            {
-                _landTexture = content.Load<Texture2D>($"{location}/land_snow");
-            }
-        }
-
         public void LoadPond(ContentManager content)
         {
-            LoadLandAndWater(content, "Pond");
-            _dockTexture = content.Load<Texture2D>("General/dock");
+            LoadRiverOrPond(content, "Pond");
         }
 
         public void LoadRiver(ContentManager content)
         {
-            LoadLandAndWater(content, "River");
-            _dockTexture = content.Load<Texture2D>("General/dock");
+            LoadRiverOrPond(content, "River");
         }
 
         public void LoadOcean(ContentManager content)
         {
+
+            LoadOceanAssets(content);
+        }
+
+        private void LoadRiverOrPond(ContentManager content, string location)
+        {
+            _waterTexture = content.Load<Texture2D>("General/water");
+            _dockTexture = content.Load<Texture2D>("General/dock");
+
+            if (_season == Season.Spring)
+            {
+                _decorations = content.Load<Texture2D>($"{location}/{location}__Plants_Spring");
+                _landTexture = content.Load<Texture2D>($"{location}/{location}__Land");
+                _trees = content.Load<Texture2D>($"{location}/{location}__Trees_Spring");
+            }
+            else if (_season == Season.Summer)
+            {
+                _decorations = content.Load<Texture2D>($"{location}/{location}__Plants_Summer");
+                _landTexture = content.Load<Texture2D>($"{location}/{location}__Land");
+                _trees = content.Load<Texture2D>($"{location}/{location}__Trees_Summer");
+            }
+            else if (_season == Season.Fall)
+            {
+                _landTexture = content.Load<Texture2D>($"{location}/{location}__Land_Fall");
+                _trees = content.Load<Texture2D>($"{location}/{location}__Trees_Fall");
+            }
+            else if (_season == Season.Winter)
+            {
+                _landTexture = content.Load<Texture2D>($"{location}/{location}__Land_Snow");
+                _trees = content.Load<Texture2D>($"{location}/{location}__Trees_Winter");
+            }
+        }
+
+        private void LoadOceanAssets(ContentManager content)
+        {
+            _waterTexture = content.Load<Texture2D>("General/water");
             _dockTexture = null;
-            LoadLandAndWater(content, "Ocean");
+            _trees = null;
+
+            if (_season == Season.Spring)
+            {
+                _decorations = content.Load<Texture2D>("Ocean/Ocean__Plants_Spring");
+                _landTexture = content.Load<Texture2D>($"Ocean/Ocean__Land");
+            }
+            else if (_season == Season.Summer)
+            {
+                _decorations = content.Load<Texture2D>($"Ocean/Ocean__Plants_Summer");
+                _landTexture = content.Load<Texture2D>($"Ocean/Ocean__Land");
+            }
+            else if (_season == Season.Fall)
+            {
+                    _landTexture = content.Load<Texture2D>($"Ocean/Ocean__Land");
+            }
+            else if (_season == Season.Winter)
+            {
+                _landTexture = content.Load<Texture2D>($"Ocean/Ocean__Land_Snow");
+            }
         }
 
         public void Draw(SpriteBatch spriteBatch)
@@ -84,6 +112,12 @@ namespace FishGame.Backgrounds
             if (_decorations != null)
             {
                 spriteBatch.Draw(_decorations, destinationRectangle, null, Color.White);
+            }
+
+            // Draw trees
+            if (_trees != null)
+            {
+                spriteBatch.Draw(_trees, destinationRectangle, null, Color.White);
             }
         }
 

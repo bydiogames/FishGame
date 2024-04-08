@@ -13,7 +13,7 @@ namespace FishGame.Backgrounds
 {
     internal class Weather : IGameComponent, Microsoft.Xna.Framework.IDrawable
     {
-        private readonly TestBackgroundManager backgroundManager;
+        private readonly BackgroundManager backgroundManager;
         private readonly SpriteBatch spriteBatch;
 
         private Texture2D[] _weatherTexs = new Texture2D[SeasonUtils.Count];
@@ -30,7 +30,7 @@ namespace FishGame.Backgrounds
         private Texture2D _snowTex;
         private SpriteAnimation _snowSpriteAnim;
 
-        public Weather(TestBackgroundManager backgroundManager, SpriteBatch spriteBatch)
+        public Weather(BackgroundManager backgroundManager, SpriteBatch spriteBatch)
         {
             this.backgroundManager = backgroundManager;
             this.spriteBatch = spriteBatch;

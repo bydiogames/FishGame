@@ -1,38 +1,40 @@
 ﻿using FishGame.Backgrounds;
 using FishGame.Entities;
+using FishGame.Inputs;
 using FishGame.Inventory;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection.Metadata;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml.Linq;
 
 namespace FishGame.Interface
 {
     internal class MainUI : IGameComponent, IDrawable
     {
         private SpriteBatch _spriteBatch;
-        private TestBackgroundManager _background;
+        private BackgroundManager _background;
         private FishDB _fishDb;
         private FishJournal _fishJournal;
 
         public event Action RequestGotoLocationScreen;
 
-        public MainUI(SpriteBatch spriteBatch, TestBackgroundManager background, FishJournal fishJournal, FishDB fishDb)
+        public event EventHandler PlaySfx;
+        public event EventHandler MuteSfx;
+        public event EventHandler PlayMusic;
+        public event EventHandler MuteMusic;
+
+        public MainUI(SpriteBatch spriteBatch, BackgroundManager background, FishJournal fishJournal, FishDB fishDb)
         {
             _spriteBatch = spriteBatch;
             _background = background;
             _fishJournal = fishJournal;
             _fishDb = fishDb;
+
+            _background.SeasonChanged += OnSeasonChanged;
         }
 
-        private Texture2D _mainUiOverlayTex, _mainUiTilesTex;
+        private Texture2D _mainUiTilesTex;
         private Texture2D _fishAllTex, _fishAllMissingTex;
 
         private Texture2D _seasonCardsTex;
@@ -41,6 +43,9 @@ namespace FishGame.Interface
         private float _caughtFishTextWidth;
 
         private Texture2D _buttonsTex;
+
+        private TextureToggleButton _sfxButton;
+        private TextureToggleButton _musicButton;
 
         private SpriteFont _font;
         private SpriteFont _popupFont;
@@ -64,8 +69,8 @@ namespace FishGame.Interface
             null,
             new ButtonTile
             {
-                srcRec = new Rectangle(514, 162, 29, 27),
-                destRec = new Rectangle(40, 416, 29, 27),
+                srcRec = new Rectangle(498, 226, 44, 12),
+                destRec = new Rectangle(40, 426, 44, 12),
             },
             null,
             null,
@@ -93,13 +98,26 @@ namespace FishGame.Interface
             }
 
             {
-                _mainUiOverlayTex = content.Load<Texture2D>("Main_ui__Ui_tiles");
                 _mainUiTilesTex = content.Load<Texture2D>("Main_ui__Tiles");
             }
 
             _caughtFishTex = content.Load<Texture2D>("Main_ui__Fish_caught_popup");
 
             _seasonCardsTex = content.Load<Texture2D>("Season_Cards__Tiles");
+
+            // Load sound menu button textures
+            {
+                Texture2D onTexture = content.Load<Texture2D>("Speaker");
+                Texture2D offTexture = content.Load<Texture2D>("Speaker-Crossed");
+                _sfxButton = new TextureToggleButton(onTexture, offTexture, new Rectangle(640, 400, 16, 16));
+                _musicButton = new TextureToggleButton(onTexture, offTexture, new Rectangle(544, 400, 16, 16));
+
+                _sfxButton.ToggleOn += ToggleSfxOn;
+                _sfxButton.ToggleOff += ToggleSfxOff;
+                _musicButton.ToggleOn += ToggleMusicOn;
+                _musicButton.ToggleOff += ToggleMusicOff;
+
+            }
 
             _font = content.Load<SpriteFont>("gamefont");
             _popupFont = content.Load<SpriteFont>("popup_font");
@@ -108,6 +126,30 @@ namespace FishGame.Interface
             _square.SetData<Color>(new Color[] { Color.White });
 
             _buttonsTex = content.Load<Texture2D>("tilemap_white_packed");
+        }
+
+        private void ToggleMusicOn(object sender, EventArgs e)
+        {
+            _playMusic = true;
+            PlayMusic?.Invoke(this, EventArgs.Empty);
+        }
+
+        private void ToggleMusicOff(object sender, EventArgs e)
+        {
+            _playMusic = false;
+            MuteMusic?.Invoke(this, EventArgs.Empty);
+        }
+
+        private void ToggleSfxOn(object sender, EventArgs e)
+        {
+            _playSFX = true;
+            PlaySfx?.Invoke(this, EventArgs.Empty);
+        }
+
+        private void ToggleSfxOff(object sender, EventArgs e)
+        {
+            _playSFX = false;
+            MuteSfx?.Invoke(this, EventArgs.Empty);
         }
 
         int IDrawable.DrawOrder => 50;
@@ -176,12 +218,24 @@ namespace FishGame.Interface
             _spriteBatch.DrawString(_popupFont, _caughtFish.Name, new Vector2(textLocationX, EntityConstants.FishPopupLocationY), Color.SaddleBrown, 0, Vector2.Zero, 1f, SpriteEffects.None, 0);
         }
 
+        private void OnSeasonChanged(object sender, SeasonChangedEventArgs e)
+        {
+            _seasonElapsedTime = 0;
+        }
+
+        private float _seasonElapsedTime = 0;
+        private void DrawDate(GameTime gameTime)
+        {
+            _seasonElapsedTime += (float)gameTime.ElapsedGameTime.TotalSeconds;
+            _spriteBatch.DrawString(_font, $"{_background.GetSeason()} {(int)(1 + (_seasonElapsedTime/(60f/28)))}", 
+                new Vector2(48, 48), Color.White, 0, Vector2.Zero, 0.75f, SpriteEffects.None, 0);
+        }
+
         void IDrawable.Draw(GameTime gameTime)
         {
             _spriteBatch.Begin(SpriteSortMode.Deferred, null, SamplerState.PointClamp, null, null, null, null);
 
             _spriteBatch.Draw(_mainUiTilesTex, Vector2.Zero, null, Color.White, 0, Vector2.Zero, 2f, SpriteEffects.None, 0);
-            _spriteBatch.Draw(_mainUiOverlayTex, Vector2.Zero, null, Color.White, 0, Vector2.Zero, 2f, SpriteEffects.None, 0);
 
             var uiUpperLeft = _spriteBatch.GraphicsDevice.Viewport.Bounds.Size.ToVector2() * new Vector2(0.5f, 0.1f);
 
@@ -265,7 +319,7 @@ namespace FishGame.Interface
                     hoverTime += gameTime.ElapsedGameTime;
                     if (hoverTime > TimeSpan.FromSeconds(1))
                     {
-                        DrawToolTip("Goto Map");
+                        DrawToolTip("Go to Map");
                     }
 
                     if (mouseState.LeftButton == ButtonState.Pressed)
@@ -285,7 +339,36 @@ namespace FishGame.Interface
                 DrawFishPopup();
             }
 
+            DrawDate(gameTime);
+
+            DrawSoundMenu();
+
             _spriteBatch.End();
+        }
+
+        private bool _playMusic = true;
+        private bool _playSFX = true;
+        private void ToggleSfx(object sender, EventArgs e)
+        {
+            _playSFX = !_playSFX;
+        }
+
+        private void ToggleMusic(object sender, EventArgs e)
+        {
+            _playSFX = !_playMusic;
+        }
+
+        private void DrawSoundMenu()
+        {
+            // Music toggle
+            _spriteBatch.DrawString(_font, "Music", new Vector2(500, 400), Color.White,
+                0, Vector2.Zero, 0.5f, SpriteEffects.None, 0);
+            _musicButton.Draw(_spriteBatch);
+
+            // SFX toggle
+            _spriteBatch.DrawString(_font, "SFX", new Vector2(600, 400), Color.White,
+                0, Vector2.Zero, 0.5f, SpriteEffects.None, 0);
+            _sfxButton.Draw(_spriteBatch);
         }
 
         void IGameComponent.Initialize()
