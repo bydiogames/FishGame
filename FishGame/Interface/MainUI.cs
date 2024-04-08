@@ -226,9 +226,14 @@ namespace FishGame.Interface
 
         private void DrawFishPopup()
         {
+            float scalingFactor = 1f;
+            if(_caughtFishTextWidth > (EntityConstants.FishPopupWidthPx - 16))
+            {
+                scalingFactor = (EntityConstants.FishPopupWidthPx - 16) / _caughtFishTextWidth;
+            }
             _spriteBatch.Draw(_caughtFishTex, Vector2.Zero, null, Color.White, 0, Vector2.Zero, 2f, SpriteEffects.None, 0);
-            float textLocationX = (EntityConstants.FishPopupLocationX + ((EntityConstants.FishPopupWidthPx - _caughtFishTextWidth) / 2));
-            _spriteBatch.DrawString(_popupFont, _caughtFish.Name, new Vector2(textLocationX, EntityConstants.FishPopupLocationY), Color.SaddleBrown, 0, Vector2.Zero, 1f, SpriteEffects.None, 0);
+            float textLocationX = (EntityConstants.FishPopupLocationX + ((EntityConstants.FishPopupWidthPx - (_caughtFishTextWidth * scalingFactor)) / 2));
+            _spriteBatch.DrawString(_popupFont, _caughtFish.Name, new Vector2(textLocationX, EntityConstants.FishPopupLocationY), Color.SaddleBrown, 0, Vector2.Zero, scalingFactor, SpriteEffects.None, 0);
         }
 
         private void OnSeasonChanged(object sender, SeasonChangedEventArgs e)
