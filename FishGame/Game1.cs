@@ -36,6 +36,7 @@ namespace FishGame
 
         private MainUI _mainUI;
         private LocationUI locationUI;
+        private BydiogameUI bydiogameUI;
 
         public Game1()
         {
@@ -66,6 +67,7 @@ namespace FishGame
             _entityManager.Sb = _spriteBatch;
 
             this.Components.Add(_weather = new Weather(_background, _spriteBatch));
+            _weather.Visible = false;
 
             _gridTexture = new Texture2D(GraphicsDevice, 1, 1);
             _gridTexture.SetData(new Color[] { Color.White });
@@ -76,11 +78,15 @@ namespace FishGame
             _fishDb.LoadContent(Content);
             _fishJournal = new FishJournal(_fishDb);
 
-            SpawnCharacter();
+            bydiogameUI = new BydiogameUI(_spriteBatch, coroutineManager);
+            Components.Add(bydiogameUI);
+            bydiogameUI.Load(Content);
+            bydiogameUI.VisibleChanged += BydiogameUI_VisibleChanged;
 
             _mainUI = new MainUI(_spriteBatch, _background, _fishJournal, _fishDb);
             Components.Add(_mainUI);
             _mainUI.Load(Content, GraphicsDevice);
+            _mainUI.Visible = false;
 
             _mainUI.RequestGotoLocationScreen += () =>
             {
@@ -110,6 +116,16 @@ namespace FishGame
 
             coroutineManager.Start(SeasonRoutine());
             coroutineManager.Start(ButtonPromptRoutine());
+        }
+
+        private void BydiogameUI_VisibleChanged(object sender, EventArgs e)
+        {
+            if (!bydiogameUI.Visible)
+            {
+                SpawnCharacter();
+                _mainUI.Visible = true;
+                _weather.Visible = true;
+            }
         }
 
         private void SpawnCharacter()
@@ -170,12 +186,13 @@ namespace FishGame
 
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.CornflowerBlue);
+            GraphicsDevice.Clear(Color.Black);
 
             _spriteBatch.Begin(SpriteSortMode.Deferred, null, SamplerState.PointClamp, null, null, null, null);
 
             // TODO: Add your drawing code here
-            _background.Draw(_spriteBatch);
+            if (!bydiogameUI.Visible)
+                _background.Draw(_spriteBatch);
 
             if(_fishShadowAnimation != null)
             {
