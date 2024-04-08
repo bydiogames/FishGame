@@ -1,17 +1,12 @@
 ﻿using FishGame.Backgrounds;
 using FishGame.Entities;
+using FishGame.Inputs;
 using FishGame.Inventory;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection.Metadata;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml.Linq;
 
 namespace FishGame.Interface
 {
@@ -23,6 +18,11 @@ namespace FishGame.Interface
         private FishJournal _fishJournal;
 
         public event Action RequestGotoLocationScreen;
+
+        public event EventHandler PlaySfx;
+        public event EventHandler MuteSfx;
+        public event EventHandler PlayMusic;
+        public event EventHandler MuteMusic;
 
         public MainUI(SpriteBatch spriteBatch, BackgroundManager background, FishJournal fishJournal, FishDB fishDb)
         {
@@ -43,6 +43,9 @@ namespace FishGame.Interface
         private float _caughtFishTextWidth;
 
         private Texture2D _buttonsTex;
+
+        private TextureToggleButton _sfxButton;
+        private TextureToggleButton _musicButton;
 
         private SpriteFont _font;
         private SpriteFont _popupFont;
@@ -102,6 +105,20 @@ namespace FishGame.Interface
 
             _seasonCardsTex = content.Load<Texture2D>("Season_Cards__Tiles");
 
+            // Load sound menu button textures
+            {
+                Texture2D onTexture = content.Load<Texture2D>("Speaker");
+                Texture2D offTexture = content.Load<Texture2D>("Speaker-Crossed");
+                _sfxButton = new TextureToggleButton(onTexture, offTexture, new Rectangle(640, 400, 16, 16));
+                _musicButton = new TextureToggleButton(onTexture, offTexture, new Rectangle(544, 400, 16, 16));
+
+                _sfxButton.ToggleOn += ToggleSfxOn;
+                _sfxButton.ToggleOff += ToggleSfxOff;
+                _musicButton.ToggleOn += ToggleMusicOn;
+                _musicButton.ToggleOff += ToggleMusicOff;
+
+            }
+
             _font = content.Load<SpriteFont>("gamefont");
             _popupFont = content.Load<SpriteFont>("popup_font");
 
@@ -109,6 +126,30 @@ namespace FishGame.Interface
             _square.SetData<Color>(new Color[] { Color.White });
 
             _buttonsTex = content.Load<Texture2D>("tilemap_white_packed");
+        }
+
+        private void ToggleMusicOn(object sender, EventArgs e)
+        {
+            _playMusic = true;
+            PlayMusic?.Invoke(this, EventArgs.Empty);
+        }
+
+        private void ToggleMusicOff(object sender, EventArgs e)
+        {
+            _playMusic = false;
+            MuteMusic?.Invoke(this, EventArgs.Empty);
+        }
+
+        private void ToggleSfxOn(object sender, EventArgs e)
+        {
+            _playSFX = true;
+            PlaySfx?.Invoke(this, EventArgs.Empty);
+        }
+
+        private void ToggleSfxOff(object sender, EventArgs e)
+        {
+            _playSFX = false;
+            MuteSfx?.Invoke(this, EventArgs.Empty);
         }
 
         int IDrawable.DrawOrder => 50;
@@ -300,7 +341,34 @@ namespace FishGame.Interface
 
             DrawDate(gameTime);
 
+            DrawSoundMenu();
+
             _spriteBatch.End();
+        }
+
+        private bool _playMusic = true;
+        private bool _playSFX = true;
+        private void ToggleSfx(object sender, EventArgs e)
+        {
+            _playSFX = !_playSFX;
+        }
+
+        private void ToggleMusic(object sender, EventArgs e)
+        {
+            _playSFX = !_playMusic;
+        }
+
+        private void DrawSoundMenu()
+        {
+            // Music toggle
+            _spriteBatch.DrawString(_font, "Music", new Vector2(500, 400), Color.White,
+                0, Vector2.Zero, 0.5f, SpriteEffects.None, 0);
+            _musicButton.Draw(_spriteBatch);
+
+            // SFX toggle
+            _spriteBatch.DrawString(_font, "SFX", new Vector2(600, 400), Color.White,
+                0, Vector2.Zero, 0.5f, SpriteEffects.None, 0);
+            _sfxButton.Draw(_spriteBatch);
         }
 
         void IGameComponent.Initialize()

@@ -577,6 +577,54 @@
 /processorParam:TextureFormat=Color
 /build:../Assets/ui/png/Season_Cards__Tiles.png;Season_Cards__Tiles.png
 
+#begin ../Assets/ui/Speaker-Crossed.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:../Assets/ui/Speaker-Crossed.png;SFX/Speaker-Crossed.png
+
+#begin ../Assets/ui/Speaker-Crossed.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:../Assets/ui/Speaker-Crossed.png;Speaker-Crossed.png
+
+#begin ../Assets/ui/Speaker.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:../Assets/ui/Speaker.png;SFX/Speaker.png
+
+#begin ../Assets/ui/Speaker.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:../Assets/ui/Speaker.png;Speaker.png
+
 #begin ../Assets/ui/tilemap_white_packed.png
 /importer:TextureImporter
 /processor:TextureProcessor

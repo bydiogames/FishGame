@@ -92,6 +92,11 @@ namespace FishGame
                 locationUI.Visible = true;
             };
 
+            _mainUI.PlayMusic += OnPlayMusic;
+            _mainUI.MuteMusic += OnMuteMusic;
+            _mainUI.PlaySfx += OnPlaySfx;
+            _mainUI.MuteSfx += OnMuteSfx;
+
             locationUI = new LocationUI(_spriteBatch);
             Components.Add(locationUI);
             locationUI.Load(Content, GraphicsDevice);
@@ -112,6 +117,11 @@ namespace FishGame
 
             coroutineManager.Start(SeasonRoutine());
             coroutineManager.Start(ButtonPromptRoutine());
+        }
+
+        private void _mainUI_MuteSfx(object sender, EventArgs e)
+        {
+            throw new NotImplementedException();
         }
 
         private void SpawnCharacter()
@@ -231,6 +241,26 @@ namespace FishGame
         internal void OnSeasonChanged(object sender, SeasonChangedEventArgs e)
         {
             _soundManager.UpdateSong(e.Season);
+        }
+
+        internal void OnPlayMusic(object sender, EventArgs e)
+        {
+            _soundManager.PlayMusic();
+        }
+
+        internal void OnMuteMusic(object sender, EventArgs e)
+        {
+            _soundManager.MuteMusic();
+        }
+
+        internal void OnPlaySfx(object sender, EventArgs e)
+        {
+            _soundManager.PlaySfx();
+        }
+
+        internal void OnMuteSfx(object sender, EventArgs e)
+        {
+            _soundManager.MuteSfx();
         }
     }
 }

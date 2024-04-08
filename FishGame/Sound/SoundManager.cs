@@ -29,9 +29,30 @@ namespace FishGame.Sound
             MediaPlayer.IsRepeating = true;
         }
 
+        public void MuteSfx()
+        {
+            SoundEffect.MasterVolume = 0;
+        }
+
+        public void PlaySfx()
+        {
+            SoundEffect.MasterVolume = 1;
+        }
+
+        public void PlayMusic()
+        {
+            MediaPlayer.Volume = 1;
+        }
+
+        public void MuteMusic()
+        {
+            MediaPlayer.Volume = 0;
+        }
+
         public void PlayFishPickupSfx()
         {
             _fishPickupSfx.Play();
+
         }
 
         public void PlayExclamationSfx()
