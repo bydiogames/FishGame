@@ -25,102 +25,6 @@
 /processorParam:TextureFormat=Color
 /build:../Assets/Backgrounds/fairys.png;fairys.png
 
-#begin ../Assets/Backgrounds/General/dock.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:../Assets/Backgrounds/General/dock.png;General/dock.png
-
-#begin ../Assets/Backgrounds/General/water.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:../Assets/Backgrounds/General/water.png;General/water.png
-
-#begin ../Assets/Backgrounds/Ocean/deco_fall.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:../Assets/Backgrounds/Ocean/deco_fall.png;Ocean/deco_fall.png
-
-#begin ../Assets/Backgrounds/Ocean/deco_spring.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:../Assets/Backgrounds/Ocean/deco_spring.png;Ocean/deco_spring.png
-
-#begin ../Assets/Backgrounds/Ocean/deco_summer.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:../Assets/Backgrounds/Ocean/deco_summer.png;Ocean/deco_summer.png
-
-#begin ../Assets/Backgrounds/Ocean/land_fall.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:../Assets/Backgrounds/Ocean/land_fall.png;Ocean/land_fall.png
-
-#begin ../Assets/Backgrounds/Ocean/land_snow.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:../Assets/Backgrounds/Ocean/land_snow.png;Ocean/land_snow.png
-
-#begin ../Assets/Backgrounds/Ocean/land.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:../Assets/Backgrounds/Ocean/land.png;Ocean/land.png
-
 #begin ../Assets/Backgrounds/petals.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -133,7 +37,7 @@
 /processorParam:TextureFormat=Color
 /build:../Assets/Backgrounds/petals.png;petals.png
 
-#begin ../Assets/Backgrounds/Pond/deco_fall.png
+#begin ../Assets/Backgrounds/png/Ocean__Land_Snow.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -143,9 +47,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:../Assets/Backgrounds/Pond/deco_fall.png;Pond/deco_fall.png
+/build:../Assets/Backgrounds/png/Ocean__Land_Snow.png;Ocean/Ocean__Land_Snow.png
 
-#begin ../Assets/Backgrounds/Pond/deco_spring.png
+#begin ../Assets/Backgrounds/png/Ocean__Land.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -155,9 +59,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:../Assets/Backgrounds/Pond/deco_spring.png;Pond/deco_spring.png
+/build:../Assets/Backgrounds/png/Ocean__Land.png;Ocean/Ocean__Land.png
 
-#begin ../Assets/Backgrounds/Pond/deco_summer.png
+#begin ../Assets/Backgrounds/png/Ocean__Plants_Spring.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -167,9 +71,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:../Assets/Backgrounds/Pond/deco_summer.png;Pond/deco_summer.png
+/build:../Assets/Backgrounds/png/Ocean__Plants_Spring.png;Ocean/Ocean__Plants_Spring.png
 
-#begin ../Assets/Backgrounds/Pond/land_fall.png
+#begin ../Assets/Backgrounds/png/Ocean__Plants_Summer.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -179,9 +83,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:../Assets/Backgrounds/Pond/land_fall.png;Pond/land_fall.png
+/build:../Assets/Backgrounds/png/Ocean__Plants_Summer.png;Ocean/Ocean__Plants_Summer.png
 
-#begin ../Assets/Backgrounds/Pond/land_snow.png
+#begin ../Assets/Backgrounds/png/Ocean__Water.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -191,9 +95,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:../Assets/Backgrounds/Pond/land_snow.png;Pond/land_snow.png
+/build:../Assets/Backgrounds/png/Ocean__Water.png;Ocean/Ocean__Water.png
 
-#begin ../Assets/Backgrounds/Pond/land.png
+#begin ../Assets/Backgrounds/png/Pond__Land_Fall.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -203,7 +107,235 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:../Assets/Backgrounds/Pond/land.png;Pond/land.png
+/build:../Assets/Backgrounds/png/Pond__Land_Fall.png;Pond/Pond__Land_Fall.png
+
+#begin ../Assets/Backgrounds/png/Pond__Land_Snow.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:../Assets/Backgrounds/png/Pond__Land_Snow.png;Pond/Pond__Land_Snow.png
+
+#begin ../Assets/Backgrounds/png/Pond__Land.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:../Assets/Backgrounds/png/Pond__Land.png;Pond/Pond__Land.png
+
+#begin ../Assets/Backgrounds/png/Pond__Plants_Spring.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:../Assets/Backgrounds/png/Pond__Plants_Spring.png;Pond/Pond__Plants_Spring.png
+
+#begin ../Assets/Backgrounds/png/Pond__Plants_Summer.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:../Assets/Backgrounds/png/Pond__Plants_Summer.png;Pond/Pond__Plants_Summer.png
+
+#begin ../Assets/Backgrounds/png/Pond__Trees_Fall.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:../Assets/Backgrounds/png/Pond__Trees_Fall.png;Pond/Pond__Trees_Fall.png
+
+#begin ../Assets/Backgrounds/png/Pond__Trees_Spring.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:../Assets/Backgrounds/png/Pond__Trees_Spring.png;Pond/Pond__Trees_Spring.png
+
+#begin ../Assets/Backgrounds/png/Pond__Trees_Summer.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:../Assets/Backgrounds/png/Pond__Trees_Summer.png;Pond/Pond__Trees_Summer.png
+
+#begin ../Assets/Backgrounds/png/Pond__Trees_Winter.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:../Assets/Backgrounds/png/Pond__Trees_Winter.png;Pond/Pond__Trees_Winter.png
+
+#begin ../Assets/Backgrounds/png/River__Dock.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:../Assets/Backgrounds/png/River__Dock.png;General/Dock.png
+
+#begin ../Assets/Backgrounds/png/River__Land_Fall.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:../Assets/Backgrounds/png/River__Land_Fall.png;River/River__Land_Fall.png
+
+#begin ../Assets/Backgrounds/png/River__Land_Snow.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:../Assets/Backgrounds/png/River__Land_Snow.png;River/River__Land_Snow.png
+
+#begin ../Assets/Backgrounds/png/River__Land.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:../Assets/Backgrounds/png/River__Land.png;River/River__Land.png
+
+#begin ../Assets/Backgrounds/png/River__Plants_Spring.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:../Assets/Backgrounds/png/River__Plants_Spring.png;River/River__Plants_Spring.png
+
+#begin ../Assets/Backgrounds/png/River__Plants_Summer.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:../Assets/Backgrounds/png/River__Plants_Summer.png;River/River__Plants_Summer.png
+
+#begin ../Assets/Backgrounds/png/River__Trees_Fall.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:../Assets/Backgrounds/png/River__Trees_Fall.png;River/River__Trees_Fall.png
+
+#begin ../Assets/Backgrounds/png/River__Trees_Spring.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:../Assets/Backgrounds/png/River__Trees_Spring.png;River/River__Trees_Spring.png
+
+#begin ../Assets/Backgrounds/png/River__Trees_Summer.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:../Assets/Backgrounds/png/River__Trees_Summer.png;River/River__Trees_Summer.png
+
+#begin ../Assets/Backgrounds/png/River__Trees_Winter.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:../Assets/Backgrounds/png/River__Trees_Winter.png;River/River__Trees_Winter.png
+
+#begin ../Assets/Backgrounds/png/River__Water.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:../Assets/Backgrounds/png/River__Water.png;General/Water.png
 
 #begin ../Assets/Backgrounds/rain.png
 /importer:TextureImporter
@@ -216,78 +348,6 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:../Assets/Backgrounds/rain.png;rain.png
-
-#begin ../Assets/Backgrounds/River/deco_fall.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:../Assets/Backgrounds/River/deco_fall.png;River/deco_fall.png
-
-#begin ../Assets/Backgrounds/River/deco_spring.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:../Assets/Backgrounds/River/deco_spring.png;River/deco_spring.png
-
-#begin ../Assets/Backgrounds/River/deco_summer.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:../Assets/Backgrounds/River/deco_summer.png;River/deco_summer.png
-
-#begin ../Assets/Backgrounds/River/land_fall.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:../Assets/Backgrounds/River/land_fall.png;River/land_fall.png
-
-#begin ../Assets/Backgrounds/River/land_snow.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:../Assets/Backgrounds/River/land_snow.png;River/land_snow.png
-
-#begin ../Assets/Backgrounds/River/land.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:../Assets/Backgrounds/River/land.png;River/land.png
 
 #begin ../Assets/Backgrounds/snow.png
 /importer:TextureImporter
@@ -587,31 +647,7 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:../Assets/ui/Speaker-Crossed.png;SFX/Speaker-Crossed.png
-
-#begin ../Assets/ui/Speaker-Crossed.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
 /build:../Assets/ui/Speaker-Crossed.png;Speaker-Crossed.png
-
-#begin ../Assets/ui/Speaker.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:../Assets/ui/Speaker.png;SFX/Speaker.png
 
 #begin ../Assets/ui/Speaker.png
 /importer:TextureImporter
