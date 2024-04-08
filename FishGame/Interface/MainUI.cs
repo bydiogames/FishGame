@@ -227,9 +227,9 @@ namespace FishGame.Interface
         private void DrawFishPopup()
         {
             float scalingFactor = 1f;
-            if(_caughtFishTextWidth > (EntityConstants.FishPopupWidthPx - 16))
+            if(_caughtFishTextWidth > (EntityConstants.FishPopupWidthPx - 18))
             {
-                scalingFactor = (EntityConstants.FishPopupWidthPx - 16) / _caughtFishTextWidth;
+                scalingFactor = (EntityConstants.FishPopupWidthPx - 18) / _caughtFishTextWidth;
             }
             _spriteBatch.Draw(_caughtFishTex, Vector2.Zero, null, Color.White, 0, Vector2.Zero, 2f, SpriteEffects.None, 0);
             float textLocationX = (EntityConstants.FishPopupLocationX + ((EntityConstants.FishPopupWidthPx - (_caughtFishTextWidth * scalingFactor)) / 2));
