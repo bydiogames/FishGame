@@ -127,9 +127,6 @@ namespace FishGame
             };
 
             _soundManager.Load(Content);
-
-            coroutineManager.Start(SeasonRoutine());
-            coroutineManager.Start(ButtonPromptRoutine());
         }
 
         private void Credits_VisibleChanged(object sender, EventArgs e)
@@ -159,6 +156,8 @@ namespace FishGame
                 _mainUI.Visible = true;
                 _weather.Visible = true;
                 _soundManager.UpdateSong(_background.GetSeason());
+                coroutineManager.Start(SeasonRoutine());
+                coroutineManager.Start(ButtonPromptRoutine());
             }
         }
 
