@@ -46,6 +46,7 @@ namespace FishGame.Interface
 
         private TextureToggleButton _sfxButton;
         private TextureToggleButton _musicButton;
+        private TextureButton _locationButton;
 
         private TextButton _creditsButton;
 
@@ -127,6 +128,15 @@ namespace FishGame.Interface
             {
                 _creditsButton = new TextButton(_font, new Vector2(_creditsPosX, _menuPosY), "Credits", 0.5f);
                 _creditsButton.Clicked += CreditsButtonClicked;
+            }
+
+            // Load location button
+            {
+                Texture2D compassTexture = content.Load<Texture2D>("compass");
+                var tileDim = new Point(16, 16) * new Point(2);
+                var mapTileLocation = new Point(11, 10) * tileDim;
+                _locationButton = new TextureButton(compassTexture, new Rectangle(mapTileLocation, tileDim));
+                _locationButton.Pressed += OnLocationButtonPressed;
             }
 
             _square = new Texture2D(graphics, 1, 1);
@@ -332,30 +342,17 @@ namespace FishGame.Interface
 
             if (!anyHover)
             {
-                var tileDim = new Point(16, 16) * new Point(2);
-                var mapTileLocation = new Point(11, 10) * tileDim;
-                if (new Rectangle(mapTileLocation, tileDim).Contains(mouseState.Position))
-                {
-                    anyHover = true;
-                    hoverTime += gameTime.ElapsedGameTime;
-                    if (hoverTime > TimeSpan.FromSeconds(1))
-                    {
-                        DrawToolTip("Go to Map");
-                    }
-
-                    if (mouseState.LeftButton == ButtonState.Pressed)
-                    {
-                        RequestGotoLocationScreen();
-                    }
-                }
-            }
-
-            if (!anyHover)
-            {
                 hoverTime = TimeSpan.Zero;
             }
 
-            if(_showFishPopup)
+            // Location button
+            _locationButton.Draw(_spriteBatch);
+            if (_locationButton.IsHovering)
+            {
+                DrawToolTip("Go to Map");
+            }
+
+            if (_showFishPopup)
             {
                 DrawFishPopup();
             }
@@ -377,6 +374,11 @@ namespace FishGame.Interface
         private void ToggleMusic(object sender, EventArgs e)
         {
             _playSFX = !_playMusic;
+        }
+
+        private void OnLocationButtonPressed(object sender, EventArgs e)
+        {
+            RequestGotoLocationScreen();
         }
 
         private void DrawMenu()

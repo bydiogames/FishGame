@@ -599,6 +599,18 @@
 /processorParam:Quality=Best
 /build:../Assets/SFX/reel.wav;SFX/reel.wav
 
+#begin ../Assets/ui/compass.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:../Assets/ui/compass.png;compass.png
+
 #begin ../Assets/ui/png/Main_ui__Fish_caught_popup.png
 /importer:TextureImporter
 /processor:TextureProcessor
