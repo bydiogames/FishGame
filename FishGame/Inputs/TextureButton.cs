@@ -15,14 +15,16 @@ namespace FishGame.Inputs
 
         public event EventHandler Pressed;
 
-        private Rectangle _rectangle;
-        public Rectangle Rectangle { get => _rectangle; }
+        private Rectangle _destRect;
+        private Rectangle _srcRect;
+        public Rectangle Rectangle { get => _destRect; }
         public bool IsHovering { get => _isHovering; }
 
-        public TextureButton(Texture2D texture, Rectangle rectangle)
+        public TextureButton(Texture2D texture, Rectangle destRect, Rectangle srcRect)
         {
             _texture = texture;
-            _rectangle = rectangle;
+            _destRect = destRect;
+            _srcRect = srcRect;
         }
 
         public void Draw(SpriteBatch spriteBatch)
@@ -33,7 +35,7 @@ namespace FishGame.Inputs
             if (_isHovering)
                 colour = Color.Gray;
 
-            spriteBatch.Draw(_texture, Rectangle, colour);
+            spriteBatch.Draw(_texture, Rectangle, _srcRect, colour);
         }
 
         private void Update()

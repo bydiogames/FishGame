@@ -15,21 +15,15 @@ using System.Xml.Linq;
 
 namespace FishGame.Interface
 {
-    internal class LocationUI : IGameComponent, IDrawable
+    internal class LocationUI : Screen, IGameComponent
     {
-        private SpriteBatch _spriteBatch;
-
-        public LocationUI(SpriteBatch spriteBatch)
+        public LocationUI(Game1 game, GraphicsDevice graphicsDevice, ContentManager contentManager) : base(game, graphicsDevice, contentManager)
         {
-            _spriteBatch = spriteBatch;
+            _toolTip = new ToolTip();
         }
 
         private Texture2D _uiTex;
-
-        private SpriteFont _font;
-        private SpriteFont _popupFont;
-
-        private Texture2D _square;
+        private ToolTip _toolTip;
 
         private struct LocationInfo
         {
@@ -56,20 +50,12 @@ namespace FishGame.Interface
             },
         };
 
-        public void Load(ContentManager content, GraphicsDevice graphics)
+        public override void LoadContent()
         {
-            {
-                _uiTex = content.Load<Texture2D>("Main_ui2");
-            }
+            _uiTex = _content.Load<Texture2D>("Main_ui2");
 
-            _font = content.Load<SpriteFont>("gamefont");
-            _popupFont = content.Load<SpriteFont>("popup_font");
-
-            _square = new Texture2D(graphics, 1, 1);
-            _square.SetData<Color>(new Color[] { Color.White });
+            _toolTip.Load(_content, _graphicsDevice);
         }
-
-        int IDrawable.DrawOrder => 50;
 
         private bool visible = true;
 
@@ -87,34 +73,13 @@ namespace FishGame.Interface
 
         public event EventHandler<EventArgs> VisibleChanged;
 
-        public event Action<Location> LocationChanged;
-
         private int? lastHoverIdx;
         private TimeSpan hoverTime;
-
-        private void DrawToolTip(string tooltip)
-        {
-            var mouseState = Mouse.GetState();
-
-            Vector2 stringDim = _font.MeasureString(tooltip);
-            _spriteBatch.Draw(
-                _square,
-                new Rectangle(
-                    mouseState.Position - new Point(0, (int)stringDim.Y) - new Point(2, 2),
-                    stringDim.ToPoint() + new Point(2, 2)
-                ),
-                Color.Brown
-            );
-            _spriteBatch.DrawString(_font, tooltip, mouseState.Position.ToVector2() - new Vector2(0, stringDim.Y) * 1f, Color.White, 0, Vector2.Zero, 1f, SpriteEffects.None, 0);
-        }
-
         TimeSpan _hoverTimer;
 
-        void IDrawable.Draw(GameTime gameTime)
+        public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
-            _spriteBatch.Begin(SpriteSortMode.Deferred, null, SamplerState.PointClamp, null, null, null, null);
-
-            _spriteBatch.Draw(_uiTex, Vector2.Zero, null, Color.White, 0, Vector2.Zero, 2f, SpriteEffects.None, 0);
+            spriteBatch.Draw(_uiTex, Vector2.Zero, null, Color.White, 0, Vector2.Zero, 2f, SpriteEffects.None, 0);
 
             var mouseState = Mouse.GetState();
 
@@ -125,29 +90,27 @@ namespace FishGame.Interface
                     if (mouseState.LeftButton == ButtonState.Pressed)
                     {
                         _hoverTimer = TimeSpan.Zero;
-                        LocationChanged(location.location);
-                        goto finish_draw;
+                        _game.ChangeLocation(location.location);
+                        _game.LoadMainUI();
                     }
 
                     _hoverTimer += gameTime.ElapsedGameTime;
 
                     if (_hoverTimer.TotalSeconds > 1)
                     {
-                        DrawToolTip(location.location.GetName());
-                        goto finish_draw;
+                        _toolTip.Draw(location.location.GetName(), spriteBatch);
                     }
-
-                    goto finish_draw;
                 }
             }
 
             _hoverTimer = TimeSpan.Zero;
-
-        finish_draw:
-            _spriteBatch.End();
         }
 
         void IGameComponent.Initialize()
+        {
+        }
+
+        public override void Update(GameTime gameTime)
         {
         }
     }

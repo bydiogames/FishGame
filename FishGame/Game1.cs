@@ -34,10 +34,7 @@ namespace FishGame
 
         private EntityManager _entityManager;
 
-        private MainUI _mainUI;
-        private LocationUI locationUI;
-        private BydiogameUI bydiogameUI;
-        private Credits credits;
+        private Screen _currentScreen;
 
         public Game1()
         {
@@ -58,7 +55,7 @@ namespace FishGame
             this.Components.Add(_entityManager = new EntityManager(Content));
 
             _soundManager = new SoundManager();
-
+            _currentScreen = new BydiogameUI(this, GraphicsDevice, Content, coroutineManager);
             base.Initialize();
         }
 
@@ -80,85 +77,52 @@ namespace FishGame
             _fishDb.LoadContent(Content);
             _fishJournal = new FishJournal(_fishDb);
 
-            bydiogameUI = new BydiogameUI(_spriteBatch, coroutineManager);
-            Components.Add(bydiogameUI);
-            bydiogameUI.Load(Content);
-            bydiogameUI.VisibleChanged += BydiogameUI_VisibleChanged;
-
-            credits = new Credits(_spriteBatch, coroutineManager);
-            Components.Add(credits);
-            credits.Load(Content);
-            credits.Visible = false;
-            credits.VisibleChanged += Credits_VisibleChanged;
-
-            _mainUI = new MainUI(_spriteBatch, _background, _fishJournal, _fishDb);
-            Components.Add(_mainUI);
-            _mainUI.Load(Content, GraphicsDevice);
-            _mainUI.ShowCredits += ShowCredits;
-            _mainUI.Visible = false;
-
-            _mainUI.RequestGotoLocationScreen += () =>
-            {
-                _entityManager.DestroyEntity(_character);
-                _fishShadowAnimation = null;
-
-                _mainUI.Visible = false;
-                _mainUI.HideFishPopup();
-                locationUI.Visible = true;
-            };
-
-            _mainUI.PlayMusic += OnPlayMusic;
-            _mainUI.MuteMusic += OnMuteMusic;
-            _mainUI.PlaySfx += OnPlaySfx;
-            _mainUI.MuteSfx += OnMuteSfx;
-
-            locationUI = new LocationUI(_spriteBatch);
-            Components.Add(locationUI);
-            locationUI.Load(Content, GraphicsDevice);
-            locationUI.Visible = false;
-
-            locationUI.LocationChanged += (Location location) =>
-            {
-                _background.ChangeLocation(location);
-                _mainUI.Visible = true;
-                locationUI.Visible = false;
-
-                SpawnCharacter();
-            };
-
             _soundManager.Load(Content);
+            _currentScreen.LoadContent();
         }
 
-        private void Credits_VisibleChanged(object sender, EventArgs e)
+        public void LoadMainUI()
         {
-            if (credits.Visible)
-            {
-                _mainUI.Visible = false;
-                _weather.Visible = false;
-                _fishShadowAnimation = null;
-
-                _entityManager.DestroyEntity(_character);
-            }
-            else
-            {
-                _mainUI.Visible = true;
-                _weather.Visible = true;
-
-                SpawnCharacter();
-            }
+            MainUI mainUI = new MainUI(this, GraphicsDevice, Content, _background, _fishJournal, _fishDb);
+            mainUI.PlayMusic += OnPlayMusic;
+            mainUI.MuteMusic += OnMuteMusic;
+            mainUI.PlaySfx += OnPlaySfx;
+            mainUI.MuteSfx += OnMuteSfx;
+            
+            _currentScreen = mainUI;
+            _currentScreen.LoadContent();
+            SpawnCharacter();
+            _weather.Visible = true;
+            _soundManager.UpdateSong(_background.GetSeason());
+            coroutineManager.Start(SeasonRoutine());
+            //coroutineManager.Start(ButtonPromptRoutine());
         }
 
-        private void BydiogameUI_VisibleChanged(object sender, EventArgs e)
+        public void LoadLocationScreen()
         {
-            if (!bydiogameUI.Visible)
-            {
-                SpawnCharacter();
-                _mainUI.Visible = true;
-                _weather.Visible = true;
-                _soundManager.UpdateSong(_background.GetSeason());
-                coroutineManager.Start(SeasonRoutine());
-                coroutineManager.Start(ButtonPromptRoutine());
-            }
+            _entityManager.DestroyEntity(_character);
+            _fishShadowAnimation = null;
+            _currentScreen = new LocationUI(this, GraphicsDevice, Content);
+            _currentScreen.LoadContent();
+        }
+
+        public void LoadSeasonScreen()
+        {
+            _entityManager.DestroyEntity(_character);
+            _fishShadowAnimation = null;
+            _currentScreen = new SeasonUI(this, GraphicsDevice, Content);
+            _currentScreen.LoadContent();
+        }
+
+        public void ChangeLocation(Location location)
+        {
+            _background.ChangeLocation(location);
+        }
+
+        private void LoadBydioGameUI()
+        {
+            _currentScreen = new BydiogameUI(this, GraphicsDevice, Content, coroutineManager);
+            _currentScreen.LoadContent();
         }
 
         private void _mainUI_MuteSfx(object sender, EventArgs e)
@@ -187,24 +151,23 @@ namespace FishGame
             while (true) 
             {
                 yield return new Wait(TimeSpan.FromMinutes(1));
-                //yield return new WaitOnPredicate(() => _character != null);
-
                 _background.NextSeason();
             }
         }
 
-        private IEnumerator<IWaitable> ButtonPromptRoutine()
+        // TODO: Refactor this to be on the MainUI
+/*        private IEnumerator<IWaitable> ButtonPromptRoutine()
         {
             while(true)
             {
-                if (_character != null && _mainUI.Visible)
+                if (_character != null)
                 {
                     _mainUI.ShowButtonPromptForState(_character.State);
                 }
 
                 yield return null;
             }
-        }
+        }*/
 
         protected override void Update(GameTime gameTime)
         {
@@ -212,6 +175,7 @@ namespace FishGame
                 Exit();
 
             // TODO: Add your update logic here
+            _currentScreen.Update(gameTime);
             _background.Update();
 
             if (_fishShadowAnimation != null)
@@ -219,14 +183,12 @@ namespace FishGame
                 _fishShadowAnimation.Update(gameTime);
             }
 
-            _background.Update();
-
             base.Update(gameTime);
         }
 
         public void ShowCredits(object sender,  EventArgs e)
         {
-            credits.Visible = true;
+            _currentScreen = new Credits(this, GraphicsDevice, Content, _spriteBatch, coroutineManager);
         }
 
         protected override void Draw(GameTime gameTime)
@@ -235,9 +197,7 @@ namespace FishGame
 
             _spriteBatch.Begin(SpriteSortMode.Deferred, null, SamplerState.PointClamp, null, null, null, null);
 
-            // TODO: Add your drawing code here
-            if (!bydiogameUI.Visible && !credits.Visible)
-                _background.Draw(_spriteBatch);
+            _currentScreen.Draw(gameTime, _spriteBatch);
 
             if(_fishShadowAnimation != null)
             {
@@ -266,7 +226,6 @@ namespace FishGame
 
         internal void OnPickupFinished(object sender, EventArgs e)
         {
-            _mainUI.ShowFishPopup(_character.GetFish());
         }
 
         internal void OnExclamation(object sender, EventArgs e)
@@ -283,7 +242,6 @@ namespace FishGame
         {
             _fishShadowAnimation = new FishShadowAnimation(new Vector2(EntityConstants.FishShadowLocationXTiles, EntityConstants.FishShadowLocationYTiles));
             _fishShadowAnimation.Load(Content);
-            _mainUI.HideFishPopup();
         }
 
         internal void OnSeasonChanged(object sender, SeasonChangedEventArgs e)

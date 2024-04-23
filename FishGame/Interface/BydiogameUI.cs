@@ -8,32 +8,29 @@ using System.Collections.Generic;
 
 namespace FishGame.Interface
 {
-    internal class BydiogameUI : IGameComponent, IDrawable
+    internal class BydiogameUI : Screen, IGameComponent
     {
-        private SpriteBatch _spriteBatch;
-        private readonly CoroutineManager coroutineManager;
-
+        private readonly CoroutineManager _coroutineManager;
         public event Action RequestGotoLocationScreen;
 
-        public BydiogameUI(SpriteBatch spriteBatch, CoroutineManager coroutineManager)
+        public BydiogameUI(Game1 game, GraphicsDevice device, ContentManager content, CoroutineManager coroutineManager) : base(game, device, content) 
         {
-            _spriteBatch = spriteBatch;
-            this.coroutineManager = coroutineManager;
+            _coroutineManager = coroutineManager;
         }
-
+        
         private Texture2D _tex;
         private Animation.SpriteAnimation _anim;
 
         private SpriteFont _font;
 
-        public void Load(ContentManager content)
+        public override void LoadContent()
         {
-            _tex = content.Load<Texture2D>("bydiogames_logo");
-            _font = content.Load<SpriteFont>("logofont");
+            _tex = _content.Load<Texture2D>("bydiogames_logo");
+            _font = _content.Load<SpriteFont>("logofont");
 
             _anim = new Animation.SpriteAnimation(_tex, 10, 4, 40, 800 / EntityConstants.TileWidthPx, 480 / EntityConstants.TileHeightPx, shouldLoop: true);
 
-            this.coroutineManager.Start(StartupRoutine());
+            _coroutineManager.Start(StartupRoutine());
         }
 
         private string _drawingText = "";
@@ -44,10 +41,8 @@ namespace FishGame.Interface
             _drawingText = "By Bydiogame Studios";
 
             yield return new Wait(TimeSpan.FromSeconds(3));
-            Visible = false;
+            _game.LoadMainUI();
         }
-
-        int IDrawable.DrawOrder => 50;
 
         private bool visible = true;
 
@@ -67,7 +62,7 @@ namespace FishGame.Interface
 
         private TimeSpan _frameTime;
 
-        void IDrawable.Draw(GameTime gameTime)
+        public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
             _frameTime += gameTime.ElapsedGameTime;
             if (_frameTime.TotalSeconds > (1f / 30f))
@@ -76,15 +71,17 @@ namespace FishGame.Interface
                 _frameTime = TimeSpan.Zero;
             }
 
-            _spriteBatch.Begin(SpriteSortMode.Deferred, null, SamplerState.PointClamp, null, null, null, null);
-            _anim.Draw(_spriteBatch, Vector2.Zero);
+            _anim.Draw(spriteBatch, Vector2.Zero);
             var textDim = _font.MeasureString(_drawingText);
-            var location = _spriteBatch.GraphicsDevice.Viewport.Bounds.Center.ToVector2() - (textDim * 0.5f) - new Vector2(0, 100);
-            _spriteBatch.DrawString(_font, _drawingText, location, Color.White);
-            _spriteBatch.End();
+            var location = spriteBatch.GraphicsDevice.Viewport.Bounds.Center.ToVector2() - (textDim * 0.5f) - new Vector2(0, 100);
+            spriteBatch.DrawString(_font, _drawingText, location, Color.White);
         }
 
         void IGameComponent.Initialize()
+        {
+        }
+
+        public override void Update(GameTime gameTime)
         {
         }
     }

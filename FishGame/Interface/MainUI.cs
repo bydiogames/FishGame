@@ -10,26 +10,25 @@ using System;
 
 namespace FishGame.Interface
 {
-    internal class MainUI : IGameComponent, IDrawable
+    internal class MainUI : Screen, IGameComponent
     {
-        private SpriteBatch _spriteBatch;
         private BackgroundManager _background;
         private FishDB _fishDb;
         private FishJournal _fishJournal;
-
-        public event Action RequestGotoLocationScreen;
+        private ToolTip _toolTip;
 
         public event EventHandler PlaySfx;
         public event EventHandler MuteSfx;
         public event EventHandler PlayMusic;
         public event EventHandler MuteMusic;
 
-        public MainUI(SpriteBatch spriteBatch, BackgroundManager background, FishJournal fishJournal, FishDB fishDb)
+        public MainUI(Game1 game, GraphicsDevice graphicsDevice, ContentManager content, 
+            BackgroundManager background, FishJournal fishJournal, FishDB fishDb) : base(game, graphicsDevice, content)
         {
-            _spriteBatch = spriteBatch;
             _background = background;
             _fishJournal = fishJournal;
             _fishDb = fishDb;
+            _toolTip = new ToolTip();
 
             _background.SeasonChanged += OnSeasonChanged;
         }
@@ -47,6 +46,7 @@ namespace FishGame.Interface
         private TextureToggleButton _sfxButton;
         private TextureToggleButton _musicButton;
         private TextureButton _locationButton;
+        private TextureButton _seasonButton;
 
         private TextButton _creditsButton;
 
@@ -92,29 +92,29 @@ namespace FishGame.Interface
             0
         };
 
-        public void Load(ContentManager content, GraphicsDevice graphics)
+        public override void LoadContent()
         {
             // Load fish texture maps.
             {
-                _fishAllTex = content.Load<Texture2D>("fish_all");
-                _fishAllMissingTex = content.Load<Texture2D>("inv_fish_shadow");
+                _fishAllTex = _content.Load<Texture2D>("fish_all");
+                _fishAllMissingTex = _content.Load<Texture2D>("inv_fish_shadow");
             }
 
             {
-                _mainUiTilesTex = content.Load<Texture2D>("Main_ui__Tiles");
+                _mainUiTilesTex = _content.Load<Texture2D>("Main_ui__Tiles");
             }
 
-            _caughtFishTex = content.Load<Texture2D>("Main_ui__Fish_caught_popup");
+            _caughtFishTex = _content.Load<Texture2D>("Main_ui__Fish_caught_popup");
 
-            _seasonCardsTex = content.Load<Texture2D>("Season_Cards__Tiles");
+            _seasonCardsTex = _content.Load<Texture2D>("Season_Cards__Tiles");
 
-            _font = content.Load<SpriteFont>("gamefont");
-            _popupFont = content.Load<SpriteFont>("popup_font");
+            _font = _content.Load<SpriteFont>("gamefont");
+            _popupFont = _content.Load<SpriteFont>("popup_font");
 
             // Load sound menu button textures
             {
-                Texture2D onTexture = content.Load<Texture2D>("Speaker");
-                Texture2D offTexture = content.Load<Texture2D>("Speaker-Crossed");
+                Texture2D onTexture = _content.Load<Texture2D>("Speaker");
+                Texture2D offTexture = _content.Load<Texture2D>("Speaker-Crossed");
                 _sfxButton = new TextureToggleButton(onTexture, offTexture, new Rectangle(_sfxPosX + (int)(_font.MeasureString("SFX").X / 2) + 4, _menuPosY, 16, 16)) ;
                 _musicButton = new TextureToggleButton(onTexture, offTexture, new Rectangle(_musicPosX + (int)(_font.MeasureString("Music").X / 2) + 4, _menuPosY, 16, 16));
 
@@ -132,17 +132,21 @@ namespace FishGame.Interface
 
             // Load location button
             {
-                Texture2D compassTexture = content.Load<Texture2D>("compass");
+                Texture2D compassTexture = _content.Load<Texture2D>("compass");
                 var tileDim = new Point(16, 16) * new Point(2);
                 var mapTileLocation = new Point(11, 10) * tileDim;
-                _locationButton = new TextureButton(compassTexture, new Rectangle(mapTileLocation, tileDim));
+                var texSize = new Point(compassTexture.Width, compassTexture.Height);
+                _locationButton = new TextureButton(compassTexture, new Rectangle(mapTileLocation, tileDim), new Rectangle(Point.Zero, texSize));
                 _locationButton.Pressed += OnLocationButtonPressed;
             }
 
-            _square = new Texture2D(graphics, 1, 1);
-            _square.SetData<Color>(new Color[] { Color.White });
+            // Season Button
+            UpdateSeasonButton();
+            _seasonButton.Pressed += OnSeasonButtonPressed;
 
-            _buttonsTex = content.Load<Texture2D>("tilemap_white_packed");
+            _toolTip.Load(_content, _graphicsDevice);
+
+            _buttonsTex = _content.Load<Texture2D>("tilemap_white_packed");
         }
 
         public event EventHandler ShowCredits;
@@ -175,8 +179,6 @@ namespace FishGame.Interface
             MuteSfx?.Invoke(this, EventArgs.Empty);
         }
 
-        int IDrawable.DrawOrder => 50;
-
         private bool visible = true;
 
         public bool Visible
@@ -202,23 +204,6 @@ namespace FishGame.Interface
 
         private int? lastHoverIdx;
         private TimeSpan hoverTime;
-
-        private void DrawToolTip(string tooltip)
-        {
-            var mouseState = Mouse.GetState();
-
-            Vector2 stringDim = _font.MeasureString(tooltip);
-            _spriteBatch.Draw(
-                _square, 
-                new Rectangle(
-                    mouseState.Position - new Point(0, (int)stringDim.Y) - new Point(2, 2), 
-                    stringDim.ToPoint() + new Point(2, 2)
-                ), 
-                Color.Brown
-            );
-            _spriteBatch.DrawString(_font, tooltip, mouseState.Position.ToVector2() - new Vector2(0, stringDim.Y) * 1f, Color.White, 0, Vector2.Zero, 1f, SpriteEffects.None, 0);
-        }
-
         private bool _showFishPopup;
         private FishRecord _caughtFish;
 
@@ -234,41 +219,51 @@ namespace FishGame.Interface
             _showFishPopup = false;
         }
 
-        private void DrawFishPopup()
+        private void DrawFishPopup(SpriteBatch spriteBatch)
         {
             float scalingFactor = 1f;
             if(_caughtFishTextWidth > (EntityConstants.FishPopupWidthPx - 18))
             {
                 scalingFactor = (EntityConstants.FishPopupWidthPx - 18) / _caughtFishTextWidth;
             }
-            _spriteBatch.Draw(_caughtFishTex, Vector2.Zero, null, Color.White, 0, Vector2.Zero, 2f, SpriteEffects.None, 0);
+            spriteBatch.Draw(_caughtFishTex, Vector2.Zero, null, Color.White, 0, Vector2.Zero, 2f, SpriteEffects.None, 0);
             float textLocationX = (EntityConstants.FishPopupLocationX + ((EntityConstants.FishPopupWidthPx - (_caughtFishTextWidth * scalingFactor)) / 2));
-            _spriteBatch.DrawString(_popupFont, _caughtFish.Name, new Vector2(textLocationX, EntityConstants.FishPopupLocationY), Color.SaddleBrown, 0, Vector2.Zero, scalingFactor, SpriteEffects.None, 0);
+            spriteBatch.DrawString(_popupFont, _caughtFish.Name, new Vector2(textLocationX, EntityConstants.FishPopupLocationY), Color.SaddleBrown, 0, Vector2.Zero, scalingFactor, SpriteEffects.None, 0);
         }
 
         private void OnSeasonChanged(object sender, SeasonChangedEventArgs e)
         {
             _seasonElapsedTime = 0;
+            UpdateSeasonButton();
+        }
+
+        private void UpdateSeasonButton()
+        {
+            var seasonCardIdx = SeasonCardIdxForSeason[System.Numerics.BitOperations.Log2((uint)_background.GetSeason())];
+            var seasonCardXOffset = seasonCardIdx * 32 * 2;
+
+            var seasonCardSrcRect = new Rectangle(seasonCardXOffset, 0, 32, 16 * 3);
+            var seasonCardDstRect = new Rectangle(160 * 2, 185 * 2, 32 * 2, 16 * 3 * 2 + 1);
+            _seasonButton = new TextureButton(_seasonCardsTex, seasonCardDstRect, seasonCardSrcRect);
         }
 
         private float _seasonElapsedTime = 0;
-        private void DrawDate(GameTime gameTime)
+        private void DrawDate(GameTime gameTime, SpriteBatch spriteBatch)
         {
             _seasonElapsedTime += (float)gameTime.ElapsedGameTime.TotalSeconds;
-            _spriteBatch.DrawString(_font, $"{_background.GetSeason()} {(int)(1 + (_seasonElapsedTime/(60f/28)))}", 
+            spriteBatch.DrawString(_font, $"{_background.GetSeason()} {(int)(1 + (_seasonElapsedTime/(60f/28)))}", 
                 new Vector2(48, 48), Color.White, 0, Vector2.Zero, 0.75f, SpriteEffects.None, 0);
         }
 
-        void IDrawable.Draw(GameTime gameTime)
+        public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
-            _spriteBatch.Begin(SpriteSortMode.Deferred, null, SamplerState.PointClamp, null, null, null, null);
+            _background.Draw(spriteBatch);
+            spriteBatch.Draw(_mainUiTilesTex, Vector2.Zero, null, Color.White, 0, Vector2.Zero, 2f, SpriteEffects.None, 0);
 
-            _spriteBatch.Draw(_mainUiTilesTex, Vector2.Zero, null, Color.White, 0, Vector2.Zero, 2f, SpriteEffects.None, 0);
-
-            var uiUpperLeft = _spriteBatch.GraphicsDevice.Viewport.Bounds.Size.ToVector2() * new Vector2(0.5f, 0.07f);
+            var uiUpperLeft = spriteBatch.GraphicsDevice.Viewport.Bounds.Size.ToVector2() * new Vector2(0.5f, 0.07f);
 
             _fishJournal.Draw(
-                _spriteBatch,
+                spriteBatch,
                 _fishAllMissingTex,
                 _fishAllTex,
                 uiUpperLeft,
@@ -276,39 +271,18 @@ namespace FishGame.Interface
                 _background.GetLocation()
             );
 
-            _spriteBatch.DrawString(_font, $"Completion: {(int)(100 * _fishJournal.GetCompletionPercent())}%", new Vector2(448, 372), Color.White);
+            spriteBatch.DrawString(_font, $"Completion: {(int)(100 * _fishJournal.GetCompletionPercent())}%", new Vector2(448, 372), Color.White);
 
             var mouseState = Mouse.GetState();
 
             ref var buttonTile = ref _buttonForState[(int)_buttonPromptState];
             if (buttonTile.HasValue)
             {
-                _spriteBatch.Draw(_buttonsTex, buttonTile.Value.destRec, buttonTile.Value.srcRec, Color.White);
-                _spriteBatch.DrawString(_font, "SPACE", new Vector2(buttonTile.Value.destRec.X + 4, buttonTile.Value.destRec.Y), Color.Gray, 0, Vector2.Zero, 0.5f, SpriteEffects.None, 0);
+                spriteBatch.Draw(_buttonsTex, buttonTile.Value.destRec, buttonTile.Value.srcRec, Color.White);
+                spriteBatch.DrawString(_font, "SPACE", new Vector2(buttonTile.Value.destRec.X + 4, buttonTile.Value.destRec.Y), Color.Gray, 0, Vector2.Zero, 0.5f, SpriteEffects.None, 0);
             }
 
             bool anyHover = false;
-
-            {
-                var seasonCardIdx = SeasonCardIdxForSeason[System.Numerics.BitOperations.Log2((uint)_background.GetSeason())];
-                var seasonCardXOffset = seasonCardIdx * 32 * 2;
-
-                var seasonCardSrcRect = new Rectangle(seasonCardXOffset, 0, 32, 16 * 3);
-                var seasonCardDstRect = new Rectangle(160 * 2, 185 * 2, 32 * 2, 16 * 3 * 2 + 1);
-                _spriteBatch.Draw(_seasonCardsTex, seasonCardDstRect, seasonCardSrcRect, Color.White);
-
-                if (seasonCardDstRect.Contains(mouseState.Position))
-                {
-                    anyHover = true;
-                    hoverTime += gameTime.ElapsedGameTime;
-
-                    if (hoverTime > TimeSpan.FromSeconds(1))
-                    {
-                        DrawToolTip(_background.GetSeason().GetName());
-                    }
-                }
-            }
-
             if (!anyHover)
             {
                 var hoverIdx = _fishJournal.QueryHover(uiUpperLeft, mouseState.Position.ToVector2());
@@ -331,7 +305,7 @@ namespace FishGame.Interface
                         ref FishInventoryEntry entry = ref _fishJournal.GetInvSlot(hoverIdx.Value);
 
                         string name = entry.HasCollected ? record.Name : "???";
-                        DrawToolTip(name);
+                        _toolTip.Draw(name, spriteBatch);
                     }
                 }
                 else
@@ -346,22 +320,25 @@ namespace FishGame.Interface
             }
 
             // Location button
-            _locationButton.Draw(_spriteBatch);
+            _locationButton.Draw(spriteBatch);
             if (_locationButton.IsHovering)
             {
-                DrawToolTip("Go to Map");
+                _toolTip.Draw("Go to Map", spriteBatch);
+            }
+
+            _seasonButton.Draw(spriteBatch);
+            if (_seasonButton.IsHovering)
+            {
+                _toolTip.Draw(_background.GetSeason().GetName(), spriteBatch);
             }
 
             if (_showFishPopup)
             {
-                DrawFishPopup();
+                DrawFishPopup(spriteBatch);
             }
 
-            DrawDate(gameTime);
-
-            DrawMenu();
-
-            _spriteBatch.End();
+            DrawDate(gameTime, spriteBatch);
+            DrawMenu(spriteBatch);
         }
 
         private bool _playMusic = true;
@@ -378,28 +355,33 @@ namespace FishGame.Interface
 
         private void OnLocationButtonPressed(object sender, EventArgs e)
         {
-            RequestGotoLocationScreen();
+            _game.LoadLocationScreen();
         }
 
-        private void DrawMenu()
+        private void OnSeasonButtonPressed(object sender, EventArgs e)
+        {
+            _game.LoadSeasonScreen();
+        }
+
+        private void DrawMenu(SpriteBatch spriteBatch)
         {
             // Music toggle
             {
-                _spriteBatch.DrawString(_font, "Music", new Vector2(_musicPosX, _menuPosY), Color.White,
+                spriteBatch.DrawString(_font, "Music", new Vector2(_musicPosX, _menuPosY), Color.White,
                     0, Vector2.Zero, 0.5f, SpriteEffects.None, 0);
-                _musicButton.Draw(_spriteBatch);
+                _musicButton.Draw(spriteBatch);
             }
 
             // SFX toggle
             {
-                _spriteBatch.DrawString(_font, "SFX", new Vector2(_sfxPosX, _menuPosY), Color.White,
+                spriteBatch.DrawString(_font, "SFX", new Vector2(_sfxPosX, _menuPosY), Color.White,
                     0, Vector2.Zero, 0.5f, SpriteEffects.None, 0);
-                _sfxButton.Draw(_spriteBatch);
+                _sfxButton.Draw(spriteBatch);
             }
 
             // Credits button
             {
-                _creditsButton.Draw(_spriteBatch);
+                _creditsButton.Draw(spriteBatch);
             }
         }
 
@@ -411,6 +393,10 @@ namespace FishGame.Interface
         private int _creditsPosX = 520;
 
         void IGameComponent.Initialize()
+        {
+        }
+
+        public override void Update(GameTime gameTime)
         {
         }
     }

@@ -8,7 +8,7 @@ using System.IO;
 
 namespace FishGame.Interface
 {
-    internal class Credits : IGameComponent, IDrawable
+    internal class Credits : Screen, IGameComponent
     {
         private static readonly int ScrollSpeedPxPerSec = 60;
 
@@ -17,7 +17,7 @@ namespace FishGame.Interface
 
         public event Action RequestGotoLocationScreen;
 
-        public Credits(SpriteBatch spriteBatch, CoroutineManager coroutineManager)
+        public Credits(Game1 game, GraphicsDevice graphicsDevice, ContentManager content, SpriteBatch spriteBatch, CoroutineManager coroutineManager) : base(game, graphicsDevice, content)
         {
             _spriteBatch = spriteBatch;
             this.coroutineManager = coroutineManager;
@@ -32,12 +32,12 @@ namespace FishGame.Interface
         private float _creditScroll;
         private float _creditsHeight;
 
-        public void Load(ContentManager content)
+        public override void LoadContent()
         {
-            _tex = content.Load<Texture2D>("bydiogames_logo");
-            _font = content.Load<SpriteFont>("logofont");
+            _tex = _content.Load<Texture2D>("bydiogames_logo");
+            _font = _content.Load<SpriteFont>("logofont");
 
-            using var creditsFileStream = File.OpenRead($"{content.RootDirectory}/credits.txt");
+            using var creditsFileStream = File.OpenRead($"{_content.RootDirectory}/credits.txt");
             using TextReader textReader = new StreamReader(creditsFileStream);
 
             for(string credit = textReader.ReadLine(); credit != null; credit = textReader.ReadLine())
@@ -75,10 +75,8 @@ namespace FishGame.Interface
                 yield return null;
             }
 
-            Visible = false;
+            _game.LoadMainUI();
         }
-
-        int IDrawable.DrawOrder => 50;
 
         private bool visible = true;
 
@@ -104,29 +102,31 @@ namespace FishGame.Interface
 
         private TimeSpan _frameTime;
 
-        void IDrawable.Draw(GameTime gameTime)
+        public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
-            _spriteBatch.Begin(SpriteSortMode.Deferred, null, SamplerState.PointClamp, null, null, null, null);
-
             var posY = _creditScroll;
             foreach(var credit in _credits)
             {
                 var creditDim = _font.MeasureString(credit).ToPoint();
-                var creditPos = new Point(_spriteBatch.GraphicsDevice.Viewport.Bounds.Center.X, 0) - new Point(creditDim.X / 2, 0) + new Point(0, (int)posY);
+                var creditPos = new Point(spriteBatch.GraphicsDevice.Viewport.Bounds.Center.X, 0) - new Point(creditDim.X / 2, 0) + new Point(0, (int)posY);
 
                 var creditRect = new Rectangle(creditPos, creditDim);
-                if (_spriteBatch.GraphicsDevice.Viewport.Bounds.Intersects(creditRect))
+                if (spriteBatch.GraphicsDevice.Viewport.Bounds.Intersects(creditRect))
                 {
-                    _spriteBatch.DrawString(_font, credit, creditPos.ToVector2(), Color.White);
+                    spriteBatch.DrawString(_font, credit, creditPos.ToVector2(), Color.White);
                 }
 
                 posY -= creditDim.Y;
             }
 
-            _spriteBatch.End();
+            spriteBatch.End();
         }
 
         void IGameComponent.Initialize()
+        {
+        }
+
+        public override void Update(GameTime gameTime)
         {
         }
     }
