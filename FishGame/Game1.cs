@@ -83,7 +83,7 @@ namespace FishGame
 
         public void LoadMainUI()
         {
-            MainUI mainUI = new MainUI(this, GraphicsDevice, Content, _background, _fishJournal, _fishDb);
+            MainUI mainUI = new MainUI(this, GraphicsDevice, Content, _background, _fishJournal, _fishDb, coroutineManager);
             mainUI.PlayMusic += OnPlayMusic;
             mainUI.MuteMusic += OnMuteMusic;
             mainUI.PlaySfx += OnPlaySfx;
@@ -95,7 +95,6 @@ namespace FishGame
             _weather.Visible = true;
             _soundManager.UpdateSong(_background.GetSeason());
             coroutineManager.Start(SeasonRoutine());
-            //coroutineManager.Start(ButtonPromptRoutine());
         }
 
         public void LoadLocationScreen()
@@ -154,20 +153,10 @@ namespace FishGame
                 _background.NextSeason();
             }
         }
-
-        // TODO: Refactor this to be on the MainUI
-/*        private IEnumerator<IWaitable> ButtonPromptRoutine()
+        internal CharacterState GetCharacterState()
         {
-            while(true)
-            {
-                if (_character != null)
-                {
-                    _mainUI.ShowButtonPromptForState(_character.State);
-                }
-
-                yield return null;
-            }
-        }*/
+            return _character != null ? _character.State : CharacterState.Idle;
+        }
 
         protected override void Update(GameTime gameTime)
         {

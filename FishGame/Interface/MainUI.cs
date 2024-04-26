@@ -2,11 +2,13 @@
 using FishGame.Entities;
 using FishGame.Inputs;
 using FishGame.Inventory;
+using FishGame.Utils;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
+using System.Collections.Generic;
 
 namespace FishGame.Interface
 {
@@ -16,6 +18,7 @@ namespace FishGame.Interface
         private FishDB _fishDb;
         private FishJournal _fishJournal;
         private ToolTip _toolTip;
+        private CoroutineManager _coroutineManager;
 
         public event EventHandler PlaySfx;
         public event EventHandler MuteSfx;
@@ -23,12 +26,13 @@ namespace FishGame.Interface
         public event EventHandler MuteMusic;
 
         public MainUI(Game1 game, GraphicsDevice graphicsDevice, ContentManager content, 
-            BackgroundManager background, FishJournal fishJournal, FishDB fishDb) : base(game, graphicsDevice, content)
+            BackgroundManager background, FishJournal fishJournal, FishDB fishDb, CoroutineManager coroutineManager) : base(game, graphicsDevice, content)
         {
             _background = background;
             _fishJournal = fishJournal;
             _fishDb = fishDb;
             _toolTip = new ToolTip();
+            _coroutineManager = coroutineManager;
 
             _background.SeasonChanged += OnSeasonChanged;
         }
@@ -139,6 +143,9 @@ namespace FishGame.Interface
                 _locationButton = new TextureButton(compassTexture, new Rectangle(mapTileLocation, tileDim), new Rectangle(Point.Zero, texSize));
                 _locationButton.Pressed += OnLocationButtonPressed;
             }
+
+            // Start coroutine for button prompt ui
+            _coroutineManager.Start(ButtonPromptRoutine());
 
             // Season Button
             UpdateSeasonButton();
@@ -253,6 +260,17 @@ namespace FishGame.Interface
             _seasonElapsedTime += (float)gameTime.ElapsedGameTime.TotalSeconds;
             spriteBatch.DrawString(_font, $"{_background.GetSeason()} {(int)(1 + (_seasonElapsedTime/(60f/28)))}", 
                 new Vector2(48, 48), Color.White, 0, Vector2.Zero, 0.75f, SpriteEffects.None, 0);
+        }
+
+        // TODO: Refactor this to be on the MainUI
+        private IEnumerator<IWaitable> ButtonPromptRoutine()
+        {
+            while (true)
+            {
+                    ShowButtonPromptForState(_game.GetCharacterState());
+
+                yield return null;
+            }
         }
 
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
